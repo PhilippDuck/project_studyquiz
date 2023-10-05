@@ -1,7 +1,9 @@
+import SidebarWithHeader from "./components/SiedebarWithHeader";
+
 function App() {
   return (
     <>
-      <h1>StudyQuiz</h1>
+      <SidebarWithHeader content={<p>Test</p>} />
     </>
   );
 }

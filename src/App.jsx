@@ -1,9 +1,10 @@
 import SidebarWithHeader from "./components/SiedebarWithHeader";
+import { Outlet } from "react-router-dom";
 
 function App() {
   return (
     <>
-      <SidebarWithHeader content={<p>Test</p>} />
+      <SidebarWithHeader content={<Outlet />} />
     </>
   );
 }

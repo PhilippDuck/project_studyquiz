@@ -21,12 +21,13 @@ import {
 import { FiHome, FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { MdOutlineCreate, MdOutlineLeaderboard } from "react-icons/md";
 import { LuUser } from "react-icons/lu";
+import { Link, Outlet } from "react-router-dom";
 
 const LinkItems = [
-  { name: "Spielen", icon: FiHome },
-  { name: "Erstellen", icon: MdOutlineCreate },
-  { name: "Ranglisten", icon: MdOutlineLeaderboard },
-  { name: "Profil", icon: LuUser },
+  { name: "Spielen", icon: FiHome, to: "games" },
+  { name: "Erstellen", icon: MdOutlineCreate, to: "create" },
+  { name: "Ranglisten", icon: MdOutlineLeaderboard, to: "highscores" },
+  { name: "Profil", icon: LuUser, to: "profil" },
 ];
 
 const logo = "StudyQuiz";
@@ -50,9 +51,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
-          {link.name}
-        </NavItem>
+        <Link key={link.name} to={link.to}>
+          <NavItem icon={link.icon}>{link.name}</NavItem>
+        </Link>
       ))}
     </Box>
   );
@@ -60,12 +61,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
 const NavItem = ({ icon, children, ...rest }) => {
   return (
-    <Box
-      as="a"
-      href="#"
-      style={{ textDecoration: "none" }}
-      _focus={{ boxShadow: "none" }}
-    >
+    <Box style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
       <Flex
         align="center"
         p="4"

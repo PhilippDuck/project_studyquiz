@@ -21,8 +21,11 @@ import {
 import { FiHome, FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import { MdOutlineCreate, MdOutlineLeaderboard } from "react-icons/md";
 import { LuUser } from "react-icons/lu";
-import { Link, Outlet } from "react-router-dom";
+import { Link } from "react-router-dom";
 
+/**
+ * Menüelemente
+ */
 const LinkItems = [
   { name: "Spielen", icon: FiHome, to: "games" },
   { name: "Erstellen", icon: MdOutlineCreate, to: "create" },
@@ -30,6 +33,9 @@ const LinkItems = [
   { name: "Profil", icon: LuUser, to: "profil" },
 ];
 
+/**
+ * Logo bzw. Seitentitel
+ */
 const logo = "StudyQuiz";
 
 const SidebarContent = ({ onClose, ...rest }) => {

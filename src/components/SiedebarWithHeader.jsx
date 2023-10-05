@@ -35,7 +35,7 @@ const logo = "StudyQuiz";
 const SidebarContent = ({ onClose, ...rest }) => {
   return (
     <Box
-      transition="3s ease"
+      transition="0.5s ease"
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
@@ -45,7 +45,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+        <Text fontSize="2xl" fontWeight="bold">
           {logo}
         </Text>
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
@@ -70,7 +70,7 @@ const NavItem = ({ icon, children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
+          bg: "primary.500",
           color: "white",
         }}
         {...rest}
@@ -115,7 +115,6 @@ const MobileNav = ({ onOpen, ...rest }) => {
       <Text
         display={{ base: "flex", md: "none" }}
         fontSize="2xl"
-        fontFamily="monospace"
         fontWeight="bold"
       >
         {logo}

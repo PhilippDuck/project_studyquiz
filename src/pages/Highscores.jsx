@@ -1,7 +1,7 @@
 import React from "react";
 
 function Highscores() {
-  return <div>Rangliste</div>;
+  return <div>Tolle Rangliste</div>;
 }
 
 export default Highscores;

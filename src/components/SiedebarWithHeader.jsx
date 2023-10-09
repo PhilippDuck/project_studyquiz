@@ -70,9 +70,9 @@ const NavItem = ({ icon, children, ...rest }) => {
     <Box style={{ textDecoration: "none" }} _focus={{ boxShadow: "none" }}>
       <Flex
         align="center"
-        p="4"
+        p="3"
         mx="4"
-        borderRadius="lg"
+        borderRadius="md"
         role="group"
         cursor="pointer"
         _hover={{

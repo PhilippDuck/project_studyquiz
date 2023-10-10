@@ -15,7 +15,7 @@ function Erfahrungspunkte() {
   return (
     <div>
       <TableContainer>
-        <Table variant="striped" colorScheme="teal">
+        <Table variant="striped" colorScheme="primary">
           <TableCaption>Gesamtrangliste nach Erfahrungspunkten</TableCaption>
           <Thead>
             <Tr>

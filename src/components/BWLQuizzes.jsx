@@ -74,7 +74,7 @@ function BWLQuizzes() {
     <div>
       {/* Tabelle für die Anzeige der Bestenliste*/}
       <TableContainer>
-        <Table variant="striped" colorScheme="teal">
+        <Table variant="striped" colorScheme="primary">
           <TableCaption>BWL-Quizze</TableCaption>
           <Thead>
             <Tr>

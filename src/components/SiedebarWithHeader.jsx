@@ -17,9 +17,15 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
+  useColorMode,
 } from "@chakra-ui/react";
 import { FiHome, FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
-import { MdOutlineCreate, MdOutlineLeaderboard } from "react-icons/md";
+import {
+  MdOutlineCreate,
+  MdOutlineLeaderboard,
+  MdWbSunny,
+  MdNightlight,
+} from "react-icons/md";
 import { LuUser } from "react-icons/lu";
 import { Link } from "react-router-dom";
 
@@ -98,6 +104,7 @@ const NavItem = ({ icon, children, ...rest }) => {
 };
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -126,18 +133,19 @@ const MobileNav = ({ onOpen, ...rest }) => {
         {logo}
       </Text>
 
-      <HStack spacing={{ base: "0", md: "6" }}>
+      <HStack spacing={{ base: "1", md: "6" }}>
         <IconButton
           size="lg"
           variant="ghost"
           aria-label="open menu"
-          icon={<FiBell />}
+          icon={colorMode == "dark" ? <MdWbSunny /> : <MdNightlight />}
+          onClick={toggleColorMode}
         />
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton
               py={2}
-              transition="all 0.3s"
+              transition="all 0.1s"
               _focus={{ boxShadow: "none" }}
             >
               <HStack>

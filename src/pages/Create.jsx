@@ -22,7 +22,7 @@ function Create() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Card maxW={"800px"}>
+    <Card variant={"outline"} maxW={"800px"}>
       <CardBody>
         <VStack gap={"2em"} w={"100%"} align={"start"}>
           <Heading>Quiz erstellen</Heading>

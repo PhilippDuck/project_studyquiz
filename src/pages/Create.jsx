@@ -22,9 +22,26 @@ import AddQuestionDrawer from "../components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
 import { MdAdd, MdSave } from "react-icons/md";
 
+/**
+ * "Erstellen" Seite. Dient dem erstellen eines neuen Quiz
+ */
 function Create() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+
+  /**
+   * Verarbeitet neue Frage die als JSON erhalten wurde
+   * @param {*} data Frage als JSON formatiert
+   */
+  function handleAddQuestion(data) {
+    toast({
+      title: "Frage hinzugefügt",
+      description: JSON.stringify(data),
+      status: "success",
+      duration: 5000,
+      isClosable: true,
+    });
+  }
 
   const {
     register,
@@ -121,6 +138,7 @@ function Create() {
             onClose={onClose}
             onOpen={onOpen}
             isOpen={isOpen}
+            handleAddQuestion={handleAddQuestion}
           />
         </VStack>
       </CardBody>

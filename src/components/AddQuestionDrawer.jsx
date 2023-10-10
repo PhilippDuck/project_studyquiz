@@ -15,7 +15,7 @@ import {
 
 function AddQuestionDrawer({ onClose, onOpen, isOpen }) {
   return (
-    <Drawer size={"md"} isOpen={isOpen} placement="right" onClose={onClose}>
+    <Drawer isOpen={isOpen} placement="right" onClose={onClose}>
       <DrawerOverlay />
       <DrawerContent>
         <DrawerCloseButton />

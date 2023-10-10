@@ -46,7 +46,7 @@ function AddQuestionDrawer(props) {
       onClose={props.onClose}
     >
       <DrawerOverlay />
-      <DrawerContent>
+      <DrawerContent overflowY={"auto"}>
         <form onSubmit={handleSubmit(onSubmit)}>
           <DrawerCloseButton />
           <DrawerHeader>Frage hinzufügen</DrawerHeader>

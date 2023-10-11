@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   Container,
   Button,
@@ -29,15 +30,16 @@ import CreatedQuestionCard from "../components/CreatedQuestionCard";
 function Create() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const [questions, setQuestions] = useState([]);
 
   /**
    * Verarbeitet neue Frage die als JSON erhalten wurde
    * @param {*} data Frage als JSON formatiert
    */
   function handleAddQuestion(data) {
+    setQuestions([...questions, data]);
     toast({
       title: "Frage hinzugefügt",
-      description: JSON.stringify(data),
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -51,14 +53,25 @@ function Create() {
   } = useForm();
 
   const onSubmit = (data) => {
+    data = { ...data, questions: questions };
     console.log(data);
-    toast({
-      title: "Quiz erstellt",
-      description: JSON.stringify(data),
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
+    if (questions.length > 0) {
+      toast({
+        title: "Quiz erstellt",
+        description: JSON.stringify(data),
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Quiz konnte nicht erstellt werden!",
+        description: "Es muss mindestens eine Frage vorhanden sein.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (
@@ -135,11 +148,17 @@ function Create() {
             </Button>
           </Flex>
 
-          <CreatedQuestionCard
-            question={"Testfrage"}
-            answers={["a1", "a2"]}
-            correctAnswer={1}
-          />
+          {questions.map((question, index) => {
+            return (
+              <CreatedQuestionCard
+                key={index}
+                question={question.question}
+                answers={question.answers}
+                correctAnswer={question.correctAnswer}
+                hint={question.hint}
+              />
+            );
+          })}
 
           <AddQuestionDrawer
             onClose={onClose}

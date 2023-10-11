@@ -12,6 +12,9 @@ import {
   Box,
 } from "@chakra-ui/react";
 
+/**
+ * Komponente stellt eine erstellte Frage dar
+ */
 function CreatedQuestionCard({ question, answers, correctAnswer, hint }) {
   return (
     <Card variant={"outline"} w={"100%"}>
@@ -30,13 +33,17 @@ function CreatedQuestionCard({ question, answers, correctAnswer, hint }) {
               {answers.map((answer, index) => {
                 return (
                   <Text
-                    color={index === correctAnswer ? "green.500" : "inherit"}
+                    key={index}
+                    color={
+                      index === Number(correctAnswer) ? "green.500" : "inherit"
+                    }
                   >
                     {answer}
                   </Text>
                 );
               })}
-              <Text>Hinweis: {hint}</Text>
+              <Text>Hinweis:</Text>
+              <Text>{hint}</Text>
             </AccordionPanel>
           </AccordionItem>
         </Accordion>

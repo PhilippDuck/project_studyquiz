@@ -55,13 +55,23 @@ function Create() {
   const onSubmit = (data) => {
     data = { ...data, questions: questions };
     console.log(data);
-    toast({
-      title: "Quiz erstellt",
-      description: JSON.stringify(data),
-      status: "success",
-      duration: 5000,
-      isClosable: true,
-    });
+    if (questions.length > 0) {
+      toast({
+        title: "Quiz erstellt",
+        description: JSON.stringify(data),
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+    } else {
+      toast({
+        title: "Quiz konnte nicht erstellt werden!",
+        description: "Es muss mindestens eine Frage vorhanden sein.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
   };
 
   return (

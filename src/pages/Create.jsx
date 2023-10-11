@@ -148,12 +148,14 @@ function Create() {
             </Button>
           </Flex>
 
-          {questions.map((question) => {
+          {questions.map((question, index) => {
             return (
               <CreatedQuestionCard
+                key={index}
                 question={question.question}
                 answers={question.answers}
                 correctAnswer={question.correctAnswer}
+                hint={question.hint}
               />
             );
           })}

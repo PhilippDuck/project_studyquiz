@@ -85,11 +85,11 @@ function AddQuestionDrawer(props) {
                   </FormControl>
                 ))}
 
-              <FormControl isInvalid={errors.rightAnswer}>
-                <FormLabel htmlFor="rightAnswer">Richtige Antwort</FormLabel>
+              <FormControl isInvalid={errors.correctAnswer}>
+                <FormLabel htmlFor="correctAnswer">Richtige Antwort</FormLabel>
                 <Controller
                   render={({ field }) => (
-                    <Select {...field} id="rightAnswer">
+                    <Select {...field} id="correctAnswer">
                       <option value="">Wählen Sie eine Option</option>
                       {Array(4)
                         .fill(0)
@@ -100,12 +100,12 @@ function AddQuestionDrawer(props) {
                         ))}
                     </Select>
                   )}
-                  name="rightAnswer"
+                  name="correctAnswer"
                   control={control}
                   rules={{ required: "Richtige Antwort auswählen" }}
                 />
                 <FormErrorMessage>
-                  {errors.rightAnswer?.message}
+                  {errors.correctAnswer?.message}
                 </FormErrorMessage>
               </FormControl>
 

@@ -12,6 +12,9 @@ import {
   Box,
 } from "@chakra-ui/react";
 
+/**
+ * Komponente stellt eine erstellte Frage dar
+ */
 function CreatedQuestionCard({ question, answers, correctAnswer, hint }) {
   return (
     <Card variant={"outline"} w={"100%"}>

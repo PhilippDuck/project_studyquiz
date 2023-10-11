@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import {
   Container,
   Button,
@@ -29,15 +30,16 @@ import CreatedQuestionCard from "../components/CreatedQuestionCard";
 function Create() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const [questions, setQuestions] = useState([]);
 
   /**
    * Verarbeitet neue Frage die als JSON erhalten wurde
    * @param {*} data Frage als JSON formatiert
    */
   function handleAddQuestion(data) {
+    setQuestions([...questions, data]);
     toast({
       title: "Frage hinzugefügt",
-      description: JSON.stringify(data),
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -51,6 +53,7 @@ function Create() {
   } = useForm();
 
   const onSubmit = (data) => {
+    data = { ...data, questions: questions };
     console.log(data);
     toast({
       title: "Quiz erstellt",
@@ -135,11 +138,15 @@ function Create() {
             </Button>
           </Flex>
 
-          <CreatedQuestionCard
-            question={"Testfrage"}
-            answers={["a1", "a2"]}
-            correctAnswer={1}
-          />
+          {questions.map((question) => {
+            return (
+              <CreatedQuestionCard
+                question={question.question}
+                answers={question.answers}
+                correctAnswer={question.correctAnswer}
+              />
+            );
+          })}
 
           <AddQuestionDrawer
             onClose={onClose}

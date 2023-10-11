@@ -16,6 +16,7 @@ import {
   MenuList,
   MenuItem,
 } from "@chakra-ui/react";
+import { BiFilterAlt } from "react-icons/bi";
 
 /**
  * Rangliste der schnellsten BWL-Quiz Lösungen
@@ -84,12 +85,13 @@ function BWLQuizzes() {
               <Th>
                 Quiz
                 <Menu>
-                  <MenuButton as={Button}>
-                    <img
-                      src="/images/Filter.png"
-                      alt="Filter"
-                      style={{ width: "20px", height: "20px" }}
-                    />{" "}
+                  <MenuButton
+                    as={Button}
+                    variant="unstyled"
+                    _hover={{ bg: "transparent" }}
+                    _active={{ bg: "transparent" }}
+                  >
+                    <BiFilterAlt />{" "}
                   </MenuButton>
 
                   <MenuList>
@@ -132,12 +134,13 @@ function BWLQuizzes() {
               <Th>
                 Quiz
                 <Menu>
-                  <MenuButton as={Button}>
-                    <img
-                      src="/images/Filter.png"
-                      alt="Filter"
-                      style={{ width: "20px", height: "20px" }}
-                    />{" "}
+                  <MenuButton
+                    as={Button}
+                    variant="unstyled"
+                    _hover={{ bg: "transparent" }}
+                    _active={{ bg: "transparent" }}
+                  >
+                    <BiFilterAlt />{" "}
                   </MenuButton>
                   <MenuList>
                     {quizOptions.map((option) => (

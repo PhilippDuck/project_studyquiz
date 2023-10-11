@@ -21,6 +21,7 @@ import {
 import AddQuestionDrawer from "../components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
 import { MdAdd, MdSave } from "react-icons/md";
+import CreatedQuestionCard from "../components/CreatedQuestionCard";
 
 /**
  * "Erstellen" Seite. Dient dem erstellen eines neuen Quiz
@@ -133,6 +134,12 @@ function Create() {
               Frage hinzufügen
             </Button>
           </Flex>
+
+          <CreatedQuestionCard
+            question={"Testfrage"}
+            answers={["a1", "a2"]}
+            correctAnswer={1}
+          />
 
           <AddQuestionDrawer
             onClose={onClose}

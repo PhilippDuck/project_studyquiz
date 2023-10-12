@@ -8,6 +8,7 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import { RealmProvider } from "./provider/RealmProvider";
 import theme from "./Theme/theme.js";
 import Games from "./pages/Games.jsx";
 import Create from "./pages/Create.jsx";
@@ -45,8 +46,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ChakraProvider>
+    <RealmProvider>
+      <ChakraProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ChakraProvider>
+    </RealmProvider>
   </React.StrictMode>
 );

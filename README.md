@@ -16,3 +16,6 @@ Studyquiz ist ein Studienprojekt von vier Studierenden der Hochschule IU. Es sol
 
 - Realm (BaaS Service) https://www.mongodb.com/developer/products/realm/
 - MongoDB (NoSQL Datenbank) https://www.mongodb.com/atlas/database
+
+Um das Backend nutzen zu können muss eine ".env" Datei im Wurzelverzeichnis des Projektes erstellt werden. Der Inhalt der Datei muss wie folgt aussehen:  
+ "VITE_APP_ID=Application-Key"

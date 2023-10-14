@@ -13,6 +13,7 @@ import theme from "./Theme/theme.js";
 import Games from "./pages/Games.jsx";
 import Create from "./pages/Create.jsx";
 import Highscores from "./pages/Highscores.jsx";
+import Profil from "./pages/Profil.jsx";
 
 const router = createBrowserRouter([
   //TODO: PageNotFound hinzufügen
@@ -38,7 +39,7 @@ const router = createBrowserRouter([
       },
       {
         path: "profil",
-        element: <></>,
+        element: <Profil />,
       },
     ],
   },

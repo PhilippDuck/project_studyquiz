@@ -22,6 +22,7 @@ import {
 import AddQuestionDrawer from "../components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
 import { MdAdd, MdSave } from "react-icons/md";
+import { useRealm } from "../provider/RealmProvider";
 import CreatedQuestionCard from "../components/CreatedQuestionCard";
 
 /**
@@ -31,6 +32,7 @@ function Create() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [questions, setQuestions] = useState([]);
+  const app = useRealm();
 
   /**
    * Verarbeitet neue Frage die als JSON erhalten wurde
@@ -52,10 +54,14 @@ function Create() {
     formState: { errors },
   } = useForm();
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     data = { ...data, questions: questions };
     console.log(data);
     if (questions.length > 0) {
+      const result = await app.currentUser.functions.createQuiz(
+        JSON.stringify(data)
+      );
+      console.log(result);
       toast({
         title: "Quiz erstellt",
         description: JSON.stringify(data),

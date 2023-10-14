@@ -13,7 +13,7 @@ function Profil() {
   }, []);
 
   return (
-    <Card>
+    <Card variant={"outline"}>
       <CardBody>
         <Heading>Profil</Heading>
         <Text>{userID}</Text>

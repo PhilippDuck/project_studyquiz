@@ -24,6 +24,7 @@ import { useForm } from "react-hook-form";
 import { MdAdd, MdSave } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import CreatedQuestionCard from "../components/CreatedQuestionCard";
+import { useNavigate } from "react-router-dom";
 
 /**
  * "Erstellen" Seite. Dient dem erstellen eines neuen Quiz
@@ -33,6 +34,7 @@ function Create() {
   const toast = useToast();
   const [questions, setQuestions] = useState([]);
   const app = useRealm();
+  const navigate = useNavigate();
 
   /**
    * Verarbeitet neue Frage die als JSON erhalten wurde
@@ -54,21 +56,36 @@ function Create() {
     formState: { errors },
   } = useForm();
 
+  /**
+   * Wenn Validierung IO dann speichere in DB
+   */
   const onSubmit = async (data) => {
     data = { ...data, questions: questions };
     console.log(data);
+    // Wenn mindestens eine Frage vorhanden ist, dann speichere in DB
     if (questions.length > 0) {
       const result = await app.currentUser.functions.createQuiz(
         JSON.stringify(data)
       );
       console.log(result);
-      toast({
-        title: "Quiz erstellt",
-        description: JSON.stringify(data),
-        status: "success",
-        duration: 5000,
-        isClosable: true,
-      });
+      // Prüfe ob speichern in DB erfolgreich
+      if (result.success) {
+        toast({
+          title: "Quiz erfolgreich erstellt",
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+        navigate("/");
+      } else {
+        toast({
+          title: "Fehler beim speichern.",
+          description: result.error,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
     } else {
       toast({
         title: "Quiz konnte nicht erstellt werden!",

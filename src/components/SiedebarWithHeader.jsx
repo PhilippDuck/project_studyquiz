@@ -28,6 +28,7 @@ import {
 } from "react-icons/md";
 import { LuUser } from "react-icons/lu";
 import { Link } from "react-router-dom";
+import Logo from "./Logo";
 
 /**
  * Menüelemente
@@ -42,7 +43,7 @@ const LinkItems = [
 /**
  * Logo bzw. Seitentitel
  */
-const logo = "StudyQuiz";
+const logo = <Logo w={"150px"} />;
 
 const SidebarContent = ({ onClose, ...rest }) => {
   return (

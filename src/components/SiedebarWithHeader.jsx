@@ -176,12 +176,13 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 </Box>
               </HStack>
             </MenuButton>
-            <MenuList
-              bg={useColorModeValue("white", "gray.900")}
-              borderColor={useColorModeValue("gray.200", "gray.700")}
-            >
+            <MenuList borderColor={useColorModeValue("gray.200", "gray.700")}>
               <MenuItem>Profil</MenuItem>
               <MenuDivider />
+              <Link to={"/login"}>
+                <MenuItem>Login</MenuItem>
+              </Link>
+
               <MenuItem>Abmelden</MenuItem>
             </MenuList>
           </Menu>

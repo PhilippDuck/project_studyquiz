@@ -15,9 +15,9 @@ import Create from "./pages/Create.jsx";
 import Highscores from "./pages/Highscores.jsx";
 import Profil from "./pages/Profil.jsx";
 import NotFound from "./pages/NotFound.jsx";
+import Login from "./pages/Login.jsx";
 
 const router = createBrowserRouter([
-  //TODO: PageNotFound hinzufügen
   {
     path: "/",
     element: <App />,
@@ -44,6 +44,10 @@ const router = createBrowserRouter([
         element: <Profil />,
       },
     ],
+  },
+  {
+    path: "login",
+    element: <Login />,
   },
 ]);
 

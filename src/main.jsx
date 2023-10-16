@@ -14,12 +14,14 @@ import Games from "./pages/Games.jsx";
 import Create from "./pages/Create.jsx";
 import Highscores from "./pages/Highscores.jsx";
 import Profil from "./pages/Profil.jsx";
+import NotFound from "./pages/NotFound.jsx";
 
 const router = createBrowserRouter([
   //TODO: PageNotFound hinzufügen
   {
     path: "/",
     element: <App />,
+    errorElement: <NotFound />,
     children: [
       {
         path: "/",

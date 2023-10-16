@@ -18,6 +18,7 @@ import {
   HStack,
   FormHelperText,
   useToast,
+  Spinner,
 } from "@chakra-ui/react";
 import AddQuestionDrawer from "../components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
@@ -25,6 +26,7 @@ import { MdAdd, MdSave } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import CreatedQuestionCard from "../components/CreatedQuestionCard";
 import { useNavigate } from "react-router-dom";
+import { load } from "webfontloader";
 
 /**
  * "Erstellen" Seite. Dient dem erstellen eines neuen Quiz
@@ -35,6 +37,7 @@ function Create() {
   const [questions, setQuestions] = useState([]);
   const app = useRealm();
   const navigate = useNavigate();
+  const [loadingSaveQuiz, setLoaddingSaveQuiz] = useState(false);
 
   /**
    * Verarbeitet neue Frage die als JSON erhalten wurde
@@ -64,6 +67,7 @@ function Create() {
     console.log(data);
     // Wenn mindestens eine Frage vorhanden ist, dann speichere in DB
     if (questions.length > 0) {
+      setLoaddingSaveQuiz(true);
       const result = await app.currentUser.functions.createQuiz(
         JSON.stringify(data)
       );
@@ -86,6 +90,7 @@ function Create() {
           isClosable: true,
         });
       }
+      setLoaddingSaveQuiz(false);
     } else {
       toast({
         title: "Quiz konnte nicht erstellt werden!",
@@ -107,7 +112,7 @@ function Create() {
               <Button
                 onClick={handleSubmit(onSubmit)} // Hier ist die Verknüpfung!
                 colorScheme="primary"
-                leftIcon={<MdSave />}
+                leftIcon={loadingSaveQuiz ? <Spinner /> : <MdSave />}
               >
                 Speichern
               </Button>

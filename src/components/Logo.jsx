@@ -9,7 +9,7 @@ function Logo(props) {
           "StudyQuiz_Banner_Schwarz_Transparent.png",
           "StudyQuiz_Banner_Weiss_Transparent.png"
         )}
-      ></Image>
+      />
     </Box>
   );
 }

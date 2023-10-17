@@ -19,15 +19,18 @@ import {
   MenuList,
   useColorMode,
 } from "@chakra-ui/react";
-import { FiHome, FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
+import { FiHome, FiMenu, FiChevronDown } from "react-icons/fi";
 import {
   MdOutlineCreate,
   MdOutlineLeaderboard,
   MdWbSunny,
   MdNightlight,
+  MdLogin,
+  MdLogout,
 } from "react-icons/md";
+import { useRealm } from "../provider/RealmProvider";
 import { LuUser } from "react-icons/lu";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 
 /**
@@ -106,6 +109,11 @@ const NavItem = ({ icon, children, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const { colorMode, toggleColorMode } = useColorMode();
+
+  const app = useRealm();
+  const navigate = useNavigate();
+  const isEmailPasswordUser =
+    app.currentUser?.providerType === "local-userpass";
   return (
     <Flex
       ml={{ base: 0, md: 0 }}
@@ -129,8 +137,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
         aria-label="open menu"
         icon={<FiMenu />}
       />
-
-      {logo}
+      <Box display={{ base: "flex", md: "none" }}>{logo}</Box>
 
       <HStack spacing={{ base: "1", md: "6" }}>
         <IconButton
@@ -148,21 +155,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
               _focus={{ boxShadow: "none" }}
             >
               <HStack>
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
-                />
+                <Avatar size={"sm"} src="" />
                 <VStack
                   display={{ base: "none", md: "flex" }}
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">NONAME</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                    {isEmailPasswordUser ? "angemeldet" : "anonym"}
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
@@ -171,13 +173,39 @@ const MobileNav = ({ onOpen, ...rest }) => {
               </HStack>
             </MenuButton>
             <MenuList borderColor={useColorModeValue("gray.200", "gray.700")}>
-              <MenuItem>Profil</MenuItem>
-              <MenuDivider />
-              <Link to={"/login"}>
-                <MenuItem>Login</MenuItem>
+              <Link to={"/profil"}>
+                <MenuItem>
+                  <Flex gap={2} align={"center"}>
+                    <LuUser />
+                    <Text>Profil</Text>
+                  </Flex>
+                </MenuItem>
               </Link>
+              <MenuDivider />
 
-              <MenuItem>Abmelden</MenuItem>
+              {isEmailPasswordUser ? (
+                <MenuItem
+                  onClick={async () => {
+                    await app.currentUser.logOut();
+                    navigate("/");
+                  }}
+                  color={useColorModeValue("red.700", "red.300")}
+                >
+                  <Flex gap={2} align={"center"}>
+                    <MdLogout />
+                    <Text>Abmelden</Text>
+                  </Flex>
+                </MenuItem>
+              ) : (
+                <Link to={"/login"}>
+                  <MenuItem>
+                    <Flex gap={2} align={"center"}>
+                      <MdLogin />
+                      <Text>Login</Text>
+                    </Flex>
+                  </MenuItem>
+                </Link>
+              )}
             </MenuList>
           </Menu>
         </Flex>
@@ -188,6 +216,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
 const SidebarWithHeader = ({ content }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent

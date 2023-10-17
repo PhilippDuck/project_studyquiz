@@ -26,6 +26,7 @@ import {
   MdWbSunny,
   MdNightlight,
 } from "react-icons/md";
+import { useRealm } from "../provider/RealmProvider";
 import { LuUser } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
@@ -106,6 +107,7 @@ const NavItem = ({ icon, children, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const { colorMode, toggleColorMode } = useColorMode();
+  const app = useRealm();
   return (
     <Flex
       ml={{ base: 0, md: 0 }}
@@ -176,8 +178,15 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <Link to={"/login"}>
                 <MenuItem>Login</MenuItem>
               </Link>
-
-              <MenuItem>Abmelden</MenuItem>
+              <Link to={"/"}>
+                <MenuItem
+                  onClick={() => {
+                    app.currentUser.logOut();
+                  }}
+                >
+                  Abmelden
+                </MenuItem>
+              </Link>
             </MenuList>
           </Menu>
         </Flex>
@@ -188,6 +197,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
 const SidebarWithHeader = ({ content }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
       <SidebarContent

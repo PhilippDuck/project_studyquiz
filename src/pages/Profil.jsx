@@ -17,6 +17,7 @@ function Profil() {
       <CardBody>
         <Heading>Profil</Heading>
         <Text>{userID}</Text>
+        <Text>Anmeldemethode: {app.currentUser.providerType}</Text>
       </CardBody>
     </Card>
   );

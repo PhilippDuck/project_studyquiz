@@ -1,4 +1,5 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import {
   Table,
   Thead,
@@ -10,8 +11,28 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
+import { useRealm } from "../provider/RealmProvider";
 
 function Erfahrungspunkte() {
+  const app = useRealm();
+  const [userList, setUserList] = useState([]);
+
+  useEffect(() => {
+    // Rufe die getUsersData-Funktion von MongoDB Realm auf
+    const fetchData = async () => {
+      try {
+        const result = await app.currentUser.functions.getUsersData();
+        // Hier könntest du die result-Daten, die du von MongoDB Realm erhältst, in userLists setzen
+        setUserList(result);
+      } catch (error) {
+        console.error("Fehler beim Abrufen der Daten:", error);
+      }
+    };
+    fetchData();
+  }, [app]);
+
+  const sortedUserList = [...userList].sort((a, b) => b.exp - a.exp);
+
   return (
     <div>
       <TableContainer>
@@ -25,21 +46,13 @@ function Erfahrungspunkte() {
             </Tr>
           </Thead>
           <Tbody>
-            <Tr>
-              <Td>Günther</Td>
-              <Td>100</Td>
-              <Td>1</Td>
-            </Tr>
-            <Tr>
-              <Td>Rüdiger</Td>
-              <Td>90</Td>
-              <Td>2</Td>
-            </Tr>
-            <Tr>
-              <Td>Jürgen</Td>
-              <Td>80</Td>
-              <Td>3</Td>
-            </Tr>
+            {sortedUserList.map((user, index) => (
+              <Tr key={user._id}>
+                <Td>{user.name}</Td>
+                <Td>{user.exp}</Td>
+                <Td>{index + 1}</Td>
+              </Tr>
+            ))}
           </Tbody>
           <Tfoot>
             <Tr>

@@ -38,7 +38,10 @@ function Login() {
   const onSubmit = async (data) => {
     //console.log(data);
     try {
-      const user = await loginEmailPassword(data.email, data.password);
+      const user = await loginEmailPassword(
+        data.email.toLowerCase(),
+        data.password
+      );
       console.log(user);
       toast({
         title: "Erfolgreich eingeloggt!",

@@ -162,7 +162,13 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">NONAME</Text>
+                  {app.currentUser.customData.nickname ? (
+                    <Text fontSize={"sm"}>
+                      {app.currentUser.customData.nickname}
+                    </Text>
+                  ) : (
+                    <Text fontSize={"sm"}>NONAME</Text>
+                  )}
                   <Text fontSize="xs" color="gray.600">
                     {isEmailPasswordUser ? "angemeldet" : "anonym"}
                   </Text>

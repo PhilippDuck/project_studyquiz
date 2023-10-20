@@ -114,6 +114,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
   const navigate = useNavigate();
   const isEmailPasswordUser =
     app.currentUser?.providerType === "local-userpass";
+  const nickname = app.currentUser?.customData?.nickname || "NONAME";
+
   return (
     <Flex
       ml={{ base: 0, md: 0 }}
@@ -155,24 +157,14 @@ const MobileNav = ({ onOpen, ...rest }) => {
               _focus={{ boxShadow: "none" }}
             >
               <HStack>
-                <Avatar
-                  size={"sm"}
-                  src=""
-                  name={app.currentUser.customData.nickname}
-                />
+                <Avatar size={"sm"} src="" name={nickname} />
                 <VStack
                   display={{ base: "none", md: "flex" }}
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2"
                 >
-                  {app.currentUser.customData.nickname ? (
-                    <Text fontSize={"sm"}>
-                      {app.currentUser.customData.nickname}
-                    </Text>
-                  ) : (
-                    <Text fontSize={"sm"}>NONAME</Text>
-                  )}
+                  <Text fontSize={"sm"}>{nickname}</Text>
                   <Text fontSize="xs" color="gray.600">
                     {isEmailPasswordUser ? "angemeldet" : "anonym"}
                   </Text>

@@ -9,6 +9,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { RealmProvider } from "./provider/RealmProvider";
+import { useRealm } from "../src/provider/RealmProvider.jsx";
 import theme from "./Theme/theme.js";
 import Games from "./pages/Games.jsx";
 import Create from "./pages/Create.jsx";
@@ -17,6 +18,28 @@ import Profil from "./pages/Profil.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Login from "./pages/Login.jsx";
 import Adminpanel from "./pages/Adminpanel.jsx";
+
+function AdminProtectedRoute({ children }) {
+  const app = useRealm();
+  const isAdmin = app.currentUser?.customData?.admin;
+
+  if (!isAdmin) {
+    return <Navigate to="/" />; // Oder wohin immer Sie nicht-administrative Benutzer umleiten möchten.
+  }
+
+  return children;
+}
+
+function RegisteredUserProtectedRoute({ children }) {
+  const app = useRealm();
+  const isRegistered = app.currentUser?.customData?.registered;
+
+  if (!isRegistered) {
+    return <Navigate to="/" />; // Oder wohin immer Sie nicht-administrative Benutzer umleiten möchten.
+  }
+
+  return children;
+}
 
 const router = createBrowserRouter([
   {
@@ -34,7 +57,11 @@ const router = createBrowserRouter([
       },
       {
         path: "create",
-        element: <Create />,
+        element: (
+          <RegisteredUserProtectedRoute>
+            <Create />
+          </RegisteredUserProtectedRoute>
+        ),
       },
       {
         path: "highscores",
@@ -46,7 +73,11 @@ const router = createBrowserRouter([
       },
       {
         path: "admin",
-        element: <Adminpanel />,
+        element: (
+          <AdminProtectedRoute>
+            <Adminpanel />
+          </AdminProtectedRoute>
+        ),
       },
     ],
   },

@@ -22,7 +22,7 @@ function Highscores() {
   };
 
   return (
-    <Card variant={"outline"} maxW={"800px"}>
+    <Card border={"none"} variant={"outline"} maxW={"800px"}>
       <CardBody>
         <Heading mb={4}>Ranglisten</Heading>
         <Box>

@@ -103,7 +103,7 @@ function Create() {
   };
 
   return (
-    <Card variant={"outline"} maxW={"800px"}>
+    <Card border={"none"} variant={"outline"} maxW={"800px"}>
       <CardBody>
         <VStack gap={"2em"} w={"100%"} align={"start"}>
           <Box w={"100%"}>

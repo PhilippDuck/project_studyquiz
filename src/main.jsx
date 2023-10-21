@@ -16,6 +16,7 @@ import Highscores from "./pages/Highscores.jsx";
 import Profil from "./pages/Profil.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Login from "./pages/Login.jsx";
+import Adminpanel from "./pages/Adminpanel.jsx";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +43,10 @@ const router = createBrowserRouter([
       {
         path: "profil",
         element: <Profil />,
+      },
+      {
+        path: "admin",
+        element: <Adminpanel />,
       },
     ],
   },

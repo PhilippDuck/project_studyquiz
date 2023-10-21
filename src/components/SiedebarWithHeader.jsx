@@ -27,6 +27,7 @@ import {
   MdNightlight,
   MdLogin,
   MdLogout,
+  MdOutlineAdminPanelSettings,
 } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import { LuUser } from "react-icons/lu";
@@ -45,6 +46,13 @@ const LinkItems = [
     to: "create",
     authRequired: true,
   },
+  {
+    name: "Admin Bereich",
+    icon: MdOutlineAdminPanelSettings,
+    to: "admin",
+    authRequired: true,
+    adminRequired: true,
+  },
   { name: "Ranglisten", icon: MdOutlineLeaderboard, to: "highscores" },
   { name: "Profil", icon: LuUser, to: "profil" },
 ];
@@ -58,13 +66,17 @@ const SidebarContent = ({ onClose, ...rest }) => {
   const app = useRealm();
 
   const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     setIsUserAuthenticated(app.currentUser?.customData?.registered);
+    setIsAdmin(app.currentUser?.customData?.admin);
   }, [app.currentUser]);
 
   const visibleLinkItems = LinkItems.filter(
-    (link) => !link.authRequired || (link.authRequired && isUserAuthenticated)
+    (link) =>
+      !link.authRequired ||
+      (isUserAuthenticated && (!link.adminRequired || isAdmin))
   );
 
   return (

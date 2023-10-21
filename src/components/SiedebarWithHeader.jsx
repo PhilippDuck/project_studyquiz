@@ -1,6 +1,7 @@
 import {
   IconButton,
   Avatar,
+  AvatarBadge,
   Box,
   CloseButton,
   Flex,
@@ -187,7 +188,18 @@ const MobileNav = ({ onOpen, ...rest }) => {
               _focus={{ boxShadow: "none" }}
             >
               <HStack>
-                <Avatar size={"sm"} src="" name={nickname} />
+                <Avatar size={"sm"} src="" name={nickname}>
+                  <AvatarBadge
+                    boxSize="1.25em"
+                    bg={
+                      isEmailPasswordUser
+                        ? isAdmin
+                          ? "teal.500"
+                          : "green.500"
+                        : "red.500"
+                    }
+                  />
+                </Avatar>
                 <VStack
                   display={{ base: "none", md: "flex" }}
                   alignItems="flex-start"

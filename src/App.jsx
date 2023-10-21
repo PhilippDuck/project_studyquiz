@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Spinner } from "@chakra-ui/react";
+import { Center, Spinner } from "@chakra-ui/react";
 import SidebarWithHeader from "./components/SiedebarWithHeader";
 import { Outlet } from "react-router-dom";
 import { useRealm } from "./provider/RealmProvider";
@@ -44,7 +44,11 @@ function App() {
   }, [app]);
 
   if (!isLoginComplete) {
-    return <Spinner />; // Zeige Spinner solange der Login-Vorgang noch nicht abgeschlossen ist
+    return (
+      <Center h={"100vh"}>
+        <Spinner size={"xlo"} />
+      </Center>
+    ); // Zeige Spinner solange der Login-Vorgang noch nicht abgeschlossen ist
   }
 
   return (

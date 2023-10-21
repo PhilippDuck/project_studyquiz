@@ -46,7 +46,7 @@ function App() {
   if (!isLoginComplete) {
     return (
       <Center h={"100vh"}>
-        <Spinner size={"xlo"} />
+        <Spinner size={"xl"} />
       </Center>
     ); // Zeige Spinner solange der Login-Vorgang noch nicht abgeschlossen ist
   }

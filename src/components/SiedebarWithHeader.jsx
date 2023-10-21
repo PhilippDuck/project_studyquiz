@@ -32,13 +32,19 @@ import { useRealm } from "../provider/RealmProvider";
 import { LuUser } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
+import { useEffect, useState } from "react";
 
 /**
  * Menüelemente
  */
 const LinkItems = [
   { name: "Spielen", icon: FiHome, to: "games" },
-  { name: "Erstellen", icon: MdOutlineCreate, to: "create" },
+  {
+    name: "Erstellen",
+    icon: MdOutlineCreate,
+    to: "create",
+    authRequired: true,
+  },
   { name: "Ranglisten", icon: MdOutlineLeaderboard, to: "highscores" },
   { name: "Profil", icon: LuUser, to: "profil" },
 ];
@@ -49,6 +55,18 @@ const LinkItems = [
 const logo = <Logo w={"150px"} />;
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const app = useRealm();
+
+  const [isUserAuthenticated, setIsUserAuthenticated] = useState(false);
+
+  useEffect(() => {
+    setIsUserAuthenticated(app.currentUser?.customData?.registered);
+  }, [app.currentUser]);
+
+  const visibleLinkItems = LinkItems.filter(
+    (link) => !link.authRequired || (link.authRequired && isUserAuthenticated)
+  );
+
   return (
     <Box
       transition="0.5s ease"
@@ -66,8 +84,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
-      {LinkItems.map((link) => (
-        <Link onClick={onClose} key={link.name} to={link.to}>
+      {visibleLinkItems.map((link, index) => (
+        <Link onClick={onClose} key={index} to={link.to}>
           <NavItem icon={link.icon}>{link.name}</NavItem>
         </Link>
       ))}
@@ -112,8 +130,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
   const app = useRealm();
   const navigate = useNavigate();
-  const isEmailPasswordUser =
-    app.currentUser?.providerType === "local-userpass";
+  const isEmailPasswordUser = app.currentUser?.customData?.registered;
+  const isAdmin = app.currentUser?.customData?.admin;
   const nickname = app.currentUser?.customData?.nickname || "NONAME";
 
   return (
@@ -166,7 +184,11 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 >
                   <Text fontSize={"sm"}>{nickname}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    {isEmailPasswordUser ? "angemeldet" : "anonym"}
+                    {isEmailPasswordUser
+                      ? isAdmin
+                        ? "Admin"
+                        : "angemeldet"
+                      : "anonym"}
                   </Text>
                 </VStack>
                 <Box display={{ base: "none", md: "flex" }}>
@@ -189,7 +211,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 <MenuItem
                   onClick={async () => {
                     await app.currentUser.logOut();
-                    navigate("/");
+                    await app.currentUser.refreshCustomData();
+
+                    navigate("/login");
                   }}
                   color={useColorModeValue("red.700", "red.300")}
                 >

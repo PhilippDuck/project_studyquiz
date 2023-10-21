@@ -78,7 +78,7 @@ function Profil() {
   }, []);
 
   return (
-    <Card variant={"outline"}>
+    <Card variant={"outline"} maxW={"800px"}>
       <CardBody>
         <Heading>Profil</Heading>
         {app.currentUser.customData.nickname ? (

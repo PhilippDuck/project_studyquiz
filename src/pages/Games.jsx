@@ -20,7 +20,7 @@ function Games() {
   const app = useRealm();
   const toast = useToast();
   const [loadingQuizzes, setLoadingQuizzes] = useState(false);
-  const [loadingDelete, setLoadingDelete] = useState(false);
+
   const [quizzes, setQuizzes] = useState([]);
 
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
@@ -54,7 +54,6 @@ function Games() {
   }
 
   async function deleteQuizById(id) {
-    setQuizIdToDelete(id);
     try {
       const result = await app.currentUser.functions.deleteQuizById(
         JSON.stringify({ id: id })
@@ -81,8 +80,6 @@ function Games() {
       }
     } catch (error) {
       console.error("Ein Fehler ist aufgetreten:", error);
-    } finally {
-      setQuizIdToDelete(null);
     }
   }
 
@@ -104,7 +101,6 @@ function Games() {
               quiz={quiz}
               handleDeleteQuiz={handleDeleteQuiz}
               key={quiz._id}
-              isDeleting={quiz._id === quizIdToDelete}
             >
               {" "}
             </QuizCard>

@@ -35,7 +35,10 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
           ) : (
             <IconButton
               visibility={
-                app.currentUser?.customData?.admin ? "visible" : "hidden"
+                app.currentUser?.customData?.admin ||
+                app.currentUser.id === quiz.owner
+                  ? "visible"
+                  : "hidden"
               }
               onClick={() => handleDeleteQuiz(quiz._id)}
               variant={"ghost"}

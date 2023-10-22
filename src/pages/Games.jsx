@@ -8,15 +8,24 @@ import {
   Spacer,
   IconButton,
   Box,
+  useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import QuizCard from "../components/QuizCard";
 import { MdOutlineFilterAlt } from "react-icons/md";
+import DeleteQuizDialog from "../components/DeleteQuizDialog";
 
 function Games() {
   const app = useRealm();
+  const toast = useToast();
   const [loadingQuizzes, setLoadingQuizzes] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const [quizzes, setQuizzes] = useState([]);
+
+  const [quizIdToDelete, setQuizIdToDelete] = useState(null);
+
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {
     // Überprüfen, ob ein Benutzer angemeldet ist
@@ -39,6 +48,44 @@ function Games() {
     }
   }
 
+  function handleDeleteQuiz(id) {
+    setQuizIdToDelete(id);
+    onOpen();
+  }
+
+  async function deleteQuizById(id) {
+    setQuizIdToDelete(id);
+    try {
+      const result = await app.currentUser.functions.deleteQuizById(
+        JSON.stringify({ id: id })
+      );
+      if (result.success) {
+        setQuizzes((prevQuizzes) =>
+          prevQuizzes.filter((quiz) => quiz._id !== id)
+        );
+        toast({
+          title: "Quiz erfolgreich gelöscht.",
+
+          status: "success",
+          duration: 5000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: "Fehler",
+          description: `Fehler beim Löschen des Quiz: ${result.error}`,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.error("Ein Fehler ist aufgetreten:", error);
+    } finally {
+      setQuizIdToDelete(null);
+    }
+  }
+
   return (
     <Box variant={"outline"} border={"none"} maxW={"800px"}>
       <Flex>
@@ -54,13 +101,23 @@ function Games() {
         ) : (
           quizzes.map((quiz) => (
             <QuizCard
-              quiztitle={quiz.title}
-              quiztopic={quiz.topic}
+              quiz={quiz}
+              handleDeleteQuiz={handleDeleteQuiz}
               key={quiz._id}
-            ></QuizCard>
+              isDeleting={quiz._id === quizIdToDelete}
+            >
+              {" "}
+            </QuizCard>
           ))
         )}
       </VStack>
+      <DeleteQuizDialog
+        onClose={onClose}
+        onOpen={onOpen}
+        isOpen={isOpen}
+        deleteQuizById={deleteQuizById}
+        quizIdToDelete={quizIdToDelete}
+      />
     </Box>
   );
 }

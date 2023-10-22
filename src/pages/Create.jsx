@@ -1,7 +1,6 @@
 import React from "react";
 import { useState } from "react";
 import {
-  Container,
   Button,
   useDisclosure,
   Heading,
@@ -10,8 +9,6 @@ import {
   FormLabel,
   Select,
   Input,
-  Card,
-  CardBody,
   Flex,
   Spacer,
   VStack,
@@ -26,7 +23,6 @@ import { MdAdd, MdSave } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import CreatedQuestionCard from "../components/CreatedQuestionCard";
 import { useNavigate } from "react-router-dom";
-import { load } from "webfontloader";
 
 /**
  * "Erstellen" Seite. Dient dem erstellen eines neuen Quiz
@@ -103,100 +99,98 @@ function Create() {
   };
 
   return (
-    <Card border={"none"} variant={"outline"} maxW={"800px"}>
-      <CardBody>
-        <VStack gap={"2em"} w={"100%"} align={"start"}>
-          <Box w={"100%"}>
-            <HStack mb={"1em"} justify={"space-between"}>
-              <Heading>Quiz erstellen</Heading>
-              <Button
-                onClick={handleSubmit(onSubmit)} // Hier ist die Verknüpfung!
-                colorScheme="primary"
-                leftIcon={loadingSaveQuiz ? <Spinner /> : <MdSave />}
-              >
-                Speichern
-              </Button>
-            </HStack>
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <FormControl
-                id="title"
-                marginBottom="20px"
-                isInvalid={errors.title}
-              >
-                <FormLabel>Titel:</FormLabel>
-                <Input
-                  type="text"
-                  placeholder="Geben Sie einen Titel ein"
-                  {...register("title", {
-                    required: "Titel ist erforderlich!",
-                  })}
-                />
-                {errors.title && (
-                  <FormHelperText color="red.500">
-                    {errors.title.message}
-                  </FormHelperText>
-                )}
-              </FormControl>
-
-              <FormControl
-                id="topic"
-                marginBottom="20px"
-                isInvalid={errors.topic}
-              >
-                <FormLabel>Thema auswählen:</FormLabel>
-                <Select
-                  placeholder="Wählen Sie ein Thema"
-                  {...register("topic", {
-                    required: "Thema ist erforderlich!",
-                  })}
-                >
-                  <option value="thema1">Thema 1</option>
-                  <option value="thema2">Thema 2</option>
-                  <option value="thema3">Thema 3</option>
-                </Select>
-                {errors.topic && (
-                  <FormHelperText color="red.500">
-                    {errors.topic.message}
-                  </FormHelperText>
-                )}
-              </FormControl>
-            </form>
-          </Box>
-          <Flex w={"100%"} align={"center"}>
-            <Heading size={"md"}>Fragen:</Heading>
-            <Spacer />
+    <Box border={"none"} variant={"outline"} maxW={"800px"}>
+      <VStack gap={"2em"} w={"100%"} align={"start"}>
+        <Box w={"100%"}>
+          <HStack mb={"1em"} justify={"space-between"}>
+            <Heading>Quiz erstellen</Heading>
             <Button
-              leftIcon={<MdAdd />}
-              size={"sm"}
-              variant={"outline"}
-              onClick={onOpen}
+              onClick={handleSubmit(onSubmit)} // Hier ist die Verknüpfung!
+              colorScheme="primary"
+              leftIcon={loadingSaveQuiz ? <Spinner /> : <MdSave />}
             >
-              Frage hinzufügen
+              Speichern
             </Button>
-          </Flex>
+          </HStack>
 
-          {questions.map((question, index) => {
-            return (
-              <CreatedQuestionCard
-                key={index}
-                question={question.question}
-                answers={question.answers}
-                correctAnswer={question.correctAnswer}
-                hint={question.hint}
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <FormControl
+              id="title"
+              marginBottom="20px"
+              isInvalid={errors.title}
+            >
+              <FormLabel>Titel:</FormLabel>
+              <Input
+                type="text"
+                placeholder="Geben Sie einen Titel ein"
+                {...register("title", {
+                  required: "Titel ist erforderlich!",
+                })}
               />
-            );
-          })}
+              {errors.title && (
+                <FormHelperText color="red.500">
+                  {errors.title.message}
+                </FormHelperText>
+              )}
+            </FormControl>
 
-          <AddQuestionDrawer
-            onClose={onClose}
-            onOpen={onOpen}
-            isOpen={isOpen}
-            handleAddQuestion={handleAddQuestion}
-          />
-        </VStack>
-      </CardBody>
-    </Card>
+            <FormControl
+              id="topic"
+              marginBottom="20px"
+              isInvalid={errors.topic}
+            >
+              <FormLabel>Thema auswählen:</FormLabel>
+              <Select
+                placeholder="Wählen Sie ein Thema"
+                {...register("topic", {
+                  required: "Thema ist erforderlich!",
+                })}
+              >
+                <option value="thema1">Thema 1</option>
+                <option value="thema2">Thema 2</option>
+                <option value="thema3">Thema 3</option>
+              </Select>
+              {errors.topic && (
+                <FormHelperText color="red.500">
+                  {errors.topic.message}
+                </FormHelperText>
+              )}
+            </FormControl>
+          </form>
+        </Box>
+        <Flex w={"100%"} align={"center"}>
+          <Heading size={"md"}>Fragen:</Heading>
+          <Spacer />
+          <Button
+            leftIcon={<MdAdd />}
+            size={"sm"}
+            variant={"outline"}
+            onClick={onOpen}
+          >
+            Frage hinzufügen
+          </Button>
+        </Flex>
+
+        {questions.map((question, index) => {
+          return (
+            <CreatedQuestionCard
+              key={index}
+              question={question.question}
+              answers={question.answers}
+              correctAnswer={question.correctAnswer}
+              hint={question.hint}
+            />
+          );
+        })}
+
+        <AddQuestionDrawer
+          onClose={onClose}
+          onOpen={onOpen}
+          isOpen={isOpen}
+          handleAddQuestion={handleAddQuestion}
+        />
+      </VStack>
+    </Box>
   );
 }
 

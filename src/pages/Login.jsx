@@ -77,7 +77,7 @@ function Login() {
   }
 
   return (
-    <Center h={"100vh"} bg={useColorModeValue("gray.100", "gray.900")}>
+    <Center h={"100vh"} bg={useColorModeValue("white", "gray.900")}>
       <VStack w={"600px"} p={4} gap={10}>
         <Logo w={"300px"} />
         <Card w={"100%"} variant={"outline"}>

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Card,
-  CardBody,
   Heading,
   Text,
   Spinner,
@@ -9,6 +7,7 @@ import {
   Flex,
   Spacer,
   IconButton,
+  Box,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import QuizCard from "../components/QuizCard";
@@ -41,30 +40,28 @@ function Games() {
   }
 
   return (
-    <Card variant={"outline"} border={"none"} maxW={"800px"}>
-      <CardBody>
-        <Flex>
-          <Heading mb={4}>Spiele</Heading>
-          <Spacer />
-          <IconButton icon={<MdOutlineFilterAlt />} variant={"ghost"} />
-        </Flex>
-        <VStack align={"start"} w={"100%"}>
-          {!app.currentUser ? (
-            <Text>Bitte melden Sie sich an, um auf Spiele zuzugreifen.</Text>
-          ) : loadingQuizzes ? (
-            <Spinner />
-          ) : (
-            quizzes.map((quiz) => (
-              <QuizCard
-                quiztitle={quiz.title}
-                quiztopic={quiz.topic}
-                key={quiz._id}
-              ></QuizCard>
-            ))
-          )}
-        </VStack>
-      </CardBody>
-    </Card>
+    <Box variant={"outline"} border={"none"} maxW={"800px"}>
+      <Flex>
+        <Heading mb={4}>Spiele</Heading>
+        <Spacer />
+        <IconButton icon={<MdOutlineFilterAlt />} variant={"ghost"} />
+      </Flex>
+      <VStack align={"start"} w={"100%"}>
+        {!app.currentUser ? (
+          <Text>Bitte melden Sie sich an, um auf Spiele zuzugreifen.</Text>
+        ) : loadingQuizzes ? (
+          <Spinner />
+        ) : (
+          quizzes.map((quiz) => (
+            <QuizCard
+              quiztitle={quiz.title}
+              quiztopic={quiz.topic}
+              key={quiz._id}
+            ></QuizCard>
+          ))
+        )}
+      </VStack>
+    </Box>
   );
 }
 

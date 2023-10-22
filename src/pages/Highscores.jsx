@@ -22,31 +22,29 @@ function Highscores() {
   };
 
   return (
-    <Card border={"none"} variant={"outline"} maxW={"800px"}>
-      <CardBody>
-        <Heading mb={4}>Ranglisten</Heading>
-        <Box>
-          <Tabs onChange={handleTabChange} isFitted variant="enclosed">
-            <TabList>
-              <Tab>Gesamt</Tab>
-              <Tab>BWL-Quizzes</Tab>
-              <Tab>Tab 3</Tab>
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <Erfahrungspunkte />
-              </TabPanel>
-              <TabPanel>
-                <BWLQuizzes />
-              </TabPanel>
-              <TabPanel>
-                <p>Inhalt des Tab 3</p>
-              </TabPanel>
-            </TabPanels>
-          </Tabs>
-        </Box>
-      </CardBody>
-    </Card>
+    <Box border={"none"} variant={"outline"} maxW={"800px"}>
+      <Heading mb={4}>Ranglisten</Heading>
+      <Box>
+        <Tabs onChange={handleTabChange} isFitted variant="enclosed">
+          <TabList>
+            <Tab>Gesamt</Tab>
+            <Tab>BWL-Quizzes</Tab>
+            <Tab>Tab 3</Tab>
+          </TabList>
+          <TabPanels>
+            <TabPanel>
+              <Erfahrungspunkte />
+            </TabPanel>
+            <TabPanel>
+              <BWLQuizzes />
+            </TabPanel>
+            <TabPanel>
+              <p>Inhalt des Tab 3</p>
+            </TabPanel>
+          </TabPanels>
+        </Tabs>
+      </Box>
+    </Box>
   );
 }
 

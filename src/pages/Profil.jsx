@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
-  Card,
-  CardBody,
+  Box,
   Heading,
   Text,
   Button,
@@ -78,58 +77,56 @@ function Profil() {
   }, []);
 
   return (
-    <Card border={"none"} variant={"outline"} maxW={"800px"}>
-      <CardBody>
-        <Heading>Profil</Heading>
-        {app.currentUser.customData.nickname ? (
-          <Text>{app.currentUser.customData.nickname}</Text>
-        ) : (
-          <Text>NONAME</Text>
-        )}
+    <Box border={"none"} variant={"outline"} maxW={"800px"}>
+      <Heading>Profil</Heading>
+      {app.currentUser.customData.nickname ? (
+        <Text>{app.currentUser.customData.nickname}</Text>
+      ) : (
+        <Text>NONAME</Text>
+      )}
 
-        {app.currentUser.providerType != "anon-user" && (
-          <Button
-            ref={btnRef}
-            colorScheme="primary"
-            onClick={() => setIsOpen(true)}
-          >
-            Nickname ändern
-          </Button>
-        )}
-
-        <Drawer
-          isOpen={isOpen}
-          placement="right"
-          onClose={onClose}
-          finalFocusRef={btnRef}
+      {app.currentUser.providerType != "anon-user" && (
+        <Button
+          ref={btnRef}
+          colorScheme="primary"
+          onClick={() => setIsOpen(true)}
         >
-          <DrawerOverlay>
-            <DrawerContent>
-              <DrawerCloseButton />
-              <DrawerHeader>Nickname ändern</DrawerHeader>
-              <DrawerBody>
-                <Input
-                  placeholder="Neuer Nickname"
-                  value={nickname}
-                  onChange={(e) => setNickname(e.target.value)}
-                />
-                <Button
-                  mt={4}
-                  colorScheme="primary"
-                  onClick={handleNicknameChange}
-                  leftIcon={isLoading ? <Spinner /> : null}
-                >
-                  Speichern
-                </Button>
-              </DrawerBody>
-            </DrawerContent>
-          </DrawerOverlay>
-        </Drawer>
+          Nickname ändern
+        </Button>
+      )}
 
-        <Text>{app.currentUser.id}</Text>
-        <Text>Anmeldemethode: {app.currentUser.providerType}</Text>
-      </CardBody>
-    </Card>
+      <Drawer
+        isOpen={isOpen}
+        placement="right"
+        onClose={onClose}
+        finalFocusRef={btnRef}
+      >
+        <DrawerOverlay>
+          <DrawerContent>
+            <DrawerCloseButton />
+            <DrawerHeader>Nickname ändern</DrawerHeader>
+            <DrawerBody>
+              <Input
+                placeholder="Neuer Nickname"
+                value={nickname}
+                onChange={(e) => setNickname(e.target.value)}
+              />
+              <Button
+                mt={4}
+                colorScheme="primary"
+                onClick={handleNicknameChange}
+                leftIcon={isLoading ? <Spinner /> : null}
+              >
+                Speichern
+              </Button>
+            </DrawerBody>
+          </DrawerContent>
+        </DrawerOverlay>
+      </Drawer>
+
+      <Text>{app.currentUser.id}</Text>
+      <Text>Anmeldemethode: {app.currentUser.providerType}</Text>
+    </Box>
   );
 }
 

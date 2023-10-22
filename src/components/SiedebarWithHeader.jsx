@@ -19,6 +19,7 @@ import {
   MenuItem,
   MenuList,
   useColorMode,
+  Spacer,
 } from "@chakra-ui/react";
 import { FiHome, FiMenu, FiChevronDown } from "react-icons/fi";
 import {
@@ -61,7 +62,11 @@ const LinkItems = [
 /**
  * Logo bzw. Seitentitel
  */
-const logo = <Logo w={"150px"} />;
+const logo = (
+  <Link to={"/"} _hover={{ cursor: "pointer" }}>
+    <Logo w={"150px"} />
+  </Link>
+);
 
 const SidebarContent = ({ onClose, ...rest }) => {
   const app = useRealm();
@@ -82,19 +87,18 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
   return (
     <Box
-      transition="0.5s ease"
       bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
-      w={{ base: "full", md: 60 }}
+      w={{ base: 80, md: 60 }}
       pos="fixed"
       h="full"
       zIndex={"200"}
       {...rest}
     >
       <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
-        {logo}
-
+        <Box>{logo}</Box>
+        <Spacer />
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {visibleLinkItems.map((link, index) => (
@@ -163,13 +167,17 @@ const MobileNav = ({ onOpen, ...rest }) => {
       zIndex={"100"}
       {...rest}
     >
-      <IconButton
-        display={{ base: "flex", md: "none" }}
-        onClick={onOpen}
-        variant="outline"
-        aria-label="open menu"
-        icon={<FiMenu />}
-      />
+      <HStack spacing={{ base: "1", md: "6" }}>
+        <IconButton
+          display={{ base: "flex", md: "none" }}
+          onClick={onOpen}
+          variant="outline"
+          aria-label="open menu"
+          icon={<FiMenu />}
+        />
+        {/* Dummy Element damit Logo zentriert*/}
+        <IconButton visibility={"hidden"} />
+      </HStack>
       <Box display={{ base: "flex", md: "none" }}>{logo}</Box>
 
       <HStack spacing={{ base: "1", md: "6" }}>
@@ -182,11 +190,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
         />
         <Flex alignItems={"center"}>
           <Menu>
-            <MenuButton
-              py={2}
-              transition="all 0.1s"
-              _focus={{ boxShadow: "none" }}
-            >
+            <MenuButton py={2} _focus={{ boxShadow: "none" }}>
               <HStack>
                 <Avatar size={"sm"} src="" name={nickname}>
                   <AvatarBadge
@@ -194,7 +198,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                     bg={
                       isEmailPasswordUser
                         ? isAdmin
-                          ? "teal.500"
+                          ? "cyan.500"
                           : "green.500"
                         : "red.500"
                     }
@@ -268,7 +272,7 @@ const SidebarWithHeader = ({ content }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.50", "gray.900")}>
+    <Box minH="100vh" bg={useColorModeValue("white", "gray.900")}>
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -279,7 +283,7 @@ const SidebarWithHeader = ({ content }) => {
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
-        size="full"
+        size={"xs"}
       >
         <DrawerContent>
           <SidebarContent onClose={onClose} />
@@ -287,7 +291,7 @@ const SidebarWithHeader = ({ content }) => {
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4" pt={24}>
+      <Box ml={{ base: 0, md: 60 }} p={4} pt={24}>
         {content}
       </Box>
     </Box>

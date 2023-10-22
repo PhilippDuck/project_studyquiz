@@ -1,13 +1,11 @@
 import React from "react";
-import { Card, CardBody, Heading } from "@chakra-ui/react";
+import { Box, Heading } from "@chakra-ui/react";
 
 function Adminpanel() {
   return (
-    <Card maxW={"800px"} variant={"outline"}>
-      <CardBody>
-        <Heading>Admin Bereich</Heading>
-      </CardBody>
-    </Card>
+    <Box maxW={"800px"} variant={"outline"}>
+      <Heading>Admin Bereich</Heading>
+    </Box>
   );
 }
 

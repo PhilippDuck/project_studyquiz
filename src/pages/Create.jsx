@@ -59,7 +59,12 @@ function Create() {
    * Wenn Validierung IO dann speichere in DB
    */
   const onSubmit = async (data) => {
-    data = { ...data, questions: questions };
+    data = {
+      ...data,
+      questions: questions,
+      owner: app.currentUser.id,
+      creationDate: Date.now(),
+    };
     console.log(data);
     // Wenn mindestens eine Frage vorhanden ist, dann speichere in DB
     if (questions.length > 0) {

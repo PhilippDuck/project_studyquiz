@@ -6,8 +6,8 @@ function Logo(props) {
     <Box w={props.w}>
       <Image
         src={useColorModeValue(
-          "StudyQuiz_Banner_Schwarz_Transparent.png",
-          "StudyQuiz_Banner_Weiss_Transparent.png"
+          "/StudyQuiz_Banner_Schwarz_Transparent.png",
+          "/StudyQuiz_Banner_Weiss_Transparent.png"
         )}
       />
     </Box>

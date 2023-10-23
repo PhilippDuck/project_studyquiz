@@ -11,7 +11,7 @@ import {
 
 function DeleteQuizDialog({ isOpen, onClose, deleteQuizById, quizIdToDelete }) {
   return (
-    <AlertDialog isOpen={isOpen} onClose={onClose}>
+    <AlertDialog isCentered isOpen={isOpen} onClose={onClose}>
       <AlertDialogOverlay>
         <AlertDialogContent m={4}>
           <AlertDialogHeader fontSize="lg" fontWeight="bold">

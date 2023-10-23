@@ -20,11 +20,8 @@ function Games() {
   const app = useRealm();
   const toast = useToast();
   const [loadingQuizzes, setLoadingQuizzes] = useState(false);
-
   const [quizzes, setQuizzes] = useState([]);
-
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   useEffect(() => {

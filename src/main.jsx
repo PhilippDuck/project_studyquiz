@@ -18,6 +18,7 @@ import Profil from "./pages/Profil.jsx";
 import NotFound from "./pages/NotFound.jsx";
 import Login from "./pages/Login.jsx";
 import Adminpanel from "./pages/Adminpanel.jsx";
+import Game from "./pages/Game.jsx";
 
 function AdminProtectedRoute({ children }) {
   const app = useRealm();
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
       {
         path: "games",
         element: <Games />,
+      },
+      {
+        path: "games/:id",
+        element: <Game />,
       },
       {
         path: "create",

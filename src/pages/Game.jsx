@@ -22,21 +22,24 @@ import {
 import { useParams } from "react-router-dom";
 import { MdOutlineQuestionMark } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
+import { useNavigate } from "react-router-dom";
 
 function Game() {
   const app = useRealm();
+  const navigate = useNavigate();
   const { id } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const shuffledArray = ["Antwort1", "Antwort2", "Antwort3", "Antwort4"];
   const [loadingQuiz, setLoadingQuiz] = useState(false);
   const [quiz, setQuiz] = useState();
+  const [currentQuestion, setCurrentQuestion] = useState(0);
 
   useEffect(() => {
     // Überprüfen, ob ein Benutzer angemeldet ist
     if (app.currentUser) {
       getQuiz(id);
     } else {
-      setloadingQuiz(false); // Stellen Sie sicher, dass der Spinner nicht angezeigt wird, wenn kein Benutzer angemeldet ist
+      setLoadingQuiz(false); // Stellen Sie sicher, dass der Spinner nicht angezeigt wird, wenn kein Benutzer angemeldet ist
     }
   }, []);
 
@@ -52,6 +55,18 @@ function Game() {
     setLoadingQuiz(false);
   }
 
+  function checkAnswer() {
+    if (currentQuestion + 1 < quiz?.questions.length) {
+      setCurrentQuestion((prev) => {
+        const newQuestion = prev + 1;
+        return newQuestion;
+      });
+    } else {
+      //TODO Quiz Ende
+      navigate("/");
+    }
+  }
+
   return (
     <Box maxW={"800px"}>
       {loadingQuiz ? (
@@ -61,7 +76,7 @@ function Game() {
       ) : (
         <>
           <Center>
-            <Text>{1 + " / " + 3}</Text>
+            <Text>{currentQuestion + 1 + " / " + quiz?.questions.length}</Text>
           </Center>
           <Box h={2}></Box>
 
@@ -89,7 +104,7 @@ function Game() {
             )}
           </Flex>
           <SimpleGrid columns={[1, 1, 2]} spacing={5} w="100%">
-            {quiz?.questions[0].answers.map((e, i) => {
+            {quiz?.questions[currentQuestion].answers.map((e, i) => {
               return (
                 <Button
                   variant={"outline"}
@@ -97,6 +112,7 @@ function Game() {
                   w="full"
                   whiteSpace={"normal"}
                   key={i}
+                  onClick={checkAnswer}
                 >
                   {e}
                 </Button>

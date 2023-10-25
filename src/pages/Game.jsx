@@ -155,7 +155,7 @@ function Game() {
               <ModalHeader>Hinweis</ModalHeader>
               <ModalCloseButton />
               <ModalBody>
-                {quiz?.questions[0].hint}
+                {quiz?.questions[currentQuestion].hint}
                 <Box h="10px"></Box>
               </ModalBody>
             </ModalContent>

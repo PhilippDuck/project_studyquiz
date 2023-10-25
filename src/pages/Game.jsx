@@ -112,7 +112,9 @@ function Game() {
               <Flex w="full">
                 <Box flex={1}>
                   <Center minH={"32"}>
-                    <Text fontSize="2xl">{quiz?.title}</Text>
+                    <Text fontSize="2xl">
+                      {quiz?.questions[currentQuestion].question}
+                    </Text>
                   </Center>
                 </Box>
                 {quiz?.questions[0].hint != "" ? (

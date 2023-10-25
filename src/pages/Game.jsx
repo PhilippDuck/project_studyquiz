@@ -147,19 +147,19 @@ function Game() {
                   );
                 })}
               </SimpleGrid>
+              <Modal isCentered isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent w="300px">
+                  <ModalHeader>Hinweis</ModalHeader>
+                  <ModalCloseButton />
+                  <ModalBody>
+                    {quiz?.questions[currentQuestion].hint}
+                    <Box h="10px"></Box>
+                  </ModalBody>
+                </ModalContent>
+              </Modal>{" "}
             </>
           )}
-          <Modal isCentered isOpen={isOpen} onClose={onClose}>
-            <ModalOverlay />
-            <ModalContent w="300px">
-              <ModalHeader>Hinweis</ModalHeader>
-              <ModalCloseButton />
-              <ModalBody>
-                {quiz?.questions[currentQuestion].hint}
-                <Box h="10px"></Box>
-              </ModalBody>
-            </ModalContent>
-          </Modal>
         </>
       )}
     </Box>

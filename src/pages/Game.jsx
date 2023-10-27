@@ -34,6 +34,11 @@ function Game() {
   const [quiz, setQuiz] = useState();
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [gameIsDone, setGameIsDone] = useState(false);
+  const [gameData, setGameData] = useState({
+    mistakes: 0,
+    startTime: Date.now(),
+    usedHints: 0,
+  });
 
   useEffect(() => {
     // Überprüfen, ob ein Benutzer angemeldet ist
@@ -74,8 +79,10 @@ function Game() {
       });
       if (currentQuestion + 1 == quiz?.questions.length) {
         setGameIsDone(true);
+        setGameData({ ...gameData, endTime: Date.now() });
       }
     } else {
+      setGameData({ ...gameData, mistakes: gameData.mistakes + 1 });
       toast({
         title: "Falsch!",
         status: "error",
@@ -106,7 +113,7 @@ function Game() {
 
           <Box h={4}></Box>
           {gameIsDone ? (
-            <GameDoneScreen />
+            <GameDoneScreen gameData={gameData} />
           ) : (
             <>
               <Flex w="full">
@@ -121,7 +128,10 @@ function Game() {
                   <IconButton
                     onClick={() => {
                       onOpen();
-                      //props.handleHintUsed();
+                      setGameData({
+                        ...gameData,
+                        usedHints: gameData.usedHints + 1,
+                      });
                     }}
                     isRound="true"
                     aria-label="Search database"

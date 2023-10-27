@@ -38,6 +38,7 @@ function Game() {
     mistakes: 0,
     startTime: Date.now(),
     usedHints: 0,
+    uncorrectAnswers: [],
   });
 
   useEffect(() => {
@@ -77,12 +78,17 @@ function Game() {
         const newQuestion = prev + 1;
         return newQuestion;
       });
+
       if (currentQuestion + 1 == quiz?.questions.length) {
         setGameIsDone(true);
         setGameData({ ...gameData, endTime: Date.now() });
       }
     } else {
-      setGameData({ ...gameData, mistakes: gameData.mistakes + 1 });
+      setGameData({
+        ...gameData,
+        mistakes: gameData.mistakes + 1,
+        uncorrectAnswers: [...gameData.uncorrectAnswers, currentQuestion],
+      });
       toast({
         title: "Falsch!",
         status: "error",
@@ -113,7 +119,7 @@ function Game() {
 
           <Box h={4}></Box>
           {gameIsDone ? (
-            <GameDoneScreen gameData={gameData} />
+            <GameDoneScreen gameData={gameData} quiz={quiz} />
           ) : (
             <>
               <Flex w="full">

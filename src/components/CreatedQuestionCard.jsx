@@ -15,21 +15,34 @@ import {
 /**
  * Komponente stellt eine erstellte Frage dar
  */
-function CreatedQuestionCard({ question, answers, correctAnswer, hint }) {
+function CreatedQuestionCard({
+  question,
+  answers,
+  correctAnswer,
+  hint,
+  colorScheme,
+}) {
   return (
-    <Card variant={"outline"} w={"100%"}>
-      <CardBody>
+    <Card
+      variant={"outline"}
+      w={"100%"}
+      border={"2px"}
+      borderColor={colorScheme}
+    >
+      <CardBody colorScheme={colorScheme}>
         <Accordion allowToggle>
           <AccordionItem border={"none"}>
             <AccordionButton>
               <Box as="span" flex="1" textAlign="left">
-                <Heading size={"md"}>{question}</Heading>
+                <Text>{question}</Text>
               </Box>
               <AccordionIcon />
             </AccordionButton>
 
             <AccordionPanel pb={4}>
-              Fragen:
+              <Heading size={"xs"} mb={2}>
+                Antworten:
+              </Heading>
               {answers.map((answer, index) => {
                 return (
                   <Text
@@ -38,11 +51,13 @@ function CreatedQuestionCard({ question, answers, correctAnswer, hint }) {
                       index === Number(correctAnswer) ? "green.500" : "inherit"
                     }
                   >
-                    {answer}
+                    {index + 1}. {answer}
                   </Text>
                 );
               })}
-              <Text>Hinweis:</Text>
+              <Heading size={"xs"} mb={2} mt={2}>
+                Hinweis:
+              </Heading>
               <Text>{hint}</Text>
             </AccordionPanel>
           </AccordionItem>

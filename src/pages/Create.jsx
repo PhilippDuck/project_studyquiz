@@ -16,10 +16,12 @@ import {
   FormHelperText,
   useToast,
   Spinner,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import AddQuestionDrawer from "../components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
 import { MdAdd, MdSave } from "react-icons/md";
+import { LuImport } from "react-icons/lu";
 import { useRealm } from "../provider/RealmProvider";
 import CreatedQuestionCard from "../components/CreatedQuestionCard";
 import { useNavigate } from "react-router-dom";
@@ -166,14 +168,14 @@ function Create() {
         <Flex w={"100%"} align={"center"}>
           <Heading size={"md"}>Fragen:</Heading>
           <Spacer />
-          <Button
-            leftIcon={<MdAdd />}
-            size={"sm"}
-            variant={"outline"}
-            onClick={onOpen}
-          >
-            Frage hinzufügen
-          </Button>
+          <ButtonGroup isAttached>
+            <Button leftIcon={<LuImport />} isDisabled variant={"outline"}>
+              importieren
+            </Button>
+            <Button leftIcon={<MdAdd />} variant={"outline"} onClick={onOpen}>
+              Frage hinzufügen
+            </Button>
+          </ButtonGroup>
         </Flex>
 
         {questions.map((question, index) => {

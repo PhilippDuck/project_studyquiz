@@ -25,7 +25,7 @@ function GameDoneScreen({ gameData, quiz }) {
         {quiz?.questions.map((question, index) => {
           return (
             <CreatedQuestionCard
-              colorScheme={
+              colorscheme={
                 gameData.uncorrectAnswers.includes(index)
                   ? "red.500"
                   : "green.500"

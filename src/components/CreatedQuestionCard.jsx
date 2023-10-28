@@ -20,16 +20,16 @@ function CreatedQuestionCard({
   answers,
   correctAnswer,
   hint,
-  colorScheme,
+  colorscheme: colorscheme,
 }) {
   return (
     <Card
       variant={"outline"}
       w={"100%"}
       border={"2px"}
-      borderColor={colorScheme}
+      borderColor={colorscheme}
     >
-      <CardBody colorScheme={colorScheme}>
+      <CardBody colorScheme={colorscheme}>
         <Accordion allowToggle>
           <AccordionItem border={"none"}>
             <AccordionButton>

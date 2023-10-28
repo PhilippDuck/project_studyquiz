@@ -39,6 +39,7 @@ function Game() {
     startTime: Date.now(),
     usedHints: 0,
     uncorrectAnswers: [],
+    quizId: id,
   });
 
   useEffect(() => {
@@ -81,7 +82,11 @@ function Game() {
 
       if (currentQuestion + 1 == quiz?.questions.length) {
         setGameIsDone(true);
-        setGameData({ ...gameData, endTime: Date.now() });
+        setGameData({
+          ...gameData,
+          endTime: Date.now(),
+        });
+        setPlayedQuiz();
       }
     } else {
       setGameData({
@@ -95,6 +100,24 @@ function Game() {
         duration: 1000,
         isClosable: true,
       });
+    }
+  }
+
+  async function setPlayedQuiz() {
+    try {
+      const finishedGameData = {
+        ...gameData,
+        endTime: Date.now(),
+        playerId: app.currentUser.id,
+      };
+      const result = await app.currentUser.functions.setPlayedQuiz(
+        finishedGameData
+      );
+      console.log(result);
+      // Jetzt setzen wir den State, nachdem wir die Daten gespeichert haben
+      setGameData(finishedGameData);
+    } catch (error) {
+      console.log(error);
     }
   }
 

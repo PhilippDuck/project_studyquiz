@@ -31,20 +31,21 @@ function GameDoneScreen({ gameData, quiz }) {
             <Tbody>
               <Tr>
                 <Td>Fehler</Td>
-
                 <Td isNumeric>{gameData.mistakes}</Td>
               </Tr>
               <Tr>
                 <Td>Benötigte Zeit:</Td>
-
                 <Td isNumeric>
                   {(gameData.endTime - gameData.startTime) / 1000}s
                 </Td>
               </Tr>
               <Tr>
                 <Td>Benutzte Hinweise:</Td>
-
                 <Td isNumeric>{gameData.usedHints}</Td>
+              </Tr>
+              <Tr>
+                <Td>Punkte:</Td>
+                <Td isNumeric>{gameData.points}</Td>
               </Tr>
             </Tbody>
           </Table>

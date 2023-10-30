@@ -40,6 +40,7 @@ function Game() {
     usedHints: 0,
     uncorrectAnswers: [],
     quizId: id,
+    points: 0,
   });
 
   useEffect(() => {
@@ -81,12 +82,12 @@ function Game() {
       });
 
       if (currentQuestion + 1 == quiz?.questions.length) {
-        setGameIsDone(true);
         setGameData({
           ...gameData,
           endTime: Date.now(),
         });
         setPlayedQuiz();
+        setGameIsDone(true);
       }
     } else {
       setGameData({
@@ -104,18 +105,25 @@ function Game() {
   }
 
   async function setPlayedQuiz() {
+    // Points sind relativ. Maximal 100 %. Minimal 0% Benutzte Hinweise kosten 1%.
+    // Falsche Antworten werden über einen Dreisatz abgezogen
+    const calculatedPoints =
+      100 -
+      (100 / quiz.questions.length) * gameData.mistakes -
+      gameData.usedHints;
+    const points = calculatedPoints <= 0 ? 0 : calculatedPoints;
+
     try {
       const finishedGameData = {
         ...gameData,
         endTime: Date.now(),
         playerId: app.currentUser.id,
+        points: points,
       };
+      setGameData(finishedGameData);
       const result = await app.currentUser.functions.setPlayedQuiz(
         finishedGameData
       );
-      console.log(result);
-      // Jetzt setzen wir den State, nachdem wir die Daten gespeichert haben
-      setGameData(finishedGameData);
     } catch (error) {
       console.log(error);
     }

@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Button,
   useDisclosure,
@@ -36,6 +36,17 @@ function Create() {
   const app = useRealm();
   const navigate = useNavigate();
   const [loadingSaveQuiz, setLoaddingSaveQuiz] = useState(false);
+  const [topics, setTopics] = useState([]);
+
+  useEffect(() => {
+    getTopics();
+  }, []);
+
+  async function getTopics() {
+    const result = await app.currentUser.functions.getTopics();
+    setTopics(result);
+    return result;
+  }
 
   /**
    * Verarbeitet neue Frage die als JSON erhalten wurde
@@ -153,9 +164,9 @@ function Create() {
                   required: "Thema ist erforderlich!",
                 })}
               >
-                <option value="thema1">Thema 1</option>
-                <option value="thema2">Thema 2</option>
-                <option value="thema3">Thema 3</option>
+                {topics.map((topic) => {
+                  return <option value={topic.topic}>{topic.topic}</option>;
+                })}
               </Select>
               {errors.topic && (
                 <FormHelperText color="red.500">

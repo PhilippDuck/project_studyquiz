@@ -6,15 +6,18 @@ import {
   VStack,
   Flex,
   Spacer,
-  IconButton,
+  Button,
   Box,
   useDisclosure,
   useToast,
+  IconButton,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import QuizCard from "../components/QuizCard";
-import { MdOutlineFilterAlt } from "react-icons/md";
+
 import DeleteQuizDialog from "../components/DeleteQuizDialog";
+import TopicMenu from "../components/TopicMenu";
+import { MdOutlineClose } from "react-icons/md";
 
 function Games() {
   const app = useRealm();
@@ -23,6 +26,7 @@ function Games() {
   const [quizzes, setQuizzes] = useState([]);
   const [quizIdToDelete, setQuizIdToDelete] = useState(null);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [topic, setTopic] = useState("kein Filter");
 
   useEffect(() => {
     // Überprüfen, ob ein Benutzer angemeldet ist
@@ -80,28 +84,50 @@ function Games() {
     }
   }
 
+  function handleFilterTopic(topic) {
+    setTopic(topic);
+  }
+
   return (
     <Box variant={"outline"} border={"none"} maxW={"800px"}>
       <Flex>
-        <Heading mb={4}>Spiele</Heading>
+        <Heading>Spiele</Heading>
         <Spacer />
-        <IconButton icon={<MdOutlineFilterAlt />} variant={"ghost"} />
+
+        <TopicMenu handleFiltertopic={handleFilterTopic} />
       </Flex>
+      <Button
+        fontWeight={"light"}
+        mt={2}
+        mb={4}
+        size={"xs"}
+        variant={"outline"}
+        rightIcon={<MdOutlineClose />}
+        onClick={() => {
+          setTopic("kein Filter");
+        }}
+      >
+        {topic}
+      </Button>
+
       <VStack align={"start"} w={"100%"}>
         {!app.currentUser ? (
           <Text>Bitte melden Sie sich an, um auf Spiele zuzugreifen.</Text>
         ) : loadingQuizzes ? (
           <Spinner />
         ) : (
-          quizzes.map((quiz) => (
-            <QuizCard
-              quiz={quiz}
-              handleDeleteQuiz={handleDeleteQuiz}
-              key={quiz._id}
-            >
-              {" "}
-            </QuizCard>
-          ))
+          quizzes
+            // Filter quizzes based on the selected topic if it's not "kein Filter"
+            .filter((quiz) => topic === "kein Filter" || quiz.topic === topic)
+            .map((quiz) => (
+              <QuizCard
+                quiz={quiz}
+                handleDeleteQuiz={handleDeleteQuiz}
+                key={quiz._id}
+              >
+                {" "}
+              </QuizCard>
+            ))
         )}
       </VStack>
       <DeleteQuizDialog

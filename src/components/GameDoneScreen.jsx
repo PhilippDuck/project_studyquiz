@@ -1,5 +1,20 @@
 import React from "react";
-import { Box, Heading, Text, VStack, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Heading,
+  Text,
+  VStack,
+  Button,
+  Table,
+  Thead,
+  Tbody,
+  Tfoot,
+  Tr,
+  Th,
+  Td,
+  TableCaption,
+  TableContainer,
+} from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import CreatedQuestionCard from "./CreatedQuestionCard";
 
@@ -8,15 +23,39 @@ function GameDoneScreen({ gameData, quiz }) {
   return (
     <Box>
       <VStack>
-        <Heading size={"md"} mb={2}>
+        <Heading size={"lg"} mb={2}>
           Spiel Ende
         </Heading>
-        <Text>Fehler: {gameData.mistakes}</Text>
-        <Text>
-          Benötigte Zeit: {(gameData.endTime - gameData.startTime) / 1000}s
-        </Text>
-        <Text>Benutzte Hinweise: {gameData.usedHints}</Text>
-        <Button mt={2} onClick={() => navigate("/")}>
+        <TableContainer w={"100%"}>
+          <Table variant="simple">
+            <Tbody>
+              <Tr>
+                <Td>Fehler</Td>
+
+                <Td isNumeric>{gameData.mistakes}</Td>
+              </Tr>
+              <Tr>
+                <Td>Benötigte Zeit:</Td>
+
+                <Td isNumeric>
+                  {(gameData.endTime - gameData.startTime) / 1000}s
+                </Td>
+              </Tr>
+              <Tr>
+                <Td>Benutzte Hinweise:</Td>
+
+                <Td isNumeric>{gameData.usedHints}</Td>
+              </Tr>
+            </Tbody>
+          </Table>
+        </TableContainer>
+
+        <Button
+          colorScheme="primary"
+          mt={4}
+          mb={4}
+          onClick={() => navigate("/")}
+        >
           Zur Spielauswahl
         </Button>
         <Heading size={"md"} mt={2} mb={2}>

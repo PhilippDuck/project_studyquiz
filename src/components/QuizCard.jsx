@@ -9,15 +9,17 @@ import {
   Spacer,
   IconButton,
   Spinner,
+  Box,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { MdOutlineDelete } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
+import formatUnixTimestamp from "../formatUnixTimestamp";
 
 function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
   const app = useRealm();
   const navigate = useNavigate();
-  // TODO Löschen auch sichtbar für Besitzer des Quiz
 
   const handleCardClick = () => {
     navigate(`/games/${quiz._id}`);
@@ -37,10 +39,34 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
       onClick={handleCardClick}
     >
       <Flex>
-        <VStack align={"start"}>
-          <Text>{quiz.title}</Text>
-          <Text fontSize={"xs"}>{quiz.topic}</Text>
-        </VStack>
+        <Box>
+          <Flex align={"center"} gap={1}>
+            <Text fontWeight={"bold"}>{quiz.title}</Text>
+            <Text fontSize={"xs"}>
+              ({quiz.questions.length}{" "}
+              {quiz.questions.length > 1 ? "Fragen" : "Frage"})
+            </Text>
+          </Flex>
+
+          <Box color={useColorModeValue("gray.500", "gray.200")}>
+            <Text fontStyle={"italic"} fontSize={"xs"}>
+              {formatUnixTimestamp(quiz.creationDate)}
+            </Text>
+            <Flex gap={1}>
+              <Text fontWeight={"semibold"} fontSize={"xs"}>
+                Thema:
+              </Text>
+              <Text fontSize={"xs"}>{quiz.topic}</Text>
+            </Flex>
+
+            <Flex gap={1}>
+              <Text fontWeight={"semibold"} fontSize={"xs"}>
+                Ersteller:
+              </Text>
+              <Text fontSize={"xs"}>{quiz.ownerNick}</Text>
+            </Flex>
+          </Box>
+        </Box>
         <Spacer />
 
         {isDeleting ? (

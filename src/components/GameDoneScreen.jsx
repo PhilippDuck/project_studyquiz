@@ -74,6 +74,7 @@ function GameDoneScreen({ gameData, quiz }) {
               answers={question.answers}
               correctAnswer={question.correctAnswer}
               hint={question.hint}
+              reportPossible={true}
             />
           );
         })}

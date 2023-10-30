@@ -22,6 +22,7 @@ function CreatedQuestionCard({
   answers,
   correctAnswer,
   hint,
+  reportPossible,
   colorscheme: colorscheme,
 }) {
   return (
@@ -61,14 +62,16 @@ function CreatedQuestionCard({
                 Hinweis:
               </Heading>
               <Text>{hint}</Text>
-              <Button
-                isDisabled
-                leftIcon={<GoReport />}
-                mt={4}
-                variant={"outline"}
-              >
-                Frage melden
-              </Button>
+              {reportPossible && (
+                <Button
+                  isDisabled
+                  leftIcon={<GoReport />}
+                  mt={4}
+                  variant={"outline"}
+                >
+                  Frage melden
+                </Button>
+              )}
             </AccordionPanel>
           </AccordionItem>
         </Accordion>

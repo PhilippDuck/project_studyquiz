@@ -17,6 +17,8 @@ import {
   useToast,
   Spinner,
   ButtonGroup,
+  IconButton,
+  Tooltip,
 } from "@chakra-ui/react";
 import AddQuestionDrawer from "../components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
@@ -165,7 +167,11 @@ function Create() {
                 })}
               >
                 {topics.map((topic) => {
-                  return <option value={topic.topic}>{topic.topic}</option>;
+                  return (
+                    <option key={topic._id} value={topic.topic}>
+                      {topic.topic}
+                    </option>
+                  );
                 })}
               </Select>
               {errors.topic && (
@@ -180,9 +186,13 @@ function Create() {
           <Heading size={"md"}>Fragen:</Heading>
           <Spacer />
           <ButtonGroup isAttached>
-            <Button leftIcon={<LuImport />} isDisabled variant={"outline"}>
-              importieren
-            </Button>
+            <Tooltip label={"importieren"}>
+              <IconButton
+                icon={<LuImport />}
+                isDisabled
+                variant={"outline"}
+              ></IconButton>
+            </Tooltip>
             <Button leftIcon={<MdAdd />} variant={"outline"} onClick={onOpen}>
               Frage hinzufügen
             </Button>

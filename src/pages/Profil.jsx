@@ -13,9 +13,13 @@ import {
   Input,
   useToast,
   Spinner,
+  Flex,
+  IconButton,
+  VStack,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
+import { MdEdit } from "react-icons/md";
 
 function Profil() {
   const toast = useToast();
@@ -78,22 +82,36 @@ function Profil() {
 
   return (
     <Box border={"none"} variant={"outline"} maxW={"800px"}>
-      <Heading>Profil</Heading>
-      {app.currentUser.customData.nickname ? (
-        <Text>{app.currentUser.customData.nickname}</Text>
-      ) : (
-        <Text>NONAME</Text>
-      )}
-
-      {app.currentUser.providerType != "anon-user" && (
-        <Button
-          ref={btnRef}
-          colorScheme="primary"
-          onClick={() => setIsOpen(true)}
-        >
-          Nickname ändern
-        </Button>
-      )}
+      <Heading mb={4}>Profil</Heading>
+      <VStack gap={4} align={"start"}>
+        <Box>
+          <Text fontWeight={"bold"}>Nickname:</Text>
+          <Flex align={"center"}>
+            {app.currentUser.customData.nickname ? (
+              <Text>{app.currentUser.customData.nickname}</Text>
+            ) : (
+              <Text>NONAME</Text>
+            )}
+            {app.currentUser.providerType != "anon-user" && (
+              <IconButton
+                size={"sm"}
+                icon={<MdEdit />}
+                ref={btnRef}
+                variant={"ghost"}
+                onClick={() => setIsOpen(true)}
+              ></IconButton>
+            )}
+          </Flex>
+        </Box>
+        <Box>
+          <Text fontWeight={"bold"}>Benutzer-ID:</Text>
+          <Text>{app.currentUser.id}</Text>
+        </Box>
+        <Box>
+          <Text fontWeight={"bold"}>Anmeldemethode:</Text>
+          <Text> {app.currentUser.providerType}</Text>
+        </Box>
+      </VStack>
 
       <Drawer
         isOpen={isOpen}
@@ -123,9 +141,6 @@ function Profil() {
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
-
-      <Text>{app.currentUser.id}</Text>
-      <Text>Anmeldemethode: {app.currentUser.providerType}</Text>
     </Box>
   );
 }

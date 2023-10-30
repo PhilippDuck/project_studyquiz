@@ -10,11 +10,11 @@ import {
   Box,
   useDisclosure,
   useToast,
-  IconButton,
+  Divider,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import QuizCard from "../components/QuizCard";
-
+import PlayedQuizzes from "../components/PlayedQuizzes";
 import DeleteQuizDialog from "../components/DeleteQuizDialog";
 import TopicMenu from "../components/TopicMenu";
 import { MdOutlineClose } from "react-icons/md";
@@ -116,18 +116,22 @@ function Games() {
         ) : loadingQuizzes ? (
           <Spinner />
         ) : (
-          quizzes
-            // Filter quizzes based on the selected topic if it's not "kein Filter"
-            .filter((quiz) => topic === "kein Filter" || quiz.topic === topic)
-            .map((quiz) => (
-              <QuizCard
-                quiz={quiz}
-                handleDeleteQuiz={handleDeleteQuiz}
-                key={quiz._id}
-              >
-                {" "}
-              </QuizCard>
-            ))
+          <>
+            {quizzes
+              // Filter quizzes based on the selected topic if it's not "kein Filter"
+              .filter((quiz) => topic === "kein Filter" || quiz.topic === topic)
+              .map((quiz) => (
+                <QuizCard
+                  quiz={quiz}
+                  handleDeleteQuiz={handleDeleteQuiz}
+                  key={quiz._id}
+                >
+                  {" "}
+                </QuizCard>
+              ))}
+
+            <PlayedQuizzes />
+          </>
         )}
       </VStack>
       <DeleteQuizDialog

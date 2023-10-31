@@ -128,9 +128,9 @@ function Game() {
       console.log(result);
       if (result.status === "success" && points > 0) {
         toast({
-          title: `Deinem Profil werden ${points} Punkte hinzugefügt`,
+          title: `Deinem Profil werden ${points} Punkte hinzugefügt 💪.`,
           status: "success",
-          duration: 6000,
+          duration: 5000,
           isClosable: true,
           position: "top",
         });

@@ -113,7 +113,12 @@ function Profil() {
         </Box>
         <Box>
           <Text fontWeight={"bold"}>Gesamtpunkte:</Text>
-          <Text>{app.currentUser.customData.points.$numberInt}</Text>
+          <Text>
+            {app.currentUser.customData.points &&
+            app.currentUser.customData.points.$numberInt !== undefined
+              ? app.currentUser.customData.points.$numberInt
+              : "noch keine Punkte 😱 !"}
+          </Text>
         </Box>
       </VStack>
 

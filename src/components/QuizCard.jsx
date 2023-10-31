@@ -17,6 +17,7 @@ import { MdOutlineDelete } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
 import formatUnixTimestamp from "../formatUnixTimestamp";
+import { MdThumbUp } from "react-icons/md";
 
 function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
   const app = useRealm();
@@ -39,7 +40,13 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
       variant={"outline"}
       onClick={handleCardClick}
     >
-      <Flex>
+      <Flex
+        color={
+          todayPlayed
+            ? useColorModeValue("gray.200", "gray.600")
+            : useColorModeValue("gray.500", "gray.200")
+        }
+      >
         <Box w={"100%"}>
           <Flex align={"center"} gap={1}>
             <Text fontWeight={"bold"}>{quiz.title}</Text>
@@ -49,7 +56,7 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
             </Text>
           </Flex>
 
-          <Box color={useColorModeValue("gray.500", "gray.200")}>
+          <Box>
             <Text fontStyle={"italic"} fontSize={"xs"}>
               {formatUnixTimestamp(quiz.creationDate)}
             </Text>
@@ -70,15 +77,15 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
         </Box>
         <Spacer />
         <VStack align={"end"} justify={"space-between"}>
-          {todayPlayed ? (
-            <Badge>Heute gespielt</Badge>
-          ) : (
-            <Badge colorScheme="green">nicht gespielt</Badge>
-          )}
+          <Flex rounded={"md"} p={1} gap={1} align={"center"}>
+            <MdThumbUp />
+            <Text fontSize={"xs"}>30</Text>
+          </Flex>
           {isDeleting ? (
             <Spinner />
           ) : (
             <IconButton
+              size={"sm"}
               visibility={
                 app.currentUser?.customData?.admin ||
                 app.currentUser.id === quiz.owner

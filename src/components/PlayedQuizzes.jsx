@@ -25,7 +25,7 @@ function PlayedQuizzes() {
     setLoadingPlayedGames(true);
     try {
       const result = await app.currentUser.functions.getPlayedQuizzes();
-      console.log(result);
+      //console.log(result);
       setPlayedQuizzes(result);
     } catch (error) {
       console.log(error);

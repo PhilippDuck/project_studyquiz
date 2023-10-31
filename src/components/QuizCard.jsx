@@ -10,6 +10,7 @@ import {
   IconButton,
   Spinner,
   Box,
+  Badge,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MdOutlineDelete } from "react-icons/md";
@@ -17,7 +18,7 @@ import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
 import formatUnixTimestamp from "../formatUnixTimestamp";
 
-function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
+function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
   const app = useRealm();
   const navigate = useNavigate();
 
@@ -39,7 +40,7 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
       onClick={handleCardClick}
     >
       <Flex>
-        <Box>
+        <Box w={"100%"}>
           <Flex align={"center"} gap={1}>
             <Text fontWeight={"bold"}>{quiz.title}</Text>
             <Text fontSize={"xs"}>
@@ -68,22 +69,28 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
           </Box>
         </Box>
         <Spacer />
-
-        {isDeleting ? (
-          <Spinner />
-        ) : (
-          <IconButton
-            visibility={
-              app.currentUser?.customData?.admin ||
-              app.currentUser.id === quiz.owner
-                ? "visible"
-                : "hidden"
-            }
-            onClick={(event) => handleDeleteClick(event, quiz._id)}
-            variant={"ghost"}
-            icon={<MdOutlineDelete />}
-          />
-        )}
+        <VStack align={"end"} justify={"space-between"}>
+          {todayPlayed ? (
+            <Badge>Heute gespielt</Badge>
+          ) : (
+            <Badge colorScheme="green">nicht gespielt</Badge>
+          )}
+          {isDeleting ? (
+            <Spinner />
+          ) : (
+            <IconButton
+              visibility={
+                app.currentUser?.customData?.admin ||
+                app.currentUser.id === quiz.owner
+                  ? "visible"
+                  : "hidden"
+              }
+              onClick={(event) => handleDeleteClick(event, quiz._id)}
+              variant={"ghost"}
+              icon={<MdOutlineDelete />}
+            />
+          )}
+        </VStack>
       </Flex>
     </Card>
   );

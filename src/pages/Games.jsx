@@ -42,6 +42,7 @@ function Games() {
       setLoadingQuizzes(true);
       const result = await app.currentUser.functions.getQuizzes();
       setQuizzes(result);
+      console.log(result);
     } catch (error) {
       console.error("Ein Fehler ist aufgetreten:", error);
     } finally {
@@ -124,6 +125,7 @@ function Games() {
                 <QuizCard
                   quiz={quiz}
                   handleDeleteQuiz={handleDeleteQuiz}
+                  todayPlayed={quiz.todayPlayed}
                   key={quiz._id}
                 >
                   {" "}

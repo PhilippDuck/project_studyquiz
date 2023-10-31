@@ -124,6 +124,33 @@ function Game() {
       const result = await app.currentUser.functions.setPlayedQuiz(
         finishedGameData
       );
+      await app.currentUser.refreshCustomData();
+      console.log(result);
+      if (result.status === "success" && points > 0) {
+        toast({
+          title: `Deinem Profil werden ${points} Punkte hinzugefügt`,
+          status: "success",
+          duration: 6000,
+          isClosable: true,
+          position: "top",
+        });
+      } else if (result.status === "already_played") {
+        toast({
+          title: `Heute schon Punkte erhalten, komme morgen wieder!`,
+          status: "info",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
+      } else if (result.status === "own_quiz") {
+        toast({
+          title: `Für das eigene Quiz erhälst du keine Punkte.`,
+          status: "info",
+          duration: 4000,
+          isClosable: true,
+          position: "top",
+        });
+      }
     } catch (error) {
       console.log(error);
     }

@@ -111,6 +111,10 @@ function Profil() {
           <Text fontWeight={"bold"}>Anmeldemethode:</Text>
           <Text> {app.currentUser.providerType}</Text>
         </Box>
+        <Box>
+          <Text fontWeight={"bold"}>Gesamtpunkte:</Text>
+          <Text>{app.currentUser.customData.points.$numberInt}</Text>
+        </Box>
       </VStack>
 
       <Drawer

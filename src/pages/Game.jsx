@@ -210,6 +210,7 @@ function Game() {
                 {quiz?.questions[currentQuestion].answers.map((e, i) => {
                   return (
                     <Button
+                      fontWeight={"light"}
                       variant={"outline"}
                       minH={[16, 24]}
                       w="full"

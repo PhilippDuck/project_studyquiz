@@ -11,6 +11,7 @@ import {
   useDisclosure,
   useToast,
   Divider,
+  Container,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import QuizCard from "../components/QuizCard";
@@ -90,26 +91,29 @@ function Games() {
   }
 
   return (
-    <Box variant={"outline"} border={"none"} maxW={"800px"}>
-      <Flex>
+    <Container variant={"outline"} border={"none"} maxW={"800px"}>
+      <Flex direction={["column", "row"]} mb={4}>
         <Heading>Spiele</Heading>
-        <Spacer />
 
-        <TopicMenu handleFiltertopic={handleFilterTopic} />
+        <Spacer />
+        <Flex gap={1} justify={"space-between"}>
+          <Button
+            fontWeight={"light"}
+            mt={2}
+            mb={4}
+            size={"xs"}
+            variant={"outline"}
+            rightIcon={<MdOutlineClose />}
+            onClick={() => {
+              setTopic("kein Filter");
+            }}
+          >
+            {topic}
+          </Button>
+
+          <TopicMenu handleFiltertopic={handleFilterTopic} />
+        </Flex>
       </Flex>
-      <Button
-        fontWeight={"light"}
-        mt={2}
-        mb={4}
-        size={"xs"}
-        variant={"outline"}
-        rightIcon={<MdOutlineClose />}
-        onClick={() => {
-          setTopic("kein Filter");
-        }}
-      >
-        {topic}
-      </Button>
 
       <VStack align={"start"} w={"100%"}>
         {!app.currentUser ? (
@@ -143,7 +147,7 @@ function Games() {
         deleteQuizById={deleteQuizById}
         quizIdToDelete={quizIdToDelete}
       />
-    </Box>
+    </Container>
   );
 }
 

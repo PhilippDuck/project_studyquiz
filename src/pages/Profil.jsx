@@ -16,6 +16,7 @@ import {
   Flex,
   IconButton,
   VStack,
+  Container,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
@@ -81,7 +82,7 @@ function Profil() {
   }, []);
 
   return (
-    <Box border={"none"} variant={"outline"} maxW={"800px"}>
+    <Container border={"none"} variant={"outline"} maxW={"800px"}>
       <Heading mb={4}>Profil</Heading>
       <VStack gap={4} align={"start"}>
         <Box>
@@ -150,7 +151,7 @@ function Profil() {
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
-    </Box>
+    </Container>
   );
 }
 

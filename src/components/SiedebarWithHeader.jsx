@@ -20,6 +20,7 @@ import {
   MenuList,
   useColorMode,
   Spacer,
+  Center,
 } from "@chakra-ui/react";
 import { FiHome, FiMenu, FiChevronDown } from "react-icons/fi";
 import {
@@ -292,7 +293,7 @@ const SidebarWithHeader = ({ content }) => {
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 60 }} p={4} pt={24}>
-        {content}
+        <Center>{content}</Center>
       </Box>
     </Box>
   );

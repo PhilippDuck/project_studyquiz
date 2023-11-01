@@ -19,6 +19,7 @@ import {
   ButtonGroup,
   IconButton,
   Tooltip,
+  Container,
 } from "@chakra-ui/react";
 import AddQuestionDrawer from "../components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
@@ -119,7 +120,7 @@ function Create() {
   };
 
   return (
-    <Box border={"none"} variant={"outline"} maxW={"800px"}>
+    <Container border={"none"} variant={"outline"} maxW={"800px"}>
       <VStack gap={"2em"} w={"100%"} align={"start"}>
         <Box w={"100%"}>
           <HStack mb={"1em"} justify={"space-between"}>
@@ -218,7 +219,7 @@ function Create() {
           handleAddQuestion={handleAddQuestion}
         />
       </VStack>
-    </Box>
+    </Container>
   );
 }
 

@@ -10,6 +10,7 @@ import {
   Card,
   CardBody,
   Heading,
+  Container,
 } from "@chakra-ui/react";
 import Erfahrungspunkte from "../components/Erfahrungspunkte";
 import BWLQuizzes from "../components/BWLQuizzes";
@@ -22,7 +23,7 @@ function Highscores() {
   };
 
   return (
-    <Box border={"none"} variant={"outline"} maxW={"800px"}>
+    <Container border={"none"} variant={"outline"} maxW={"800px"}>
       <Heading mb={4}>Ranglisten</Heading>
       <Box>
         <Tabs onChange={handleTabChange} isFitted variant="enclosed">
@@ -44,7 +45,7 @@ function Highscores() {
           </TabPanels>
         </Tabs>
       </Box>
-    </Box>
+    </Container>
   );
 }
 

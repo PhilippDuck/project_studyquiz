@@ -17,6 +17,7 @@ import {
   ModalHeader,
   Spinner,
   useToast,
+  Container,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { MdOutlineQuestionMark } from "react-icons/md";
@@ -157,7 +158,7 @@ function Game() {
   }
 
   return (
-    <Box maxW={"800px"}>
+    <Container maxW={"800px"}>
       {loadingQuiz ? (
         <Center>
           <Spinner size={"lg"} />
@@ -236,7 +237,7 @@ function Game() {
           )}
         </>
       )}
-    </Box>
+    </Container>
   );
 }
 

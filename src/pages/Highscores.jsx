@@ -23,7 +23,7 @@ function Highscores() {
   };
 
   return (
-    <Container border={"none"} variant={"outline"} maxW={"800px"}>
+    <Container p={0} border={"none"} variant={"outline"} maxW={"800px"}>
       <Heading mb={4}>Ranglisten</Heading>
       <Box>
         <Tabs onChange={handleTabChange} isFitted variant="enclosed">

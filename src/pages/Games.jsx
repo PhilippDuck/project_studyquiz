@@ -91,7 +91,7 @@ function Games() {
   }
 
   return (
-    <Container variant={"outline"} border={"none"} maxW={"800px"}>
+    <Container p={0} variant={"outline"} border={"none"} maxW={"800px"}>
       <Flex direction={["column", "row"]} mb={4}>
         <Heading>Spiele</Heading>
 

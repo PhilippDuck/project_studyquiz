@@ -158,7 +158,7 @@ function Game() {
   }
 
   return (
-    <Container maxW={"800px"}>
+    <Container p={0} maxW={"800px"}>
       {loadingQuiz ? (
         <Center>
           <Spinner size={"lg"} />

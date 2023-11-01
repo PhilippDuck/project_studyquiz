@@ -122,7 +122,7 @@ function Create() {
   };
 
   return (
-    <Container border={"none"} variant={"outline"} maxW={"800px"}>
+    <Container p={0} border={"none"} variant={"outline"} maxW={"800px"}>
       <VStack gap={"2em"} w={"100%"} align={"start"}>
         <Box w={"100%"}>
           <HStack mb={"1em"} justify={"space-between"}>

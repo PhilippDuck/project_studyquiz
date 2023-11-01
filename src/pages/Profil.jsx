@@ -82,7 +82,7 @@ function Profil() {
   }, []);
 
   return (
-    <Container border={"none"} variant={"outline"} maxW={"800px"}>
+    <Container p={0} border={"none"} variant={"outline"} maxW={"800px"}>
       <Heading mb={4}>Profil</Heading>
       <VStack gap={4} align={"start"}>
         <Box>

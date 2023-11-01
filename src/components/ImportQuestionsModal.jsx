@@ -83,7 +83,7 @@ function ImportQuestionsModal({ importQuestionModal }) {
       size={"xl"}
     >
       <ModalOverlay />
-      <ModalContent m={2}>
+      <ModalContent m={2} overflowY="auto" maxH="80vh">
         <ModalHeader>Fragen importieren</ModalHeader>
         <ModalCloseButton />
         <ModalBody>

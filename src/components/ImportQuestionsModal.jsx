@@ -17,10 +17,11 @@ import {
 } from "@chakra-ui/react";
 import { MdContentCopy } from "react-icons/md";
 import { LuImport } from "react-icons/lu";
+import { useForm, Controller } from "react-hook-form";
 
-function ImportQuestionsModal({ importQuestionModal }) {
-  const exampleJson = `[
-        {
+function ImportQuestionsModal({ importQuestionModal, handleAddQuestion }) {
+  const exampleJson = `
+        [{
           "question": "Welches SQL-Kommando wird verwendet, um Daten aus einer Tabelle abzurufen?",
           "answers": [
             "INSERT",
@@ -30,10 +31,27 @@ function ImportQuestionsModal({ importQuestionModal }) {
           ],
           "hint": "Denk daran, welches Kommando du benutzt, wenn du Informationen aus einer Tabelle sehen möchtest!",
           "correctAnswer": "2"
-        }
-      ]`;
+        }]
+      `;
 
   const toast = useToast();
+  const { register, handleSubmit, control } = useForm();
+
+  const onSubmit = (data) => {
+    try {
+      const parsedData = JSON.parse(data.jsonInput);
+      handleAddQuestion(parsedData);
+      importQuestionModal.onClose();
+    } catch (e) {
+      toast({
+        title: "Fehler beim Parsen des JSON",
+        description: e.message, // Zeigt die genaue Fehlermeldung an
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+  };
 
   const handleCopy = async () => {
     try {
@@ -48,26 +66,6 @@ function ImportQuestionsModal({ importQuestionModal }) {
       toast({
         title: "Fehler",
         description: "Konnte nicht in die Zwischenablage kopieren.",
-        status: "error",
-        duration: 2000,
-        isClosable: true,
-      });
-    }
-  };
-
-  const onSubmit = (data) => {
-    try {
-      // Versuche, die Daten als JSON zu interpretieren
-      const parsedData = JSON.parse(data.jsonInput);
-
-      // Weitere Validierungen können hier hinzugefügt werden...
-
-      // Wenn alles in Ordnung ist, führen Sie Ihre Funktion aus
-      yourFunctionToTrigger(parsedData);
-    } catch (e) {
-      toast({
-        title: "Fehler",
-        description: "Ungültiges JSON-Format.",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -93,6 +91,10 @@ function ImportQuestionsModal({ importQuestionModal }) {
               kann sehr hilfreich sein, um maschinell erzeugte Fragen zu
               importieren.
             </Text>
+            <Text>
+              Es können beliebig viele Fragenobjekte mit "," (Komma) getrennt
+              eingefügt werden
+            </Text>
             <Flex w={"100%"} justify={"space-between"} align={"center"}>
               <Text fontWeight={"semibold"}>Beispiel:</Text>{" "}
               <Button
@@ -113,11 +115,18 @@ function ImportQuestionsModal({ importQuestionModal }) {
                 width: "100%",
               }}
             >
-              <Code>{JSON.stringify(JSON.parse(exampleJson), null, 2)}</Code>
+              <Code p={2}>
+                {JSON.stringify(JSON.parse(exampleJson), null, 2)}
+              </Code>
             </pre>
 
             <Text fontWeight={"semibold"}>JSON hier einfügen:</Text>
-            <Textarea></Textarea>
+            <Controller
+              name="jsonInput"
+              control={control}
+              defaultValue=""
+              render={({ field }) => <Textarea {...field} />}
+            />
           </VStack>
         </ModalBody>
 
@@ -125,8 +134,8 @@ function ImportQuestionsModal({ importQuestionModal }) {
           <Button
             colorScheme="primary"
             mr={3}
-            onClick={importQuestionModal.onClose}
             leftIcon={<LuImport />}
+            onClick={handleSubmit(onSubmit)}
           >
             importieren
           </Button>

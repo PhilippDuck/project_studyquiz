@@ -54,13 +54,18 @@ function Create() {
   }
 
   /**
-   * Verarbeitet neue Frage die als JSON erhalten wurde
-   * @param {*} data Frage als JSON formatiert
+   * Verarbeitet neue Frage(n) die als JSON erhalten wurde
    */
   function handleAddQuestion(data) {
-    setQuestions([...questions, data]);
+    if (Array.isArray(data)) {
+      // Wenn die Daten ein Array sind, dann füge das gesamte Array zu den Fragen hinzu.
+      setQuestions([...questions, ...data]);
+    } else {
+      // Wenn die Daten ein einzelnes Objekt sind, dann füge nur dieses Objekt hinzu.
+      setQuestions([...questions, data]);
+    }
     toast({
-      title: "Frage hinzugefügt",
+      title: "Frage(n) hinzugefügt",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -223,7 +228,10 @@ function Create() {
           handleAddQuestion={handleAddQuestion}
         />
       </VStack>
-      <ImportQuestionsModal importQuestionModal={importQuestionModal} />
+      <ImportQuestionsModal
+        handleAddQuestion={handleAddQuestion}
+        importQuestionModal={importQuestionModal}
+      />
     </Container>
   );
 }

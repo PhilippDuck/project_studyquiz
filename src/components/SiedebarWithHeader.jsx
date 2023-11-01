@@ -32,6 +32,7 @@ import {
   MdLogout,
   MdOutlineAdminPanelSettings,
 } from "react-icons/md";
+import { IoGameControllerOutline } from "react-icons/io5";
 import { useRealm } from "../provider/RealmProvider";
 import { LuUser } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
@@ -42,7 +43,7 @@ import { useEffect, useState } from "react";
  * Menüelemente
  */
 const LinkItems = [
-  { name: "Spielen", icon: FiHome, to: "games" },
+  { name: "Spielen", icon: IoGameControllerOutline, to: "games" },
   {
     name: "Erstellen",
     icon: MdOutlineCreate,

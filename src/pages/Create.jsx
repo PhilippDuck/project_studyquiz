@@ -28,12 +28,14 @@ import { LuImport } from "react-icons/lu";
 import { useRealm } from "../provider/RealmProvider";
 import CreatedQuestionCard from "../components/CreatedQuestionCard";
 import { useNavigate } from "react-router-dom";
+import ImportQuestionsModal from "../components/ImportQuestionsModal";
 
 /**
  * "Erstellen" Seite. Dient dem erstellen eines neuen Quiz
  */
 function Create() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const importQuestionModal = useDisclosure();
   const toast = useToast();
   const [questions, setQuestions] = useState([]);
   const app = useRealm();
@@ -190,8 +192,10 @@ function Create() {
             <Tooltip label={"importieren"}>
               <IconButton
                 icon={<LuImport />}
-                isDisabled
                 variant={"outline"}
+                onClick={() => {
+                  importQuestionModal.onOpen();
+                }}
               ></IconButton>
             </Tooltip>
             <Button leftIcon={<MdAdd />} variant={"outline"} onClick={onOpen}>
@@ -219,6 +223,7 @@ function Create() {
           handleAddQuestion={handleAddQuestion}
         />
       </VStack>
+      <ImportQuestionsModal importQuestionModal={importQuestionModal} />
     </Container>
   );
 }

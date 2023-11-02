@@ -93,11 +93,10 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RealmProvider>
-      <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
-      </ChakraProvider>
-    </RealmProvider>
-  </React.StrictMode>
+  // React Strict Mode enntfernt um doppeltes laden wärend DEV zu stoppen
+  <RealmProvider>
+    <ChakraProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  </RealmProvider>
 );

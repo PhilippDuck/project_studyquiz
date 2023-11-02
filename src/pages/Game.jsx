@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   Center,
   Text,
@@ -26,9 +26,9 @@ import { useNavigate } from "react-router-dom";
 import GameDoneScreen from "../components/GameDoneScreen";
 
 function Game() {
+  const gameDoneRef = useRef();
   const app = useRealm();
   const toast = useToast();
-  const navigate = useNavigate();
   const { id } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [loadingQuiz, setLoadingQuiz] = useState(false);
@@ -49,8 +49,16 @@ function Game() {
     if (app.currentUser) {
       getQuiz(id);
     } else {
-      setLoadingQuiz(false); // Stellen Sie sicher, dass der Spinner nicht angezeigt wird, wenn kein Benutzer angemeldet ist
+      setLoadingQuiz(false);
     }
+    return () => {
+      // Wenn das Spiel vorzeitig abgebrochen wird, wird es dennoch als gespielt gewertet.
+      if (!gameDoneRef.current) {
+        console.log("Spiel wurde vorzeitig abgebrochen.");
+        setPlayedQuiz(true);
+      }
+      gameDoneRef.current = false;
+    };
   }, []);
 
   async function getQuiz(id) {
@@ -58,7 +66,7 @@ function Game() {
     try {
       const result = await app.currentUser.functions.getQuizById({ id: id });
       setQuiz(result);
-      //console.log(result);
+      console.log(result);
     } catch (error) {
       console.log(error);
     }
@@ -89,6 +97,7 @@ function Game() {
         });
         setPlayedQuiz();
         setGameIsDone(true);
+        gameDoneRef.current = true;
       }
     } else {
       setGameData({
@@ -105,14 +114,17 @@ function Game() {
     }
   }
 
-  async function setPlayedQuiz() {
+  async function setPlayedQuiz(quizCanceled) {
     // Points sind relativ. Maximal 100 %. Minimal 0% Benutzte Hinweise kosten 1%.
     // Falsche Antworten werden über einen Dreisatz abgezogen
-    const calculatedPoints =
-      100 -
-      (100 / quiz.questions.length) * gameData.mistakes -
-      gameData.usedHints;
-    const points = calculatedPoints <= 0 ? 0 : calculatedPoints;
+    let points = 0;
+    if (!quizCanceled) {
+      const calculatedPoints =
+        100 -
+        (100 / quiz.questions.length) * gameData.mistakes -
+        gameData.usedHints;
+      points = calculatedPoints <= 0 ? 0 : calculatedPoints;
+    }
 
     try {
       const finishedGameData = {
@@ -120,6 +132,7 @@ function Game() {
         endTime: Date.now(),
         playerId: app.currentUser.id,
         points: points,
+        done: quizCanceled ? false : true,
       };
       setGameData(finishedGameData);
       const result = await app.currentUser.functions.setPlayedQuiz(
@@ -127,30 +140,32 @@ function Game() {
       );
       await app.currentUser.refreshCustomData();
       console.log(result);
-      if (result.status === "success" && points > 0) {
-        toast({
-          title: `Deinem Profil werden ${points} Punkte hinzugefügt 💪.`,
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-          position: "top",
-        });
-      } else if (result.status === "already_played") {
-        toast({
-          title: `Heute schon Punkte erhalten, komme morgen wieder!`,
-          status: "info",
-          duration: 4000,
-          isClosable: true,
-          position: "top",
-        });
-      } else if (result.status === "own_quiz") {
-        toast({
-          title: `Für das eigene Quiz erhälst du keine Punkte.`,
-          status: "info",
-          duration: 4000,
-          isClosable: true,
-          position: "top",
-        });
+      if (!quizCanceled) {
+        if (result.status === "success" && points > 0) {
+          toast({
+            title: `Deinem Profil werden ${points} Punkte hinzugefügt 💪.`,
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+            position: "top",
+          });
+        } else if (result.status === "already_played") {
+          toast({
+            title: `Heute schon Punkte erhalten, komme morgen wieder!`,
+            status: "info",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
+        } else if (result.status === "own_quiz") {
+          toast({
+            title: `Für das eigene Quiz erhälst du keine Punkte.`,
+            status: "info",
+            duration: 4000,
+            isClosable: true,
+            position: "top",
+          });
+        }
       }
     } catch (error) {
       console.log(error);

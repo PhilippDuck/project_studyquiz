@@ -53,9 +53,9 @@ function Login() {
     } catch (error) {
       toast({
         title: "Fehler beim einloggen!",
-        description: error.message,
+        description: "E-Mail und/oder Passwort nicht korrekt.",
         status: "error",
-        duration: 3000,
+        duration: 4000,
         isClosable: true,
       });
     }

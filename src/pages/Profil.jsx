@@ -115,9 +115,12 @@ function Profil() {
         <Box>
           <Text fontWeight={"bold"}>Gesamtpunkte:</Text>
           <Text>
-            {app.currentUser.customData.points &&
-            app.currentUser.customData.points.$numberInt !== undefined
-              ? app.currentUser.customData.points.$numberInt
+            {app.currentUser.customData.points
+              ? app.currentUser.customData.points.$numberDouble !== undefined
+                ? Math.round(app.currentUser.customData.points.$numberDouble)
+                : app.currentUser.customData.points.$numberInt !== undefined
+                ? app.currentUser.customData.points.$numberInt
+                : "noch keine Punkte 😱 !"
               : "noch keine Punkte 😱 !"}
           </Text>
         </Box>

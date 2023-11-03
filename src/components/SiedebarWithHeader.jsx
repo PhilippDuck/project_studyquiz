@@ -38,6 +38,7 @@ import { LuUser } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
+import PointBubble from "./PointBubble";
 
 /**
  * Menüelemente
@@ -183,6 +184,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
       <Box display={{ base: "flex", md: "none" }}>{logo}</Box>
 
       <HStack spacing={{ base: "1", md: "6" }}>
+        <PointBubble
+          display={{ base: "none", md: "flex" }}
+          points={
+            app.currentUser.customData.points &&
+            app.currentUser.customData.points.$numberInt !== undefined
+              ? app.currentUser.customData.points.$numberInt
+              : 0
+          }
+        />
+
         <IconButton
           size="lg"
           variant="ghost"
@@ -227,6 +238,26 @@ const MobileNav = ({ onOpen, ...rest }) => {
               </HStack>
             </MenuButton>
             <MenuList borderColor={useColorModeValue("gray.200", "gray.700")}>
+              <Flex
+                display={{ base: "flex", md: "none" }}
+                pl={3}
+                pr={3}
+                align={"center"}
+                w={"100%"}
+                justify={"space-between"}
+              >
+                <Text>Punkte:</Text>
+                <PointBubble
+                  points={
+                    app.currentUser.customData.points &&
+                    app.currentUser.customData.points.$numberInt !== undefined
+                      ? app.currentUser.customData.points.$numberInt
+                      : 0
+                  }
+                />
+              </Flex>
+
+              <MenuDivider display={{ base: "flex", md: "none" }} />
               <Link to={"/profil"}>
                 <MenuItem>
                   <Flex gap={2} align={"center"}>

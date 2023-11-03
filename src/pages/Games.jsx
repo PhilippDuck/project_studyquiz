@@ -12,6 +12,11 @@ import {
   useToast,
   Divider,
   Container,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import QuizCard from "../components/QuizCard";
@@ -124,7 +129,11 @@ function Games() {
           <>
             {quizzes
               // Filter quizzes based on the selected topic if it's not "kein Filter"
-              .filter((quiz) => topic === "kein Filter" || quiz.topic === topic)
+              .filter(
+                (quiz) =>
+                  (topic === "kein Filter" || quiz.topic === topic) &&
+                  !quiz.todayPlayed
+              )
               .map((quiz) => (
                 <QuizCard
                   quiz={quiz}
@@ -135,10 +144,42 @@ function Games() {
                   {" "}
                 </QuizCard>
               ))}
-
-            <PlayedQuizzes />
           </>
         )}
+        <Accordion mt={4} w={"100%"} allowToggle>
+          <AccordionItem border={"none"}>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                <Heading fontWeight={"light"} size={"md"}>
+                  Heute bereits gespielte Quiz:
+                </Heading>
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+
+            <AccordionPanel p={0} pb={4}>
+              <VStack mt={6}>
+                {quizzes
+                  // Filter quizzes based on the selected topic if it's not "kein Filter"
+                  .filter(
+                    (quiz) =>
+                      (topic === "kein Filter" || quiz.topic === topic) &&
+                      quiz.todayPlayed
+                  )
+                  .map((quiz) => (
+                    <QuizCard
+                      quiz={quiz}
+                      handleDeleteQuiz={handleDeleteQuiz}
+                      todayPlayed={quiz.todayPlayed}
+                      key={quiz._id}
+                    >
+                      {" "}
+                    </QuizCard>
+                  ))}
+              </VStack>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       </VStack>
       <DeleteQuizDialog
         onClose={onClose}

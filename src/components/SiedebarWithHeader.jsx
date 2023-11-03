@@ -184,7 +184,15 @@ const MobileNav = ({ onOpen, ...rest }) => {
       <Box display={{ base: "flex", md: "none" }}>{logo}</Box>
 
       <HStack spacing={{ base: "1", md: "6" }}>
-        <PointBubble display={{ base: "none", md: "flex" }} app={app} />
+        <PointBubble
+          display={{ base: "none", md: "flex" }}
+          points={
+            app.currentUser.customData.points &&
+            app.currentUser.customData.points.$numberInt !== undefined
+              ? app.currentUser.customData.points.$numberInt
+              : 0
+          }
+        />
 
         <IconButton
           size="lg"
@@ -239,7 +247,14 @@ const MobileNav = ({ onOpen, ...rest }) => {
                 justify={"space-between"}
               >
                 <Text>Punkte:</Text>
-                <PointBubble app={app} />
+                <PointBubble
+                  points={
+                    app.currentUser.customData.points &&
+                    app.currentUser.customData.points.$numberInt !== undefined
+                      ? app.currentUser.customData.points.$numberInt
+                      : 0
+                  }
+                />
               </Flex>
 
               <MenuDivider display={{ base: "flex", md: "none" }} />

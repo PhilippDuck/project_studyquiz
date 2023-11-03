@@ -24,6 +24,7 @@ import { MdOutlineQuestionMark } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
 import GameDoneScreen from "../components/GameDoneScreen";
+import shuffleArray from "../helperFunctions/shuffleArray";
 
 function Game() {
   const gameDoneRef = useRef();
@@ -65,6 +66,8 @@ function Game() {
     setLoadingQuiz(true);
     try {
       const result = await app.currentUser.functions.getQuizById({ id: id });
+      const shuffledResult = shuffleArray(result.questions);
+
       setQuiz(result);
       console.log(result);
     } catch (error) {

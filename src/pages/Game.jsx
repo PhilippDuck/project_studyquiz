@@ -131,7 +131,7 @@ function Game() {
         ...gameData,
         endTime: Date.now(),
         playerId: app.currentUser.id,
-        points: points,
+        points: Math.round(points),
         done: quizCanceled ? false : true,
       };
       setGameData(finishedGameData);

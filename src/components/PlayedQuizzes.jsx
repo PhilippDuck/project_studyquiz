@@ -10,7 +10,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
-import formatUnixTimestamp from "../formatUnixTimestamp";
+import formatUnixTimestamp from "../helperFunctions/formatUnixTimestamp";
 
 function PlayedQuizzes() {
   const app = useRealm();

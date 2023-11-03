@@ -16,7 +16,7 @@ import {
 import { MdOutlineDelete } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
-import formatUnixTimestamp from "../formatUnixTimestamp";
+import formatUnixTimestamp from "../helperFunctions/formatUnixTimestamp";
 import { MdThumbUp } from "react-icons/md";
 
 function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {

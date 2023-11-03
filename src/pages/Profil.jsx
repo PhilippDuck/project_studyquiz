@@ -118,7 +118,7 @@ function Profil() {
             {app.currentUser.customData.points &&
             app.currentUser.customData.points.$numberInt !== undefined
               ? app.currentUser.customData.points.$numberInt
-              : "noch keine Punkte 😱 !"}
+              : 0}
           </Text>
         </Box>
       </VStack>

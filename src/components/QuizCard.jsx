@@ -11,6 +11,7 @@ import {
   Spinner,
   Box,
   Badge,
+  HStack,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MdOutlineDelete } from "react-icons/md";
@@ -35,10 +36,13 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
   return (
     <Card
       p={3}
-      _hover={{ border: "1px", cursor: "pointer", borderColor: "primary.400" }}
+      _hover={{ borderColor: "primary.400", cursor: "pointer" }}
       w={"100%"}
       variant={"outline"}
       onClick={handleCardClick}
+      border={"2px"}
+      borderColor={useColorModeValue("gray.50", "gray.700")}
+      bg={useColorModeValue("gray.50", "gray.700")}
     >
       <Flex
         color={
@@ -57,9 +61,6 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
           </Flex>
 
           <Box>
-            <Text fontStyle={"italic"} fontSize={"xs"}>
-              {formatUnixTimestamp(quiz.creationDate)}
-            </Text>
             <Flex gap={1}>
               <Text fontWeight={"semibold"} fontSize={"xs"}>
                 Thema:
@@ -77,10 +78,6 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
         </Box>
         <Spacer />
         <VStack align={"end"} justify={"space-between"}>
-          <Flex rounded={"md"} p={1} gap={1} align={"center"}>
-            <MdThumbUp />
-            <Text fontSize={"xs"}>30</Text>
-          </Flex>
           {isDeleting ? (
             <Spinner />
           ) : (

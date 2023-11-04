@@ -16,6 +16,7 @@ import {
   Flex,
   IconButton,
   VStack,
+  Container,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
@@ -81,7 +82,7 @@ function Profil() {
   }, []);
 
   return (
-    <Box border={"none"} variant={"outline"} maxW={"800px"}>
+    <Container p={0} border={"none"} variant={"outline"} maxW={"800px"}>
       <Heading mb={4}>Profil</Heading>
       <VStack gap={4} align={"start"}>
         <Box>
@@ -110,6 +111,15 @@ function Profil() {
         <Box>
           <Text fontWeight={"bold"}>Anmeldemethode:</Text>
           <Text> {app.currentUser.providerType}</Text>
+        </Box>
+        <Box>
+          <Text fontWeight={"bold"}>Gesamtpunkte:</Text>
+          <Text>
+            {app.currentUser.customData.points &&
+            app.currentUser.customData.points.$numberInt !== undefined
+              ? app.currentUser.customData.points.$numberInt
+              : 0}
+          </Text>
         </Box>
       </VStack>
 
@@ -141,7 +151,7 @@ function Profil() {
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
-    </Box>
+    </Container>
   );
 }
 

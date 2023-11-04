@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound.jsx";
 import Login from "./pages/Login.jsx";
 import Adminpanel from "./pages/Adminpanel.jsx";
 import Game from "./pages/Game.jsx";
+import Log from "./pages/Log.jsx";
 
 function AdminProtectedRoute({ children }) {
   const app = useRealm();
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
         element: <Game />,
       },
       {
+        path: "log",
+        element: <Log />,
+      },
+      {
         path: "create",
         element: (
           <RegisteredUserProtectedRoute>
@@ -93,11 +98,10 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RealmProvider>
-      <ChakraProvider theme={theme}>
-        <RouterProvider router={router} />
-      </ChakraProvider>
-    </RealmProvider>
-  </React.StrictMode>
+  // React Strict Mode enntfernt um doppeltes laden wärend DEV zu stoppen
+  <RealmProvider>
+    <ChakraProvider theme={theme}>
+      <RouterProvider router={router} />
+    </ChakraProvider>
+  </RealmProvider>
 );

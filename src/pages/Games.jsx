@@ -11,6 +11,12 @@ import {
   useDisclosure,
   useToast,
   Divider,
+  Container,
+  Accordion,
+  AccordionItem,
+  AccordionButton,
+  AccordionPanel,
+  AccordionIcon,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import QuizCard from "../components/QuizCard";
@@ -42,6 +48,7 @@ function Games() {
       setLoadingQuizzes(true);
       const result = await app.currentUser.functions.getQuizzes();
       setQuizzes(result);
+      console.log(result);
     } catch (error) {
       console.error("Ein Fehler ist aufgetreten:", error);
     } finally {
@@ -89,26 +96,29 @@ function Games() {
   }
 
   return (
-    <Box variant={"outline"} border={"none"} maxW={"800px"}>
-      <Flex>
+    <Container p={0} variant={"outline"} border={"none"} maxW={"800px"}>
+      <Flex direction={["column", "row"]} mb={4}>
         <Heading>Spiele</Heading>
-        <Spacer />
 
-        <TopicMenu handleFiltertopic={handleFilterTopic} />
+        <Spacer />
+        <Flex gap={1} justify={"space-between"}>
+          <Button
+            fontWeight={"light"}
+            mt={2}
+            mb={4}
+            size={"xs"}
+            variant={"outline"}
+            rightIcon={<MdOutlineClose />}
+            onClick={() => {
+              setTopic("kein Filter");
+            }}
+          >
+            {topic}
+          </Button>
+
+          <TopicMenu handleFiltertopic={handleFilterTopic} />
+        </Flex>
       </Flex>
-      <Button
-        fontWeight={"light"}
-        mt={2}
-        mb={4}
-        size={"xs"}
-        variant={"outline"}
-        rightIcon={<MdOutlineClose />}
-        onClick={() => {
-          setTopic("kein Filter");
-        }}
-      >
-        {topic}
-      </Button>
 
       <VStack align={"start"} w={"100%"}>
         {!app.currentUser ? (
@@ -119,20 +129,57 @@ function Games() {
           <>
             {quizzes
               // Filter quizzes based on the selected topic if it's not "kein Filter"
-              .filter((quiz) => topic === "kein Filter" || quiz.topic === topic)
+              .filter(
+                (quiz) =>
+                  (topic === "kein Filter" || quiz.topic === topic) &&
+                  !quiz.todayPlayed
+              )
               .map((quiz) => (
                 <QuizCard
                   quiz={quiz}
                   handleDeleteQuiz={handleDeleteQuiz}
+                  todayPlayed={quiz.todayPlayed}
                   key={quiz._id}
                 >
                   {" "}
                 </QuizCard>
               ))}
-
-            <PlayedQuizzes />
           </>
         )}
+        <Accordion mt={4} w={"100%"} allowToggle>
+          <AccordionItem border={"none"}>
+            <AccordionButton>
+              <Box as="span" flex="1" textAlign="left">
+                <Heading fontWeight={"light"} size={"md"}>
+                  Heute bereits gespielte Quiz:
+                </Heading>
+              </Box>
+              <AccordionIcon />
+            </AccordionButton>
+
+            <AccordionPanel p={0} pb={4}>
+              <VStack mt={6}>
+                {quizzes
+                  // Filter quizzes based on the selected topic if it's not "kein Filter"
+                  .filter(
+                    (quiz) =>
+                      (topic === "kein Filter" || quiz.topic === topic) &&
+                      quiz.todayPlayed
+                  )
+                  .map((quiz) => (
+                    <QuizCard
+                      quiz={quiz}
+                      handleDeleteQuiz={handleDeleteQuiz}
+                      todayPlayed={quiz.todayPlayed}
+                      key={quiz._id}
+                    >
+                      {" "}
+                    </QuizCard>
+                  ))}
+              </VStack>
+            </AccordionPanel>
+          </AccordionItem>
+        </Accordion>
       </VStack>
       <DeleteQuizDialog
         onClose={onClose}
@@ -141,7 +188,7 @@ function Games() {
         deleteQuizById={deleteQuizById}
         quizIdToDelete={quizIdToDelete}
       />
-    </Box>
+    </Container>
   );
 }
 

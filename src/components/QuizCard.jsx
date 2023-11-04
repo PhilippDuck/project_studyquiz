@@ -10,14 +10,17 @@ import {
   IconButton,
   Spinner,
   Box,
+  Badge,
+  HStack,
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MdOutlineDelete } from "react-icons/md";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
-import formatUnixTimestamp from "../formatUnixTimestamp";
+import formatUnixTimestamp from "../helperFunctions/formatUnixTimestamp";
+import { MdThumbUp } from "react-icons/md";
 
-function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
+function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
   const app = useRealm();
   const navigate = useNavigate();
 
@@ -33,13 +36,22 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
   return (
     <Card
       p={3}
-      _hover={{ border: "1px", cursor: "pointer", borderColor: "primary.400" }}
+      _hover={{ borderColor: "primary.400", cursor: "pointer" }}
       w={"100%"}
       variant={"outline"}
       onClick={handleCardClick}
+      border={"2px"}
+      borderColor={useColorModeValue("gray.50", "gray.700")}
+      bg={useColorModeValue("gray.50", "gray.700")}
     >
-      <Flex>
-        <Box>
+      <Flex
+        color={
+          todayPlayed
+            ? useColorModeValue("gray.200", "gray.600")
+            : useColorModeValue("gray.500", "gray.200")
+        }
+      >
+        <Box w={"100%"}>
           <Flex align={"center"} gap={1}>
             <Text fontWeight={"bold"}>{quiz.title}</Text>
             <Text fontSize={"xs"}>
@@ -48,10 +60,7 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
             </Text>
           </Flex>
 
-          <Box color={useColorModeValue("gray.500", "gray.200")}>
-            <Text fontStyle={"italic"} fontSize={"xs"}>
-              {formatUnixTimestamp(quiz.creationDate)}
-            </Text>
+          <Box>
             <Flex gap={1}>
               <Text fontWeight={"semibold"} fontSize={"xs"}>
                 Thema:
@@ -68,22 +77,24 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting }) {
           </Box>
         </Box>
         <Spacer />
-
-        {isDeleting ? (
-          <Spinner />
-        ) : (
-          <IconButton
-            visibility={
-              app.currentUser?.customData?.admin ||
-              app.currentUser.id === quiz.owner
-                ? "visible"
-                : "hidden"
-            }
-            onClick={(event) => handleDeleteClick(event, quiz._id)}
-            variant={"ghost"}
-            icon={<MdOutlineDelete />}
-          />
-        )}
+        <VStack align={"end"} justify={"space-between"}>
+          {isDeleting ? (
+            <Spinner />
+          ) : (
+            <IconButton
+              size={"sm"}
+              visibility={
+                app.currentUser?.customData?.admin ||
+                app.currentUser.id === quiz.owner
+                  ? "visible"
+                  : "hidden"
+              }
+              onClick={(event) => handleDeleteClick(event, quiz._id)}
+              variant={"ghost"}
+              icon={<MdOutlineDelete />}
+            />
+          )}
+        </VStack>
       </Flex>
     </Card>
   );

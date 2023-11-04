@@ -10,7 +10,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
-import formatUnixTimestamp from "../formatUnixTimestamp";
+import formatUnixTimestamp from "../helperFunctions/formatUnixTimestamp";
 
 function PlayedQuizzes() {
   const app = useRealm();
@@ -25,7 +25,7 @@ function PlayedQuizzes() {
     setLoadingPlayedGames(true);
     try {
       const result = await app.currentUser.functions.getPlayedQuizzes();
-      console.log(result);
+      //console.log(result);
       setPlayedQuizzes(result);
     } catch (error) {
       console.log(error);
@@ -34,7 +34,7 @@ function PlayedQuizzes() {
   }
 
   return (
-    <Box mt={6} w={"100%"}>
+    <Box mt={4} w={"100%"}>
       <Heading size={"md"}>Letzte Spiele:</Heading>
       {loadingPlayedGames ? (
         <Spinner />
@@ -42,7 +42,14 @@ function PlayedQuizzes() {
         <VStack gap={3} mt={6} align={"start"} w={"100%"}>
           {playedQuizzes.map((playedQuiz) => {
             return (
-              <Card p={3} key={playedQuiz._id} variant={"outline"} w={"100%"}>
+              <Card
+                p={3}
+                key={playedQuiz._id}
+                variant={"outline"}
+                border={"none"}
+                bg={useColorModeValue("gray.50", "gray.700")}
+                w={"100%"}
+              >
                 <Text fontSize={"xs"}>
                   {formatUnixTimestamp(playedQuiz.endTime)} Uhr
                 </Text>

@@ -20,6 +20,7 @@ import {
   MenuList,
   useColorMode,
   Spacer,
+  Center,
 } from "@chakra-ui/react";
 import { FiHome, FiMenu, FiChevronDown } from "react-icons/fi";
 import {
@@ -31,17 +32,19 @@ import {
   MdLogout,
   MdOutlineAdminPanelSettings,
 } from "react-icons/md";
+import { IoGameControllerOutline } from "react-icons/io5";
 import { useRealm } from "../provider/RealmProvider";
 import { LuUser } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
+import PointBubble from "./PointBubble";
 
 /**
  * Menüelemente
  */
 const LinkItems = [
-  { name: "Spielen", icon: FiHome, to: "games" },
+  { name: "Spielen", icon: IoGameControllerOutline, to: "games" },
   {
     name: "Erstellen",
     icon: MdOutlineCreate,
@@ -181,6 +184,16 @@ const MobileNav = ({ onOpen, ...rest }) => {
       <Box display={{ base: "flex", md: "none" }}>{logo}</Box>
 
       <HStack spacing={{ base: "1", md: "6" }}>
+        <PointBubble
+          display={{ base: "none", md: "flex" }}
+          points={
+            app.currentUser.customData.points &&
+            app.currentUser.customData.points.$numberInt !== undefined
+              ? app.currentUser.customData.points.$numberInt
+              : 0
+          }
+        />
+
         <IconButton
           size="lg"
           variant="ghost"
@@ -225,6 +238,26 @@ const MobileNav = ({ onOpen, ...rest }) => {
               </HStack>
             </MenuButton>
             <MenuList borderColor={useColorModeValue("gray.200", "gray.700")}>
+              <Flex
+                display={{ base: "flex", md: "none" }}
+                pl={3}
+                pr={3}
+                align={"center"}
+                w={"100%"}
+                justify={"space-between"}
+              >
+                <Text>Punkte:</Text>
+                <PointBubble
+                  points={
+                    app.currentUser.customData.points &&
+                    app.currentUser.customData.points.$numberInt !== undefined
+                      ? app.currentUser.customData.points.$numberInt
+                      : 0
+                  }
+                />
+              </Flex>
+
+              <MenuDivider display={{ base: "flex", md: "none" }} />
               <Link to={"/profil"}>
                 <MenuItem>
                   <Flex gap={2} align={"center"}>
@@ -291,8 +324,8 @@ const SidebarWithHeader = ({ content }) => {
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p={4} pt={24}>
-        {content}
+      <Box ml={{ md: 60, xl: 5 }} p={4} pt={24}>
+        <Center>{content}</Center>
       </Box>
     </Box>
   );

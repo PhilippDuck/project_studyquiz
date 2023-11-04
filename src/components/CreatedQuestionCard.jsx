@@ -23,7 +23,7 @@ function CreatedQuestionCard({
   correctAnswer,
   hint,
   reportPossible,
-  colorscheme: colorscheme,
+  colorscheme,
 }) {
   return (
     <Card

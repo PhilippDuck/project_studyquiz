@@ -19,6 +19,7 @@ import {
   ButtonGroup,
   IconButton,
   Tooltip,
+  Container,
 } from "@chakra-ui/react";
 import AddQuestionDrawer from "../components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
@@ -27,12 +28,14 @@ import { LuImport } from "react-icons/lu";
 import { useRealm } from "../provider/RealmProvider";
 import CreatedQuestionCard from "../components/CreatedQuestionCard";
 import { useNavigate } from "react-router-dom";
+import ImportQuestionsModal from "../components/ImportQuestionsModal";
 
 /**
  * "Erstellen" Seite. Dient dem erstellen eines neuen Quiz
  */
 function Create() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const importQuestionModal = useDisclosure();
   const toast = useToast();
   const [questions, setQuestions] = useState([]);
   const app = useRealm();
@@ -51,13 +54,18 @@ function Create() {
   }
 
   /**
-   * Verarbeitet neue Frage die als JSON erhalten wurde
-   * @param {*} data Frage als JSON formatiert
+   * Verarbeitet neue Frage(n) die als JSON erhalten wurde
    */
   function handleAddQuestion(data) {
-    setQuestions([...questions, data]);
+    if (Array.isArray(data)) {
+      // Wenn die Daten ein Array sind, dann füge das gesamte Array zu den Fragen hinzu.
+      setQuestions([...questions, ...data]);
+    } else {
+      // Wenn die Daten ein einzelnes Objekt sind, dann füge nur dieses Objekt hinzu.
+      setQuestions([...questions, data]);
+    }
     toast({
-      title: "Frage hinzugefügt",
+      title: "Frage(n) hinzugefügt",
       status: "success",
       duration: 5000,
       isClosable: true,
@@ -84,28 +92,33 @@ function Create() {
     // Wenn mindestens eine Frage vorhanden ist, dann speichere in DB
     if (questions.length > 0) {
       setLoaddingSaveQuiz(true);
-      const result = await app.currentUser.functions.createQuiz(
-        JSON.stringify(data)
-      );
-      console.log(result);
-      // Prüfe ob speichern in DB erfolgreich
-      if (result.success) {
-        toast({
-          title: "Quiz erfolgreich erstellt",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-        navigate("/");
-      } else {
-        toast({
-          title: "Fehler beim speichern.",
-          description: result.error,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+      try {
+        const result = await app.currentUser.functions.createQuiz(
+          JSON.stringify(data)
+        );
+        console.log(result);
+        // Prüfe ob speichern in DB erfolgreich
+        if (result.success) {
+          toast({
+            title: "Quiz erfolgreich erstellt",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+          navigate("/");
+        } else {
+          toast({
+            title: "Fehler beim speichern.",
+            description: result.error,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
+
       setLoaddingSaveQuiz(false);
     } else {
       toast({
@@ -119,7 +132,7 @@ function Create() {
   };
 
   return (
-    <Box border={"none"} variant={"outline"} maxW={"800px"}>
+    <Container p={0} border={"none"} variant={"outline"} maxW={"800px"}>
       <VStack gap={"2em"} w={"100%"} align={"start"}>
         <Box w={"100%"}>
           <HStack mb={"1em"} justify={"space-between"}>
@@ -189,8 +202,10 @@ function Create() {
             <Tooltip label={"importieren"}>
               <IconButton
                 icon={<LuImport />}
-                isDisabled
                 variant={"outline"}
+                onClick={() => {
+                  importQuestionModal.onOpen();
+                }}
               ></IconButton>
             </Tooltip>
             <Button leftIcon={<MdAdd />} variant={"outline"} onClick={onOpen}>
@@ -218,7 +233,11 @@ function Create() {
           handleAddQuestion={handleAddQuestion}
         />
       </VStack>
-    </Box>
+      <ImportQuestionsModal
+        handleAddQuestion={handleAddQuestion}
+        importQuestionModal={importQuestionModal}
+      />
+    </Container>
   );
 }
 

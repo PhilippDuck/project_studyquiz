@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   Box,
   Tabs,
@@ -12,7 +11,7 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import Erfahrungspunkte from "../components/Erfahrungspunkte";
-import BWLQuizzes from "../components/BWLQuizzes";
+import PlayedQuizzesByTime from "../components/PlayedQuizzesByTime";
 
 function Highscores() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -36,7 +35,7 @@ function Highscores() {
               <Erfahrungspunkte />
             </TabPanel>
             <TabPanel>
-              <BWLQuizzes />
+              <PlayedQuizzesByTime />
             </TabPanel>
             <TabPanel>
               <p>Inhalt des Tab 3</p>

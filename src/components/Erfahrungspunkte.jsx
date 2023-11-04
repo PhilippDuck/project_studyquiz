@@ -31,7 +31,7 @@ function Erfahrungspunkte() {
     fetchData();
   }, [app]);
 
-  const sortedUserList = [...userList].sort((a, b) => b.exp - a.exp);
+  const sortedUserList = [...userList].sort((a, b) => b.points - a.points);
 
   return (
     <div>
@@ -48,8 +48,8 @@ function Erfahrungspunkte() {
           <Tbody>
             {sortedUserList.map((user, index) => (
               <Tr key={user._id}>
-                <Td>{user.name}</Td>
-                <Td>{user.exp}</Td>
+                <Td>{user.nickname}</Td>
+                <Td>{user.points}</Td>
                 <Td>{index + 1}</Td>
               </Tr>
             ))}

@@ -14,9 +14,15 @@ import {
   Td,
   TableCaption,
   TableContainer,
+  ButtonGroup,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import CreatedQuestionCard from "./CreatedQuestionCard";
+import {
+  MdOutlineArrowBack,
+  MdThumbUp,
+  MdOutlineThumbUp,
+} from "react-icons/md";
 
 function GameDoneScreen({ gameData, quiz }) {
   const navigate = useNavigate();
@@ -50,15 +56,23 @@ function GameDoneScreen({ gameData, quiz }) {
             </Tbody>
           </Table>
         </TableContainer>
-
-        <Button
-          colorScheme="primary"
-          mt={4}
-          mb={4}
-          onClick={() => navigate("/")}
-        >
-          Zur Spielauswahl
-        </Button>
+        <ButtonGroup mt={4} mb={4}>
+          <Button
+            colorScheme="primary"
+            onClick={() => navigate("/")}
+            leftIcon={<MdOutlineArrowBack />}
+          >
+            Zurück zur Spielauswahl
+          </Button>
+          <Button
+            fontWeight={"light"}
+            variant={"outline"}
+            leftIcon={<MdOutlineThumbUp />}
+            isDisabled
+          >
+            Like!
+          </Button>
+        </ButtonGroup>
         <Heading size={"md"} mt={2} mb={2}>
           Fragen:
         </Heading>

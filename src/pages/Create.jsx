@@ -92,28 +92,33 @@ function Create() {
     // Wenn mindestens eine Frage vorhanden ist, dann speichere in DB
     if (questions.length > 0) {
       setLoaddingSaveQuiz(true);
-      const result = await app.currentUser.functions.createQuiz(
-        JSON.stringify(data)
-      );
-      console.log(result);
-      // Prüfe ob speichern in DB erfolgreich
-      if (result.success) {
-        toast({
-          title: "Quiz erfolgreich erstellt",
-          status: "success",
-          duration: 5000,
-          isClosable: true,
-        });
-        navigate("/");
-      } else {
-        toast({
-          title: "Fehler beim speichern.",
-          description: result.error,
-          status: "error",
-          duration: 5000,
-          isClosable: true,
-        });
+      try {
+        const result = await app.currentUser.functions.createQuiz(
+          JSON.stringify(data)
+        );
+        console.log(result);
+        // Prüfe ob speichern in DB erfolgreich
+        if (result.success) {
+          toast({
+            title: "Quiz erfolgreich erstellt",
+            status: "success",
+            duration: 5000,
+            isClosable: true,
+          });
+          navigate("/");
+        } else {
+          toast({
+            title: "Fehler beim speichern.",
+            description: result.error,
+            status: "error",
+            duration: 5000,
+            isClosable: true,
+          });
+        }
+      } catch (error) {
+        console.log(error);
       }
+
       setLoaddingSaveQuiz(false);
     } else {
       toast({

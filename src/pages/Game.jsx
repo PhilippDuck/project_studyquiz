@@ -148,7 +148,7 @@ function Game() {
           toast({
             title: `Deinem Profil werden ${points} Punkte hinzugefügt 💪.`,
             status: "success",
-            duration: 5000,
+            duration: 4000,
             isClosable: true,
             position: "top",
           });

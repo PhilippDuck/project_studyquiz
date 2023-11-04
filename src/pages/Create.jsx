@@ -215,15 +215,7 @@ function Create() {
         </Flex>
 
         {questions.map((question, index) => {
-          return (
-            <CreatedQuestionCard
-              key={index}
-              question={question.question}
-              answers={question.answers}
-              correctAnswer={question.correctAnswer}
-              hint={question.hint}
-            />
-          );
+          return <CreatedQuestionCard key={index} question={question} />;
         })}
 
         <AddQuestionDrawer

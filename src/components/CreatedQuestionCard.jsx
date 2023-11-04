@@ -11,6 +11,7 @@ import {
   AccordionIcon,
   Box,
   Button,
+  Spinner,
 } from "@chakra-ui/react";
 import { GoReport } from "react-icons/go";
 
@@ -19,11 +20,10 @@ import { GoReport } from "react-icons/go";
  */
 function CreatedQuestionCard({
   question,
-  answers,
-  correctAnswer,
-  hint,
+  reportQuestion,
   reportPossible,
   colorscheme,
+  loading,
 }) {
   return (
     <Card
@@ -37,7 +37,7 @@ function CreatedQuestionCard({
           <AccordionItem border={"none"}>
             <AccordionButton>
               <Box as="span" flex="1" textAlign="left">
-                <Text>{question}</Text>
+                <Text>{question.question}</Text>
               </Box>
               <AccordionIcon />
             </AccordionButton>
@@ -46,12 +46,14 @@ function CreatedQuestionCard({
               <Heading size={"xs"} mb={2}>
                 Antworten:
               </Heading>
-              {answers.map((answer, index) => {
+              {question.answers.map((answer, index) => {
                 return (
                   <Text
                     key={index}
                     color={
-                      index === Number(correctAnswer) ? "green.500" : "inherit"
+                      index === Number(question.correctAnswer)
+                        ? "green.500"
+                        : "inherit"
                     }
                   >
                     {index + 1}. {answer}
@@ -61,13 +63,13 @@ function CreatedQuestionCard({
               <Heading size={"xs"} mb={2} mt={2}>
                 Hinweis:
               </Heading>
-              <Text>{hint}</Text>
+              <Text>{question.hint}</Text>
               {reportPossible && (
                 <Button
-                  isDisabled
-                  leftIcon={<GoReport />}
+                  leftIcon={loading ? <Spinner size={"sm"} /> : <GoReport />}
                   mt={4}
                   variant={"outline"}
+                  onClick={() => reportQuestion(question)}
                 >
                   Frage melden
                 </Button>

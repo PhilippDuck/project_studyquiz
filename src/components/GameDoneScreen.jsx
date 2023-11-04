@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Box,
   Heading,
@@ -6,18 +6,16 @@ import {
   VStack,
   Button,
   Table,
-  Thead,
   Tbody,
-  Tfoot,
   Tr,
-  Th,
   Td,
-  TableCaption,
   TableContainer,
   ButtonGroup,
+  useToast,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
 import CreatedQuestionCard from "./CreatedQuestionCard";
+import { useRealm } from "../provider/RealmProvider";
 import {
   MdOutlineArrowBack,
   MdThumbUp,
@@ -25,6 +23,38 @@ import {
 } from "react-icons/md";
 
 function GameDoneScreen({ gameData, quiz }) {
+  const app = useRealm();
+  const toast = useToast();
+  const [loadingReport, setLoadingReport] = useState(false);
+  async function reportQuestion(question) {
+    setLoadingReport(true);
+    try {
+      const result = await app.currentUser.functions.reportQuestion({
+        question: question,
+        quizId: quiz._id,
+        reportedBy: app.currentUser.id,
+      });
+      if (result.status === "success") {
+        toast({
+          title: result.message,
+          status: "success",
+          duration: 2000,
+          isClosable: true,
+        });
+      } else {
+        toast({
+          title: result.message,
+          status: "error",
+          duration: 5000,
+          isClosable: true,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    setLoadingReport(false);
+  }
+
   const navigate = useNavigate();
   return (
     <Box>
@@ -85,11 +115,10 @@ function GameDoneScreen({ gameData, quiz }) {
                   : "green.500"
               }
               key={index}
-              question={question.question}
-              answers={question.answers}
-              correctAnswer={question.correctAnswer}
-              hint={question.hint}
+              question={question}
               reportPossible={true}
+              reportQuestion={reportQuestion}
+              loading={loadingReport}
             />
           );
         })}

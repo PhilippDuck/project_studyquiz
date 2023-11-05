@@ -21,6 +21,8 @@ import Adminpanel from "./pages/Adminpanel.jsx";
 import Game from "./pages/Game.jsx";
 import Log from "./pages/Log.jsx";
 import Register from "./pages/Register.jsx";
+import ConfrimRegistration from "./pages/ConfirmRegistration.jsx";
+import ResetPassword from "./pages/ResetPassword.jsx";
 
 function AdminProtectedRoute({ children }) {
   const app = useRealm();
@@ -99,6 +101,14 @@ const router = createBrowserRouter([
   {
     path: "register",
     element: <Register />,
+  },
+  {
+    path: "confirmRegistration",
+    element: <ConfrimRegistration />,
+  },
+  {
+    path: "resetpassword",
+    element: <ResetPassword />,
   },
 ]);
 

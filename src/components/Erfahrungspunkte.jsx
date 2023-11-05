@@ -31,7 +31,15 @@ function Erfahrungspunkte() {
     fetchData();
   }, [app]);
 
-  const sortedUserList = [...userList].sort((a, b) => b.points - a.points);
+  const userListWithPoints = userList.filter(
+    (user) => user.points !== undefined
+  );
+
+  const sortedUserList = [...userListWithPoints].sort(
+    (a, b) => b.points - a.points
+  );
+
+  console.log(sortedUserList);
 
   return (
     <div>

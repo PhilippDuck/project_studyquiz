@@ -21,6 +21,7 @@ import {
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
+import { MdOutlineDelete } from "react-icons/md";
 
 function Profil() {
   const toast = useToast();
@@ -121,6 +122,13 @@ function Profil() {
               : 0}
           </Text>
         </Box>
+        {app.currentUser.providerType === "local-userpass" ? (
+          <Button isDisabled leftIcon={<MdOutlineDelete />} colorScheme="red">
+            Account löschen
+          </Button>
+        ) : (
+          <></>
+        )}
       </VStack>
 
       <Drawer

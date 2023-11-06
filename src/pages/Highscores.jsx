@@ -13,6 +13,9 @@ import {
 } from "@chakra-ui/react";
 import Erfahrungspunkte from "../components/Erfahrungspunkte";
 import PlayedQuizzesByTime from "../components/PlayedQuizzesByTime";
+import DatenbankenHighscore from "../components/DatenbankenHighscore";
+import PuUHighscore from "../components/PuUHighscore";
+import ProgrammiersprachenHighscore from "./ProgrammiersprachenHighscore";
 
 function Highscores() {
   const [selectedTab, setSelectedTab] = useState(0);
@@ -27,19 +30,23 @@ function Highscores() {
       <Box>
         <Tabs onChange={handleTabChange} isFitted variant="enclosed">
           <TabList>
-            <Tab>Gesamt</Tab>
-            <Tab>BWL-Quizzes</Tab>
-            <Tab>Tab 3</Tab>
+            <Tab>Erfahrungspunkte</Tab>
+            <Tab>Datenbanken</Tab>
+            <Tab>Personal- und Unternehmensführung</Tab>
+            <Tab>Programmiersprachen</Tab>
           </TabList>
           <TabPanels>
             <TabPanel>
               <Erfahrungspunkte />
             </TabPanel>
             <TabPanel>
-              <PlayedQuizzesByTime />
+              <DatenbankenHighscore />
             </TabPanel>
             <TabPanel>
-              <p>Inhalt des Tab 3</p>
+              <PuUHighscore />
+            </TabPanel>
+            <TabPanel>
+              <ProgrammiersprachenHighscore />
             </TabPanel>
           </TabPanels>
         </Tabs>

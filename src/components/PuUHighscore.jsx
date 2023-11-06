@@ -12,45 +12,36 @@ import {
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 
-function DatenbankenHighscore() {
+function PuUHighscore() {
   const app = useRealm();
   const [userList, setUserList] = useState([]);
   const [playedQuizzes, setPlayedQuizzes] = useState([]);
+  const [quizzes, setQuizzes] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const result = await app.currentUser.functions.getAllPlayedQuizzes();
-        console.log(result);
+        const allQuizzes = await app.currentUser.functions.getQuizzes();
 
-        // Berechne die Zeitdifferenz für jedes Quiz
-        const quizzesWithTime = result.map((quiz) => ({
+        // Filtern der gespielten Quizze nach dem Thema "Personal- und Unternehmensführung"
+        const filteredQuizzes = result.filter((quiz) => {
+          // Versuchen, das Thema aus "quizTopic" zu erhalten, oder "Unbekanntes Thema" verwenden
+          const quizTopic = quiz.quizTopic || "Unbekanntes Thema";
+          return quizTopic === "Personal- und Unternehmensführung";
+        });
+
+        // Berechnung der Zeitdifferenz für jedes Quiz
+        const quizzesWithTime = filteredQuizzes.map((quiz) => ({
           ...quiz,
           time: quiz.endTime - quiz.startTime,
         }));
 
-        // Sortiere die Quizze nach der Zeitdifferenz (schnellste zu langsamste)
+        // Sortieren der Quizze nach Zeitdifferenz (schnellste zu langsamste)
         quizzesWithTime.sort((a, b) => a.time - b.time);
 
-        // Setze die sortierten Daten in den Zustand
+        // Setzen der sortierten Daten in den Zustand
         setUserList(quizzesWithTime);
-        for (let i = 0; i < playedQuizzes.length; i++) {
-          // Holen des playerNick basierend auf playerId
-          const playerData = await userDataCollection.findOne({
-            userId: playedQuizzes[i].playerId,
-          });
-          playedQuizzes[i].playerNick = playerData
-            ? playerData.nickname
-            : "Unbekannt";
-
-          // Holen des quizTitle basierend auf quizId
-          const quizData = await quizzesCollection.findOne({
-            _id: BSON.ObjectId(playedQuizzes[i].quizId),
-          });
-          playedQuizzes[i].quizTitle = quizData
-            ? quizData.title
-            : "Unbekannter Titel";
-        }
       } catch (error) {
         console.error("Fehler beim Abrufen der Daten:", error);
       }
@@ -62,7 +53,9 @@ function DatenbankenHighscore() {
     <div>
       <TableContainer>
         <Table variant="striped" colorScheme="primary">
-          <TableCaption>Datenbanken Highscore</TableCaption>
+          <TableCaption>
+            Personal- und Unternehmensführung Highscore
+          </TableCaption>
           <Thead>
             <Tr>
               <Th>Player</Th>
@@ -95,4 +88,4 @@ function DatenbankenHighscore() {
   );
 }
 
-export default DatenbankenHighscore;
+export default PuUHighscore;

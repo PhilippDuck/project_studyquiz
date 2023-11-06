@@ -20,6 +20,7 @@ import {
   ModalBody,
   ModalCloseButton,
   useDisclosure,
+  Flex,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -174,20 +175,29 @@ function Login() {
                 >
                   Zurück zur App
                 </Button>
+                <Flex mt={6} w={"100%"} justify={"space-between"}>
+                  <Button
+                    size={"sm"}
+                    variant={"link"}
+                    onClick={() => navigate("/register")}
+                  >
+                    Noch kein Account?
+                  </Button>
 
-                <Button onClick={onOpen} variant="link" mt={4}>
-                  Passwort vergessen?
-                </Button>
+                  <Button size={"sm"} onClick={onOpen} variant="link">
+                    Passwort vergessen?
+                  </Button>
+                </Flex>
               </VStack>
             </form>
           </CardBody>
         </Card>
       </VStack>
-      {/* Modal für Passwort-Reset */}
+
       {/* Modal für Passwort-Reset */}
       <Modal isCentered isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent m={2}>
           <ModalHeader>Passwort zurücksetzen</ModalHeader>
           <ModalCloseButton />
           <form onSubmit={handleSubmitReset(onResetPassword)}>

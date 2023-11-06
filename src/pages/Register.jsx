@@ -185,6 +185,15 @@ function Register() {
                 >
                   Zurück zur App
                 </Button>
+
+                <Button
+                  size={"sm"}
+                  mt={6}
+                  variant={"link"}
+                  onClick={() => navigate("/login")}
+                >
+                  Zum Login
+                </Button>
               </VStack>
             </form>
           </CardBody>

@@ -34,7 +34,7 @@ import {
 } from "react-icons/md";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { useRealm } from "../provider/RealmProvider";
-import { LuUser, LuSmile } from "react-icons/lu";
+import { LuUser, LuSmile, LuClock } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
@@ -59,6 +59,7 @@ const LinkItems = [
     adminRequired: true,
   },
   { name: "Ranglisten", icon: MdOutlineLeaderboard, to: "highscores" },
+  { name: "Log", icon: LuClock, to: "log" },
   { name: "Profil", icon: LuUser, to: "profil" },
 ];
 

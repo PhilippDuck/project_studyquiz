@@ -21,6 +21,7 @@ import {
   ModalCloseButton,
   useDisclosure,
   Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -28,12 +29,14 @@ import { useRealm } from "../provider/RealmProvider";
 import { MdArrowBack, MdLogin } from "react-icons/md";
 import Logo from "../components/Logo";
 import { Credentials } from "realm-web";
+import { useState } from "react";
 
 function Login() {
   const app = useRealm();
   const toast = useToast();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loadingReset, setLoadingReset] = useState(false);
   const {
     register: registerLogin,
     handleSubmit: handleSubmitLogin,
@@ -93,6 +96,7 @@ function Login() {
   }
 
   const onResetPassword = async (data) => {
+    setLoadingReset(true);
     try {
       await app.emailPasswordAuth.sendResetPasswordEmail({
         email: data.resetEmail,
@@ -114,6 +118,7 @@ function Login() {
         isClosable: true,
       });
     }
+    setLoadingReset(false);
   };
 
   return (
@@ -220,7 +225,11 @@ function Login() {
             </ModalBody>
 
             <ModalFooter>
-              <Button colorScheme="primary" type="submit">
+              <Button
+                leftIcon={loadingReset ? <Spinner size={"sm"} /> : <></>}
+                colorScheme="primary"
+                type="submit"
+              >
                 Zurücksetzen
               </Button>
             </ModalFooter>

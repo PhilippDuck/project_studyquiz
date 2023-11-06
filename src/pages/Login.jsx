@@ -12,6 +12,16 @@ import {
   FormControl,
   FormErrorMessage,
   useToast,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalFooter,
+  ModalBody,
+  ModalCloseButton,
+  useDisclosure,
+  Flex,
+  Spinner,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -19,15 +29,24 @@ import { useRealm } from "../provider/RealmProvider";
 import { MdArrowBack, MdLogin } from "react-icons/md";
 import Logo from "../components/Logo";
 import { Credentials } from "realm-web";
+import { useState } from "react";
 
 function Login() {
   const app = useRealm();
   const toast = useToast();
   const navigate = useNavigate();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [loadingReset, setLoadingReset] = useState(false);
   const {
-    register,
-    handleSubmit,
-    formState: { errors },
+    register: registerLogin,
+    handleSubmit: handleSubmitLogin,
+    formState: { errors: loginErrors },
+  } = useForm();
+
+  const {
+    register: registerReset,
+    handleSubmit: handleSubmitReset,
+    formState: { errors: resetErrors },
   } = useForm();
 
   /**
@@ -76,6 +95,32 @@ function Login() {
     return user;
   }
 
+  const onResetPassword = async (data) => {
+    setLoadingReset(true);
+    try {
+      await app.emailPasswordAuth.sendResetPasswordEmail({
+        email: data.resetEmail,
+      });
+      toast({
+        title: "Passwort-Reset E-Mail gesendet!",
+        description: "Überprüfen Sie Ihren Posteingang.",
+        status: "success",
+        duration: 5000,
+        isClosable: true,
+      });
+      onClose();
+    } catch (error) {
+      toast({
+        title: "Fehler beim Senden der E-Mail!",
+        description: "Bitte versuchen Sie es erneut.",
+        status: "error",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+    setLoadingReset(false);
+  };
+
   return (
     <Center h={"100vh"} bg={useColorModeValue("white", "gray.900")}>
       <VStack w={"600px"} p={4} gap={10}>
@@ -83,12 +128,12 @@ function Login() {
         <Card w={"100%"} variant={"outline"}>
           <CardBody>
             <Heading>Login</Heading>
-            <form onSubmit={handleSubmit(onSubmit)}>
+            <form onSubmit={handleSubmitLogin(onSubmit)}>
               <VStack pt={4} align={"start"}>
-                <FormControl isInvalid={errors.email}>
+                <FormControl isInvalid={loginErrors.email}>
                   <Text>Email:</Text>
                   <Input
-                    {...register("email", {
+                    {...registerLogin("email", {
                       required: "E-Mail ist erforderlich",
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
@@ -97,20 +142,20 @@ function Login() {
                     })}
                   />
                   <FormErrorMessage>
-                    {errors.email && errors.email.message}
+                    {loginErrors.email && loginErrors.email.message}
                   </FormErrorMessage>
                 </FormControl>
 
-                <FormControl isInvalid={errors.password}>
+                <FormControl isInvalid={loginErrors.password}>
                   <Text>Passwort:</Text>
                   <Input
                     type="password"
-                    {...register("password", {
+                    {...registerLogin("password", {
                       required: "Passwort ist erforderlich",
                     })}
                   />
                   <FormErrorMessage>
-                    {errors.password && errors.password.message}
+                    {loginErrors.password && loginErrors.password.message}
                   </FormErrorMessage>
                 </FormControl>
 
@@ -135,11 +180,62 @@ function Login() {
                 >
                   Zurück zur App
                 </Button>
+                <Flex mt={6} w={"100%"} justify={"space-between"}>
+                  <Button
+                    size={"sm"}
+                    variant={"link"}
+                    onClick={() => navigate("/register")}
+                  >
+                    Noch kein Account?
+                  </Button>
+
+                  <Button size={"sm"} onClick={onOpen} variant="link">
+                    Passwort vergessen?
+                  </Button>
+                </Flex>
               </VStack>
             </form>
           </CardBody>
         </Card>
       </VStack>
+
+      {/* Modal für Passwort-Reset */}
+      <Modal isCentered isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent m={2}>
+          <ModalHeader>Passwort zurücksetzen</ModalHeader>
+          <ModalCloseButton />
+          <form onSubmit={handleSubmitReset(onResetPassword)}>
+            <ModalBody>
+              <FormControl isInvalid={resetErrors.resetEmail}>
+                <Input
+                  placeholder="Geben Sie Ihre E-Mail-Adresse ein"
+                  {...registerReset("resetEmail", {
+                    required: "E-Mail ist erforderlich",
+                    pattern: {
+                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                      message: "Ungültige E-Mail-Adresse",
+                    },
+                  })}
+                />
+                <FormErrorMessage>
+                  {resetErrors.resetEmail && resetErrors.resetEmail.message}
+                </FormErrorMessage>
+              </FormControl>
+            </ModalBody>
+
+            <ModalFooter>
+              <Button
+                leftIcon={loadingReset ? <Spinner size={"sm"} /> : <></>}
+                colorScheme="primary"
+                type="submit"
+              >
+                Zurücksetzen
+              </Button>
+            </ModalFooter>
+          </form>
+        </ModalContent>
+      </Modal>
     </Center>
   );
 }

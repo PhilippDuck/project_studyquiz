@@ -34,8 +34,8 @@ function PlayedQuizzes() {
   }
 
   return (
-    <Box mt={4} w={"100%"}>
-      <Heading size={"md"}>Letzte Spiele:</Heading>
+    <Box w={"100%"}>
+      <Heading>Letzte Spiele:</Heading>
       {loadingPlayedGames ? (
         <Spinner />
       ) : (

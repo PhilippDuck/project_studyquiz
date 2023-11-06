@@ -34,7 +34,7 @@ import {
 } from "react-icons/md";
 import { IoGameControllerOutline } from "react-icons/io5";
 import { useRealm } from "../provider/RealmProvider";
-import { LuUser } from "react-icons/lu";
+import { LuUser, LuSmile, LuClock } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "./Logo";
 import { useEffect, useState } from "react";
@@ -59,6 +59,7 @@ const LinkItems = [
     adminRequired: true,
   },
   { name: "Ranglisten", icon: MdOutlineLeaderboard, to: "highscores" },
+  { name: "Log", icon: LuClock, to: "log" },
   { name: "Profil", icon: LuUser, to: "profil" },
 ];
 
@@ -284,14 +285,24 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   </Flex>
                 </MenuItem>
               ) : (
-                <Link to={"/login"}>
-                  <MenuItem>
-                    <Flex gap={2} align={"center"}>
-                      <MdLogin />
-                      <Text>Login</Text>
-                    </Flex>
-                  </MenuItem>
-                </Link>
+                <>
+                  <Link to={"/login"}>
+                    <MenuItem>
+                      <Flex gap={2} align={"center"}>
+                        <MdLogin />
+                        <Text>Login</Text>
+                      </Flex>
+                    </MenuItem>
+                  </Link>
+                  <Link to={"/register"}>
+                    <MenuItem>
+                      <Flex gap={2} align={"center"}>
+                        <LuSmile />
+                        <Text>Registrieren</Text>
+                      </Flex>
+                    </MenuItem>
+                  </Link>
+                </>
               )}
             </MenuList>
           </Menu>

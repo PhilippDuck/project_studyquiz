@@ -17,6 +17,14 @@ import {
   IconButton,
   VStack,
   Container,
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogCloseButton,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
@@ -31,6 +39,8 @@ function Profil() {
   const [isOpen, setIsOpen] = useState(false);
   const [nickname, setNickname] = useState("");
   const [isLoading, setIsLoading] = useState(false);
+  const deleteAlertDialog = useDisclosure();
+  const cancelRef = React.useRef();
 
   const onClose = () => setIsOpen(false);
   const btnRef = React.useRef();
@@ -82,6 +92,16 @@ function Profil() {
     console.log(app.currentUser.customData);
   }, []);
 
+  async function deleteUser(id) {
+    try {
+      await app.deleteUser(app.currentUser);
+      deleteAlertDialog.onClose();
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   return (
     <Container p={0} border={"none"} variant={"outline"} maxW={"800px"}>
       <Heading mb={4}>Profil</Heading>
@@ -128,7 +148,11 @@ function Profil() {
         </Box>
 
         {app.currentUser.providerType === "local-userpass" ? (
-          <Button isDisabled leftIcon={<MdOutlineDelete />} colorScheme="red">
+          <Button
+            onClick={() => deleteAlertDialog.onOpen()}
+            leftIcon={<MdOutlineDelete />}
+            colorScheme="red"
+          >
             Account löschen
           </Button>
         ) : (
@@ -164,6 +188,39 @@ function Profil() {
           </DrawerContent>
         </DrawerOverlay>
       </Drawer>
+      <AlertDialog
+        isCentered
+        isOpen={deleteAlertDialog.isOpen}
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+      >
+        <AlertDialogOverlay>
+          <AlertDialogContent m={2}>
+            <AlertDialogHeader fontSize="lg" fontWeight="bold">
+              Benutzerkonto löschen?
+            </AlertDialogHeader>
+
+            <AlertDialogBody>
+              Bist du dir Sicher? Dein Benutzerkonto wird unwiderruflich mit
+              allen verbundenen Daten, wie erstellten Quiz und gesammelten
+              Punkten gelöscht.
+            </AlertDialogBody>
+
+            <AlertDialogFooter>
+              <Button
+                colorScheme="primary"
+                ref={cancelRef}
+                onClick={deleteAlertDialog.onClose}
+              >
+                Abbrechen
+              </Button>
+              <Button onClick={() => deleteUser()} ml={3}>
+                Delete
+              </Button>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialogOverlay>
+      </AlertDialog>
     </Container>
   );
 }

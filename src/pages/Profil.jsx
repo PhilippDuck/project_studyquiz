@@ -30,6 +30,7 @@ import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
 import { MdEdit } from "react-icons/md";
 import { MdOutlineDelete } from "react-icons/md";
+import convertMongoNumberToJSNumber from "../helperFunctions/convertMongoNumberToJSNumber";
 
 function Profil() {
   const toast = useToast();
@@ -140,9 +141,8 @@ function Profil() {
         <Box>
           <Text fontWeight={"bold"}>Gesamtpunkte:</Text>
           <Text>
-            {app.currentUser.customData.points &&
-            app.currentUser.customData.points.$numberInt !== undefined
-              ? app.currentUser.customData.points.$numberInt
+            {app.currentUser.customData.points
+              ? convertMongoNumberToJSNumber(app.currentUser.customData.points)
               : 0}
           </Text>
         </Box>
@@ -215,7 +215,7 @@ function Profil() {
                 Abbrechen
               </Button>
               <Button onClick={() => deleteUser()} ml={3}>
-                Delete
+                Löschen
               </Button>
             </AlertDialogFooter>
           </AlertDialogContent>

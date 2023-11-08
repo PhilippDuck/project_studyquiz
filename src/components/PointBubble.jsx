@@ -1,5 +1,6 @@
 import React from "react";
 import { Box, useColorModeValue, Text, Flex } from "@chakra-ui/react";
+import convertMongoNumberToJSNumber from "../helperFunctions/convertMongoNumberToJSNumber";
 
 function PointBubble({ points, display }) {
   return (
@@ -13,7 +14,7 @@ function PointBubble({ points, display }) {
       display={display}
     >
       <Text>🧠</Text>
-      <Text>{points}</Text>
+      <Text>{points ? convertMongoNumberToJSNumber(points) : 0}</Text>
     </Flex>
   );
 }

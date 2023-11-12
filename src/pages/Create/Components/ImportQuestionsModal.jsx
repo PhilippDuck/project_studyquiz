@@ -31,7 +31,18 @@ function ImportQuestionsModal({ importQuestionModal, handleAddQuestion }) {
           ],
           "hint": "Denk daran, welches Kommando du benutzt, wenn du Informationen aus einer Tabelle sehen möchtest!",
           "correctAnswer": "2"
-        }]
+        },{
+          "question": "Welches SQL-Kommando wird verwendet, um Daten in einer Tabelle zu aktualisieren?",
+          "answers": [
+            "INSERT",
+            "UPDATE",
+            "SELECT",
+            "DROP"
+          ],
+          "hint": "Denk daran, welches Kommando du verwendest, wenn du bestehende Daten in einer Tabelle ändern möchtest!",
+          "correctAnswer": "1"
+        }
+        ]
       `;
 
   const toast = useToast();
@@ -92,8 +103,9 @@ function ImportQuestionsModal({ importQuestionModal, handleAddQuestion }) {
               importieren.
             </Text>
             <Text>
-              Es können beliebig viele Fragenobjekte mit "," (Komma) getrennt
-              eingefügt werden
+              Es können beliebig viele Fragenobjekte mit "," (Komma) zwischen
+              den Fragen (geschweifte Klammern) getrennt eingefügt werden.
+              (siehe Beispiel)
             </Text>
             <Flex w={"100%"} justify={"space-between"} align={"center"}>
               <Text fontWeight={"semibold"}>Beispiel:</Text>{" "}
@@ -115,7 +127,7 @@ function ImportQuestionsModal({ importQuestionModal, handleAddQuestion }) {
                 width: "100%",
               }}
             >
-              <Code p={2}>
+              <Code h={"200px"} overflowY={"auto"} p={2}>
                 {JSON.stringify(JSON.parse(exampleJson), null, 2)}
               </Code>
             </pre>

@@ -19,7 +19,7 @@ import { MdArrowBack } from "react-icons/md";
  *
  * Die Komponente verwendet Chakra UI für das Layout und das Styling.
  */
-func;
+
 function NotFound() {
   const navigate = useNavigate();
   return (

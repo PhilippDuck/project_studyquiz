@@ -8,9 +8,33 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { useRealm } from "../provider/RealmProvider";
-import ReportetQuestionCard from "../components/ReportetQuestionCard";
+import { useRealm } from "../../provider/RealmProvider";
+import ReportetQuestionCard from "./Components/ReportetQuestionCard";
 
+/**
+ * `Adminpanel` ist eine React-Komponente, die für die Verwaltung von gemeldeten Fragen in einer Admin-Oberfläche verwendet wird.
+ * Diese Komponente nutzt verschiedene Funktionen und Zustände, um gemeldete Fragen abzurufen, anzuzeigen und Aktionen wie
+ * das Freigeben oder Löschen dieser Fragen durchzuführen.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Adminpanel />
+ * )
+ *
+ * Funktionen:
+ * - `getReportedQuestions`: Ruft die gemeldeten Fragen über eine API ab.
+ * - `releaseQuestion`: Hebt die Meldung einer spezifischen Frage auf.
+ * - `deleteReportedQuestion`: Löscht eine gemeldete Frage.
+ *
+ * Zustände:
+ * - `reportedQuestions`: Liste der gemeldeten Fragen.
+ * - `loadingReportedQuestions`: Ladezustand beim Abrufen der gemeldeten Fragen.
+ * - `loadingRelease`: Ladezustand beim Freigeben einer Frage.
+ * - `loadingDelete`: Ladezustand beim Löschen einer Frage.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling.
+ */
 function Adminpanel() {
   const app = useRealm();
   const toast = useToast();

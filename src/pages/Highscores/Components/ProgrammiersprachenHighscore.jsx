@@ -10,7 +10,7 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
-import { useRealm } from "../provider/RealmProvider";
+import { useRealm } from "../../../provider/RealmProvider";
 
 function ProgrammiersprachenHighscore() {
   const app = useRealm();

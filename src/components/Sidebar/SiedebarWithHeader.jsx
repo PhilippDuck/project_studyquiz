@@ -33,10 +33,10 @@ import {
   MdOutlineAdminPanelSettings,
 } from "react-icons/md";
 import { IoGameControllerOutline } from "react-icons/io5";
-import { useRealm } from "../provider/RealmProvider";
+import { useRealm } from "../../provider/RealmProvider";
 import { LuUser, LuSmile, LuClock } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
-import Logo from "./Logo";
+import Logo from "../Logo";
 import { useEffect, useState } from "react";
 import PointBubble from "./PointBubble";
 

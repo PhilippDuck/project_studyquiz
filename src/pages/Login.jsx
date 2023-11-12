@@ -31,6 +31,34 @@ import Logo from "../components/Logo";
 import { Credentials } from "realm-web";
 import { useState } from "react";
 
+/**
+ * Die `Login`-Komponente ermöglicht es Benutzern, sich in die Anwendung einzuloggen.
+ * Sie bietet auch eine Möglichkeit, das Passwort zurückzusetzen, falls der Benutzer es vergessen hat.
+ * Die Komponente nutzt Formulare zur Eingabe von Benutzerdaten und interagiert mit einem Authentifizierungsservice, um die Anmeldeinformationen zu validieren.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Login />
+ * )
+ *
+ * Funktionen:
+ * - `onSubmit`: Verarbeitet das Login-Formular und versucht, den Benutzer einzuloggen.
+ * - `loginEmailPassword`: Sendet die Anmeldeinformationen an den Authentifizierungsservice.
+ * - `onResetPassword`: Verarbeitet das Formular zum Zurücksetzen des Passworts und sendet eine Anfrage an den Authentifizierungsservice.
+ *
+ * Zustände:
+ * - `loadingReset`: Zeigt an, ob der Prozess des Zurücksetzens des Passworts läuft.
+ *
+ * Die Komponente nutzt die `useRealm`-Hook für die Authentifizierungsfunktionen, `useToast` von Chakra UI für Benachrichtigungen,
+ * sowie `useNavigate` und `useDisclosure` von React Router DOM und Chakra UI für die Navigation und die Steuerung der Modalansicht.
+ *
+ * Zusätzliche Elemente:
+ * - `Modal`: Ein Dialogfenster zur Eingabe der E-Mail-Adresse für das Zurücksetzen des Passworts.
+ * - `FormControl` und `FormErrorMessage`: Zur Anzeige und Validierung der Formulareingaben.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling und beinhaltet die `Logo`-Komponente als visuelles Element.
+ */
 function Login() {
   const app = useRealm();
   const toast = useToast();

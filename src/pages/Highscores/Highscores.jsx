@@ -11,11 +11,10 @@ import {
   Heading,
   Container,
 } from "@chakra-ui/react";
-import Erfahrungspunkte from "../components/Erfahrungspunkte";
-import PlayedQuizzesByTime from "../components/PlayedQuizzesByTime";
-import DatenbankenHighscore from "../components/DatenbankenHighscore";
-import PuUHighscore from "../components/PuUHighscore";
-import ProgrammiersprachenHighscore from "./ProgrammiersprachenHighscore";
+import Erfahrungspunkte from "./Components/Erfahrungspunkte";
+import DatenbankenHighscore from "./Components/DatenbankenHighscore";
+import PuUHighscore from "./Components/PuUHighscore";
+import ProgrammiersprachenHighscore from "./Components/ProgrammiersprachenHighscore";
 
 function Highscores() {
   const [selectedTab, setSelectedTab] = useState(0);

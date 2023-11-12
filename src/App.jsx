@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Center, Spinner } from "@chakra-ui/react";
-import SidebarWithHeader from "./components/SiedebarWithHeader";
+import SidebarWithHeader from "./components/Sidebar/SiedebarWithHeader";
 import { Outlet } from "react-router-dom";
 import { useRealm } from "./provider/RealmProvider";
 import { Credentials } from "realm-web";

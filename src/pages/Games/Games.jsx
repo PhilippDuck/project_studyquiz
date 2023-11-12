@@ -10,7 +10,6 @@ import {
   Box,
   useDisclosure,
   useToast,
-  Divider,
   Container,
   Accordion,
   AccordionItem,
@@ -18,13 +17,41 @@ import {
   AccordionPanel,
   AccordionIcon,
 } from "@chakra-ui/react";
-import { useRealm } from "../provider/RealmProvider";
-import QuizCard from "../components/QuizCard";
-import PlayedQuizzes from "../components/PlayedQuizzes";
-import DeleteQuizDialog from "../components/DeleteQuizDialog";
-import TopicMenu from "../components/TopicMenu";
+import { useRealm } from "../../provider/RealmProvider";
+import QuizCard from "./Components/QuizCard";
+import DeleteQuizDialog from "./Components/DeleteQuizDialog";
+import TopicMenu from "./Components/TopicMenu";
 import { MdOutlineClose } from "react-icons/md";
 
+/**
+ * Die `Games`-Komponente stellt eine Liste von Quizspielen dar und ermöglicht es dem Benutzer,
+ * vorhandene Quizspiele zu betrachten, nach Themen zu filtern und Quizspiele zu löschen.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Games />
+ * )
+ *
+ * Funktionen:
+ * - `getQuizzes`: Lädt die verfügbaren Quizspiele aus der Datenbank.
+ * - `handleDeleteQuiz`: Bereitet das Löschen eines bestimmten Quizspiels vor.
+ * - `deleteQuizById`: Löscht ein Quizspiel basierend auf seiner ID.
+ * - `handleFilterTopic`: Aktualisiert den Filterzustand basierend auf dem ausgewählten Thema.
+ *
+ * Zustände:
+ * - `loadingQuizzes`: Zeigt an, ob die Quizspiele gerade geladen werden.
+ * - `quizzes`: Enthält die geladenen Quizspiele.
+ * - `quizIdToDelete`: Speichert die ID des zu löschenden Quizspiels.
+ * - `topic`: Aktueller Filterzustand für die Anzeige der Quizspiele.
+ *
+ * Zusätzliche Komponenten:
+ * - `QuizCard`: Stellt einzelne Quizspiele in einer Liste dar.
+ * - `DeleteQuizDialog`: Ein Dialog zum Bestätigen des Löschens eines Quizspiels.
+ * - `TopicMenu`: Ein Menü zur Auswahl eines Themenfilters.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling.
+ */
 function Games() {
   const app = useRealm();
   const toast = useToast();

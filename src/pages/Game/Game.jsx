@@ -21,11 +21,37 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { MdOutlineQuestionMark } from "react-icons/md";
-import { useRealm } from "../provider/RealmProvider";
-import { useNavigate } from "react-router-dom";
-import GameDoneScreen from "../components/GameDoneScreen";
-import shuffleArray from "../helperFunctions/shuffleArray";
+import { useRealm } from "../../provider/RealmProvider";
+import GameDoneScreen from "./Components/GameDoneScreen";
+import shuffleArray from "../../helperFunctions/shuffleArray";
 
+/**
+ * Die `Game`-Komponente ist für die Darstellung und Verwaltung eines Quiz-Spiels verantwortlich.
+ * Sie ermöglicht es dem Benutzer, Quizfragen zu beantworten, Hinweise zu nutzen und den Fortschritt des Spiels zu verfolgen.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Game />
+ * )
+ *
+ * Funktionen:
+ * - `getQuiz`: Lädt das Quiz basierend auf der übergebenen Quiz-ID.
+ * - `checkAnswer`: Überprüft, ob die ausgewählte Antwort korrekt ist und aktualisiert den Spielstatus.
+ * - `setPlayedQuiz`: Speichert die Spielstatistik nach Abschluss des Spiels oder bei vorzeitigem Abbruch.
+ *
+ * Zustände:
+ * - `loadingQuiz`: Zeigt an, ob das Quiz geladen wird.
+ * - `quiz`: Enthält die Quizdaten einschließlich Fragen und Antworten.
+ * - `currentQuestion`: Verfolgt die aktuell angezeigte Frage.
+ * - `gameIsDone`: Zeigt an, ob das Spiel abgeschlossen ist.
+ * - `gameData`: Speichert Daten zum Spielverlauf, wie Fehler, Startzeit, genutzte Hinweise und Punkte.
+ *
+ * Zusätzliche Komponenten:
+ * - `GameDoneScreen`: Wird angezeigt, wenn das Spiel abgeschlossen ist, um die Ergebnisse darzustellen.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling.
+ */
 function Game() {
   const gameDoneRef = useRef();
   const app = useRealm();

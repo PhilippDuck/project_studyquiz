@@ -18,12 +18,40 @@ import {
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useRealm } from "../provider/RealmProvider";
-import { MdArrowBack, MdLogin } from "react-icons/md";
+import { MdArrowBack } from "react-icons/md";
 import { LuSmile } from "react-icons/lu";
 import { BsArrowRepeat } from "react-icons/bs";
 import Logo from "../components/Logo";
 import { useState } from "react";
 
+/**
+ * Die `Register`-Komponente ermöglicht es neuen Benutzern, sich in der Anwendung zu registrieren.
+ * Sie bietet ein Formular zur Eingabe von E-Mail und Passwort und verarbeitet die Registrierung über einen Authentifizierungsservice.
+ * Nach erfolgreicher Registrierung wird eine Bestätigungsmail an die angegebene E-Mail-Adresse gesendet.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Register />
+ * )
+ *
+ * Funktionen:
+ * - `onSubmit`: Verarbeitet das Registrierungsformular und versucht, den neuen Benutzer zu registrieren.
+ * - `sendConfirmationAgain`: Sendet die Bestätigungsmail erneut an den Benutzer, falls erforderlich.
+ *
+ * Zustände:
+ * - `email`: Speichert die E-Mail-Adresse des Benutzers.
+ * - `loadingRegister`: Zeigt an, ob der Registrierungsprozess läuft.
+ * - `confirmationSend`: Gibt an, ob die Bestätigungsmail bereits gesendet wurde.
+ *
+ * Die Komponente nutzt die `useRealm`-Hook für die Authentifizierungsfunktionen, `useToast` von Chakra UI für Benachrichtigungen,
+ * sowie `useNavigate` von React Router DOM für die Navigation.
+ *
+ * Zusätzliche Elemente:
+ * - `FormControl`, `FormErrorMessage`, `Input`, `Button`: Für die Darstellung und Interaktion im Registrierungsformular.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling und beinhaltet die `Logo`-Komponente als visuelles Element.
+ */
 function Register() {
   const app = useRealm();
   const toast = useToast();

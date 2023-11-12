@@ -16,9 +16,30 @@ import { useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { MdOutlineDone } from "react-icons/md";
-
 import Logo from "../components/Logo";
 
+/**
+ * Die `ConfirmRegistration`-Komponente ermöglicht es Benutzern, ihre Registrierung zu bestätigen.
+ * Sie wird typischerweise verwendet, nachdem ein Benutzer einen Registrierungslink in einer E-Mail angeklickt hat.
+ * Die Komponente empfängt einen Token und einen TokenId aus der URL, die für die Bestätigung der Registrierung notwendig sind.
+ *
+ * @component
+ * @example
+ * return (
+ *   <ConfirmRegistration />
+ * )
+ *
+ * Funktion:
+ * - `confirm`: Bestätigt die Benutzerregistrierung anhand des Tokens und der TokenId und leitet den Benutzer nach erfolgreicher Bestätigung zum Login-Bildschirm weiter.
+ *
+ * Zustände:
+ * - `loadingConfirm`: Zeigt an, ob der Bestätigungsprozess läuft.
+ *
+ * Die Komponente nutzt die `useRealm`-Hook, um Zugang zur Authentifizierungsfunktionalität zu erhalten, und die `useToast`-Hook von Chakra UI, um Benachrichtigungen anzuzeigen.
+ * Außerdem verwendet sie die `useNavigate`- und `useSearchParams`-Hooks von React Router DOM für die Navigation und das Auslesen der URL-Parameter.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling und beinhaltet die `Logo`-Komponente als visuelles Element.
+ */
 function ConfrimRegistration() {
   const app = useRealm();
   const toast = useToast();

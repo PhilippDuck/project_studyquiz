@@ -15,9 +15,9 @@ import {
   useColorModeValue,
 } from "@chakra-ui/react";
 import { MdOutlineDelete } from "react-icons/md";
-import { useRealm } from "../provider/RealmProvider";
+import { useRealm } from "../../../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
-import formatUnixTimestamp from "../helperFunctions/formatUnixTimestamp";
+import formatUnixTimestamp from "../../../helperFunctions/formatUnixTimestamp";
 import { MdThumbUp } from "react-icons/md";
 
 function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {

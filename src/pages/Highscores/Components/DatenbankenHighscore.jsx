@@ -10,9 +10,9 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
-import { useRealm } from "../provider/RealmProvider";
+import { useRealm } from "../../../provider/RealmProvider";
 
-function PuUHighscore() {
+function DatenbankenHighscore() {
   const app = useRealm();
   const [userList, setUserList] = useState([]);
   const [playedQuizzes, setPlayedQuizzes] = useState([]);
@@ -24,11 +24,11 @@ function PuUHighscore() {
         const result = await app.currentUser.functions.getAllPlayedQuizzes();
         const allQuizzes = await app.currentUser.functions.getQuizzes();
 
-        // Filtern der gespielten Quizze nach dem Thema "Personal- und Unternehmensführung"
+        // Filtern der gespielten Quizze nach dem Thema "Datenbanken"
         const filteredQuizzes = result.filter((quiz) => {
           // Versuchen, das Thema aus "quizTopic" zu erhalten, oder "Unbekanntes Thema" verwenden
           const quizTopic = quiz.quizTopic || "Unbekanntes Thema";
-          return quizTopic === "Personal- und Unternehmensführung";
+          return quizTopic === "Datenbanken";
         });
 
         // Berechnung der Zeitdifferenz für jedes Quiz
@@ -53,9 +53,7 @@ function PuUHighscore() {
     <div>
       <TableContainer>
         <Table variant="striped" colorScheme="primary">
-          <TableCaption>
-            Personal- und Unternehmensführung Highscore
-          </TableCaption>
+          <TableCaption>Datenbanken Highscore</TableCaption>
           <Thead>
             <Tr>
               <Th>Player</Th>
@@ -88,4 +86,4 @@ function PuUHighscore() {
   );
 }
 
-export default PuUHighscore;
+export default DatenbankenHighscore;

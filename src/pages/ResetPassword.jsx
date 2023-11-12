@@ -22,6 +22,33 @@ import Logo from "../components/Logo";
 import { useRealm } from "../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
 
+/**
+ * Die `ResetPassword`-Komponente ermöglicht es Benutzern, ihr Passwort zurückzusetzen.
+ * Sie wird in der Regel verwendet, wenn ein Benutzer sein Passwort vergessen hat und über den Passwort-Zurücksetzungsprozess
+ * eine E-Mail mit einem Link zum Zurücksetzen des Passworts erhalten hat. Die Komponente erfordert einen gültigen Token und TokenId,
+ * die über die URL bereitgestellt werden, um das neue Passwort festzulegen.
+ *
+ * @component
+ * @example
+ * return (
+ *   <ResetPassword />
+ * )
+ *
+ * Funktion:
+ * - `onSubmit`: Nimmt das neue Passwort entgegen und verarbeitet das Zurücksetzen des Passworts mithilfe des Authentifizierungsservice.
+ *
+ * Zustände:
+ * - `loadingReset`: Zeigt an, ob der Prozess zum Zurücksetzen des Passworts aktiv ist.
+ * - `showPassword`: Steuert die Sichtbarkeit des eingegebenen Passworts.
+ *
+ * Die Komponente nutzt die `useRealm`-Hook für die Authentifizierungsfunktionen, `useToast` von Chakra UI für Benachrichtigungen,
+ * sowie `useNavigate` und `useSearchParams` von React Router DOM für die Navigation und das Auslesen der URL-Parameter.
+ *
+ * Zusätzliche Elemente:
+ * - `FormControl`, `FormLabel`, `Input`, `FormErrorMessage`, `InputGroup`, `Button`: Für die Darstellung und Interaktion im Passwort-Zurücksetzungsformular.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling und beinhaltet die `Logo`-Komponente als visuelles Element.
+ */
 function ResetPassword() {
   const [searchParams] = useSearchParams();
   const app = useRealm();

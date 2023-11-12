@@ -14,8 +14,8 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useNavigate } from "react-router-dom";
-import CreatedQuestionCard from "./CreatedQuestionCard";
-import { useRealm } from "../provider/RealmProvider";
+import CreatedQuestionCard from "../../../components/CreatedQuestionCard";
+import { useRealm } from "../../../provider/RealmProvider";
 import {
   MdOutlineArrowBack,
   MdThumbUp,

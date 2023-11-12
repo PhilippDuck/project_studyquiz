@@ -23,7 +23,6 @@ import {
   AlertDialogHeader,
   AlertDialogContent,
   AlertDialogOverlay,
-  AlertDialogCloseButton,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useRealm } from "../provider/RealmProvider";
@@ -32,9 +31,38 @@ import { MdEdit } from "react-icons/md";
 import { MdOutlineDelete } from "react-icons/md";
 import convertMongoNumberToJSNumber from "../helperFunctions/convertMongoNumberToJSNumber";
 
+/**
+ * Die `Profil`-Komponente ermöglicht es Benutzern, ihre Profilinformationen einzusehen und bestimmte Aktionen wie das Ändern des Nicknamens
+ * oder das Löschen ihres Kontos durchzuführen. Die Komponente bietet eine Benutzeroberfläche zur Anzeige und Änderung von Benutzerdaten,
+ * einschließlich einer Drawer-Komponente für die Nickname-Änderung und eines AlertDialogs für die Bestätigung der Konto-Löschung.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Profil />
+ * )
+ *
+ * Funktionen:
+ * - `handleNicknameChange`: Ändert den Nicknamen des Benutzers.
+ * - `deleteUser`: Löscht den Benutzeraccount und alle damit verbundenen Daten.
+ *
+ * Zustände:
+ * - `isOpen`: Steuert die Sichtbarkeit des Drawers zur Nickname-Änderung.
+ * - `nickname`: Speichert den aktuell eingegebenen Nicknamen.
+ * - `isLoading`: Zeigt an, ob der Nickname-Änderungsprozess läuft.
+ *
+ * Die Komponente nutzt die `useRealm`-Hook für die Authentifizierungsfunktionen und Datenzugriff, `useToast` von Chakra UI für Benachrichtigungen,
+ * sowie `useNavigate` von React Router DOM für die Navigation.
+ *
+ * Zusätzliche Elemente:
+ * - `Drawer`: Ein seitliches Panel zur Änderung des Nicknamens.
+ * - `AlertDialog`: Ein Dialogfenster zur Bestätigung der Konto-Löschung.
+ * - `Input`, `Button`, `Text`: Für die Darstellung und Interaktion in der Benutzeroberfläche.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling.
+ */
 function Profil() {
   const toast = useToast();
-
   const navigate = useNavigate();
   const app = useRealm();
   const [isOpen, setIsOpen] = useState(false);

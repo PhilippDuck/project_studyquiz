@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, useColorModeValue, Text, Flex } from "@chakra-ui/react";
-import convertMongoNumberToJSNumber from "../helperFunctions/convertMongoNumberToJSNumber";
+import convertMongoNumberToJSNumber from "../../helperFunctions/convertMongoNumberToJSNumber";
 
 function PointBubble({ points, display }) {
   return (

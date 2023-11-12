@@ -8,7 +8,7 @@ import {
   IconButton,
   Spinner,
 } from "@chakra-ui/react";
-import { useRealm } from "../provider/RealmProvider";
+import { useRealm } from "../../../provider/RealmProvider";
 import { MdOutlineFilterAlt } from "react-icons/md";
 
 function TopicMenu({ handleFiltertopic }) {

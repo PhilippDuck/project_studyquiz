@@ -21,17 +21,41 @@ import {
   Tooltip,
   Container,
 } from "@chakra-ui/react";
-import AddQuestionDrawer from "../components/AddQuestionDrawer";
+import AddQuestionDrawer from "./Components/AddQuestionDrawer";
 import { useForm } from "react-hook-form";
 import { MdAdd, MdSave } from "react-icons/md";
 import { LuImport } from "react-icons/lu";
-import { useRealm } from "../provider/RealmProvider";
-import CreatedQuestionCard from "../components/CreatedQuestionCard";
+import { useRealm } from "../../provider/RealmProvider";
+import CreatedQuestionCard from "../../components/CreatedQuestionCard";
 import { useNavigate } from "react-router-dom";
-import ImportQuestionsModal from "../components/ImportQuestionsModal";
+import ImportQuestionsModal from "./Components/ImportQuestionsModal";
 
 /**
- * "Erstellen" Seite. Dient dem erstellen eines neuen Quiz
+ * Die `Create`-Komponente dient dem Erstellen und Verwalten eines neuen Quiz.
+ * Sie ermöglicht es dem Benutzer, verschiedene Fragen hinzuzufügen, ein Quiz-Thema auszuwählen
+ * und das Quiz schließlich zu speichern.
+ *
+ * @component
+ * @example
+ * return (
+ *   <Create />
+ * )
+ *
+ * Funktionen:
+ * - `getTopics`: Lädt die verfügbaren Quiz-Themen aus der Datenbank.
+ * - `handleAddQuestion`: Fügt eine oder mehrere neue Fragen zum Quiz hinzu.
+ * - `onSubmit`: Speichert das erstellte Quiz in der Datenbank.
+ *
+ * Zustände:
+ * - `questions`: Enthält die aktuell zum Quiz hinzugefügten Fragen.
+ * - `loadingSaveQuiz`: Zeigt an, ob das Quiz gerade gespeichert wird.
+ * - `topics`: Liste der verfügbaren Themen für das Quiz.
+ *
+ * Zusätzliche Komponenten:
+ * - `AddQuestionDrawer`: Eine Schublade zum Hinzufügen neuer Fragen.
+ * - `ImportQuestionsModal`: Ein Modal zum Importieren von Fragen.
+ *
+ * Die Komponente verwendet Chakra UI für das Layout und das Styling und `react-hook-form` für das Formularmanagement.
  */
 function Create() {
   const { isOpen, onOpen, onClose } = useDisclosure();

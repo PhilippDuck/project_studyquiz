@@ -9,8 +9,8 @@ import {
   useColorModeValue,
   Spinner,
 } from "@chakra-ui/react";
-import { useRealm } from "../provider/RealmProvider";
-import formatUnixTimestamp from "../helperFunctions/formatUnixTimestamp";
+import { useRealm } from "../../../provider/RealmProvider";
+import formatUnixTimestamp from "../../../helperFunctions/formatUnixTimestamp";
 
 function PlayedQuizzes() {
   const app = useRealm();

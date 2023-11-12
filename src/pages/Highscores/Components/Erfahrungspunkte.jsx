@@ -11,7 +11,7 @@ import {
   TableCaption,
   TableContainer,
 } from "@chakra-ui/react";
-import { useRealm } from "../provider/RealmProvider";
+import { useRealm } from "../../../provider/RealmProvider";
 
 function Erfahrungspunkte() {
   const app = useRealm();

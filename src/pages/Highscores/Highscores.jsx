@@ -28,7 +28,10 @@ function Highscores() {
       <Heading mb={4}>Ranglisten</Heading>
       <Box>
         <Tabs onChange={handleTabChange} isFitted variant="enclosed">
-          <TabList>
+          <TabList
+            mb={{ base: 4, md: 0 }} // Margin bottom responsive
+            flexDirection={{ base: "column", md: "row" }} // Change flex direction based on screen size
+          >
             <Tab>Erfahrungspunkte</Tab>
             <Tab>Datenbanken</Tab>
             <Tab>Personal- und Unternehmensführung</Tab>

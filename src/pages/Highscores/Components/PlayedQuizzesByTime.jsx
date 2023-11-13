@@ -16,10 +16,12 @@ function DatenbankenHighscore() {
   const app = useRealm();
   const [userList, setUserList] = useState([]);
   const [playedQuizzes, setPlayedQuizzes] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
+        setIsLoading(true);
         const result = await app.currentUser.functions.getAllPlayedQuizzes();
         console.log(result);
 
@@ -53,6 +55,8 @@ function DatenbankenHighscore() {
         }
       } catch (error) {
         console.error("Fehler beim Abrufen der Daten:", error);
+      } finally {
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -60,37 +64,41 @@ function DatenbankenHighscore() {
 
   return (
     <div>
-      <TableContainer>
-        <Table variant="striped" colorScheme="primary">
-          <TableCaption>Datenbanken Highscore</TableCaption>
-          <Thead>
-            <Tr>
-              <Th>Player</Th>
-              <Th>Quiz</Th>
-              <Th>Zeit</Th>
-              <Th>Rang</Th>
-            </Tr>
-          </Thead>
-          <Tbody>
-            {userList.map((user, index) => (
-              <Tr key={user._id}>
-                <Td>{user.playerNick}</Td>
-                <Td>{user.quizTitle}</Td>
-                <Td>{user.time} ms</Td>
-                <Td>{index + 1}</Td>
+      {isLoading ? ( // Wenn isLoading true ist, zeige den Spinner
+        <Spinner size="xl" />
+      ) : (
+        <TableContainer>
+          <Table variant="striped" colorScheme="primary">
+            <TableCaption>Datenbanken Highscore</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>Player</Th>
+                <Th>Quiz</Th>
+                <Th>Zeit</Th>
+                <Th>Rang</Th>
               </Tr>
-            ))}
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>Player</Th>
-              <Th>Quiz</Th>
-              <Th>Zeit</Th>
-              <Th>Rang</Th>
-            </Tr>
-          </Tfoot>
-        </Table>
-      </TableContainer>
+            </Thead>
+            <Tbody>
+              {userList.map((user, index) => (
+                <Tr key={user._id}>
+                  <Td>{user.playerNick}</Td>
+                  <Td>{user.quizTitle}</Td>
+                  <Td>{user.time} ms</Td>
+                  <Td>{index + 1}</Td>
+                </Tr>
+              ))}
+            </Tbody>
+            <Tfoot>
+              <Tr>
+                <Th>Player</Th>
+                <Th>Quiz</Th>
+                <Th>Zeit</Th>
+                <Th>Rang</Th>
+              </Tr>
+            </Tfoot>
+          </Table>
+        </TableContainer>
+      )}
     </div>
   );
 }

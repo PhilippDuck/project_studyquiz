@@ -10,10 +10,11 @@ import {
   TableCaption,
   TableContainer,
   Spinner,
+  Box,
 } from "@chakra-ui/react";
 import { useRealm } from "../../../provider/RealmProvider";
 
-function DatenbankenHighscore() {
+const Bestenliste = ({ topic }) => {
   const app = useRealm();
   const [userList, setUserList] = useState([]);
   const [playedQuizzes, setPlayedQuizzes] = useState([]);
@@ -27,14 +28,12 @@ function DatenbankenHighscore() {
         const result = await app.currentUser.functions.getAllPlayedQuizzes();
         const allQuizzes = await app.currentUser.functions.getQuizzes();
 
-        // Filtern der gespielten Quizze nach dem Thema "Datenbanken"
+        // Filtern der gespielten Quizze nach dem Thema "Programmiersprachen"
         const filteredQuizzes = result.filter((quiz) => {
-          // Versuchen, das Thema aus "quizTopic" zu erhalten, oder "Unbekanntes Thema" verwenden
-          const quizTopic = quiz.quizTopic || "Unbekanntes Thema";
-          return quizTopic === "Datenbanken";
+          const quizTopic = quiz.topic || "Unbekanntes Thema";
+          return quizTopic;
         });
 
-        // Berechnung der Zeitdifferenz für jedes Quiz
         const quizzesWithTime = filteredQuizzes.map((quiz) => ({
           ...quiz,
           time: quiz.endTime - quiz.startTime,
@@ -56,13 +55,15 @@ function DatenbankenHighscore() {
 
   return (
     <div>
-      {" "}
       {isLoading ? ( // Wenn isLoading true ist, zeige den Spinner
-        <Spinner size="xl" />
+        <Box>
+          Daten werden geladen. Danke für deine Geduld.
+          <Spinner size="lg" />
+        </Box>
       ) : (
         <TableContainer>
           <Table variant="striped" colorScheme="primary">
-            <TableCaption>Datenbanken Highscore</TableCaption>
+            <TableCaption>{topic} Highscore</TableCaption>
             <Thead>
               <Tr>
                 <Th>Player</Th>
@@ -94,6 +95,6 @@ function DatenbankenHighscore() {
       )}
     </div>
   );
-}
+};
 
-export default DatenbankenHighscore;
+export default Bestenliste;

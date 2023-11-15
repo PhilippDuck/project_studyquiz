@@ -162,7 +162,7 @@ function Register() {
                         value:
                           /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
                         message:
-                          "Das Passwort muss Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen enthalten",
+                          "Das Passwort muss Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen (@$!%*?&) enthalten",
                       },
                     })}
                   />

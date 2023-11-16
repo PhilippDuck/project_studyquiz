@@ -161,9 +161,12 @@ function Game() {
         endTime: Date.now(),
         playerId: app.currentUser.id,
         points: Math.round(points),
+        quizTitle: quiz.title,
+        quizTopic: quiz.topic,
         done: quizCanceled ? false : true,
       };
       setGameData(finishedGameData);
+      console.log(finishedGameData);
       const result = await app.currentUser.functions.setPlayedQuiz(
         finishedGameData
       );

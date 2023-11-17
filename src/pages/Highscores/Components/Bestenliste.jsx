@@ -17,8 +17,6 @@ import { useRealm } from "../../../provider/RealmProvider";
 const Bestenliste = ({ topic }) => {
   const app = useRealm();
   const [userList, setUserList] = useState([]);
-  const [playedQuizzes, setPlayedQuizzes] = useState([]);
-  const [quizzes, setQuizzes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -26,23 +24,25 @@ const Bestenliste = ({ topic }) => {
     const fetchData = async () => {
       try {
         const result = await app.currentUser.functions.getAllPlayedQuizzes();
-        const allQuizzes = await app.currentUser.functions.getQuizzes();
 
-        // Filtern der gespielten Quizze nach dem Thema "Programmiersprachen"
-        const filteredQuizzes = result.filter((quiz) => {
-          const quizTopic = quiz.topic || "Unbekanntes Thema";
-          return quizTopic;
-        });
+        const filteredQuizzes = [];
+        for (let i = 0; i < result.length; i++) {
+          const quiz = result[i];
+          const quizTopic = quiz.quizTopic || "Unbekanntes Thema";
+
+          if (quizTopic === topic) {
+            filteredQuizzes.push(quiz);
+          }
+        }
+        console.log("filteredQuizzes", filteredQuizzes);
 
         const quizzesWithTime = filteredQuizzes.map((quiz) => ({
           ...quiz,
           time: quiz.endTime - quiz.startTime,
         }));
 
-        // Sortieren der Quizze nach Zeitdifferenz (schnellste zu langsamste)
         quizzesWithTime.sort((a, b) => a.time - b.time);
 
-        // Setzen der sortierten Daten in den Zustand
         setUserList(quizzesWithTime);
       } catch (error) {
         console.error("Fehler beim Abrufen der Daten:", error);
@@ -55,7 +55,7 @@ const Bestenliste = ({ topic }) => {
 
   return (
     <div>
-      {isLoading ? ( // Wenn isLoading true ist, zeige den Spinner
+      {isLoading ? (
         <Box>
           Daten werden geladen. Danke für deine Geduld.
           <Spinner size="lg" />

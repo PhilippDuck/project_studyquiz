@@ -302,6 +302,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
 
 const SidebarWithHeader = ({ content }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const navigate = useNavigate();
 
   return (
     <Box minH="100vh" bg={useColorModeValue("white", "gray.900")}>
@@ -325,6 +326,18 @@ const SidebarWithHeader = ({ content }) => {
       <MobileNav onOpen={onOpen} />
       <Box ml={{ md: 60, xl: 5 }} p={4} pt={24}>
         <Center>{content}</Center>
+        <Box
+          mt="auto"
+          p={4}
+          textAlign="center"
+          _hover={{
+            cursor: "pointer",
+            color: useColorModeValue("primary.500", "primary.300"),
+          }}
+          onClick={() => navigate("/impressum")}
+        >
+          Impressum
+        </Box>
       </Box>
     </Box>
   );

@@ -23,6 +23,7 @@ import Log from "./pages/Log/Log.jsx";
 import Register from "./pages/Register.jsx";
 import ConfrimRegistration from "./pages/ConfirmRegistration.jsx";
 import ResetPassword from "./pages/ResetPassword.jsx";
+import Impressum from "./components/Sidebar/Impressum.jsx";
 
 function AdminProtectedRoute({ children }) {
   const app = useRealm();
@@ -92,6 +93,7 @@ const router = createBrowserRouter([
           </AdminProtectedRoute>
         ),
       },
+      { path: "/impressum", element: <Impressum /> },
     ],
   },
   {

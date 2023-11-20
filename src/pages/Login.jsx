@@ -127,7 +127,7 @@ function Login() {
     setLoadingReset(true);
     try {
       await app.emailPasswordAuth.sendResetPasswordEmail({
-        email: data.resetEmail,
+        email: data.resetEmail.toLowerCase(),
       });
       toast({
         title: "Passwort-Reset E-Mail gesendet!",

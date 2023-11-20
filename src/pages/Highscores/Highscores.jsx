@@ -1,18 +1,11 @@
 import React, { useState, useEffect } from "react";
 import {
   Box,
-  Tabs,
-  TabList,
-  TabPanels,
-  Tab,
-  TabPanel,
-  Card,
-  CardBody,
   Heading,
   Container,
   Spinner,
+  Select, // Importieren der Select-Komponente
 } from "@chakra-ui/react";
-import app from "../../realm";
 import { useRealm } from "../../provider/RealmProvider";
 import Bestenliste from "./Components/Bestenliste";
 import Erfahrungspunkte from "./Components/Erfahrungspunkte";
@@ -24,8 +17,8 @@ function Highscores() {
 
   const [selectedTab, setSelectedTab] = useState(0);
 
-  const handleTabChange = (index) => {
-    setSelectedTab(index);
+  const handleTabChange = (event) => {
+    setSelectedTab(parseInt(event.target.value, 10));
   };
 
   useEffect(() => {
@@ -47,32 +40,35 @@ function Highscores() {
 
   return (
     <Container p={0} border={"none"} variant={"outline"} maxW={"800px"}>
-      <Heading mb={4}>Ranglisten</Heading>{" "}
+      <Heading mb={4}>Ranglisten</Heading>
       {isLoading ? (
-        <Spinner size="lg" />
+        <Spinner />
       ) : (
         <Box>
-          <Tabs onChange={handleTabChange} isFitted variant="enclosed">
-            <TabList
-              mb={{ base: 4, md: 0 }}
-              flexDirection={{ base: "column", md: "row" }}
-            >
-              <Tab key="erfahrungspunkte">Erfahrungspunkte</Tab>
-              {topics.map((topic) => (
-                <Tab key={topic._id}>{topic.topic}</Tab>
-              ))}
-            </TabList>
-            <TabPanels>
-              <TabPanel>
-                <Erfahrungspunkte />
-              </TabPanel>
-              {topics.map((topic) => (
-                <TabPanel key={topic._id}>
-                  <Bestenliste topic={topic.topic} />
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </Tabs>
+          <Select
+            onChange={handleTabChange}
+            placeholder="Wählen Sie eine Kategorie"
+            mb={4}
+            size={"lg"}
+          >
+            <option value={0}>Top 10 Spieler</option>
+            {topics.map((topic, index) => (
+              <option key={topic._id} value={index + 1}>
+                {topic.topic}
+              </option>
+            ))}
+          </Select>
+
+          {selectedTab === 0 ? (
+            <Erfahrungspunkte />
+          ) : (
+            topics.map(
+              (topic, index) =>
+                selectedTab === index + 1 && (
+                  <Bestenliste key={topic._id} topic={topic.topic} />
+                )
+            )
+          )}
         </Box>
       )}
     </Container>

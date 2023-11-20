@@ -21,6 +21,7 @@ import {
   useColorMode,
   Spacer,
   Center,
+  Button,
 } from "@chakra-ui/react";
 import { FiHome, FiMenu, FiChevronDown } from "react-icons/fi";
 import {
@@ -305,7 +306,11 @@ const SidebarWithHeader = ({ content }) => {
   const navigate = useNavigate();
 
   return (
-    <Box minH="100vh" bg={useColorModeValue("white", "gray.900")}>
+    <Flex
+      direction="column"
+      minH="100vh" // Minimale Höhe auf 100% des Viewport setzen
+      bg={useColorModeValue("white", "gray.900")}
+    >
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -322,24 +327,30 @@ const SidebarWithHeader = ({ content }) => {
           <SidebarContent onClose={onClose} />
         </DrawerContent>
       </Drawer>
-      {/* mobilenav */}
+      {/* Mobile Navigation */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ md: 60, xl: 5 }} p={4} pt={24}>
+
+      <Box flex="1" ml={{ md: 60, xl: 5 }} p={4} pt={24}>
         <Center>{content}</Center>
-        <Box
-          mt="auto"
-          p={4}
-          textAlign="center"
-          _hover={{
-            cursor: "pointer",
-            color: useColorModeValue("primary.500", "primary.300"),
-          }}
+      </Box>
+
+      {/* Footer */}
+      <Center
+        ml={{ md: 60, xl: 5 }}
+        as="footer"
+        h="100px"
+        mt={4} // Einen kleinen Abstand zum Inhalt
+      >
+        <Button
+          size={"sm"}
+          fontWeight={"light"}
+          variant={"link"}
           onClick={() => navigate("/impressum")}
         >
           Impressum
-        </Box>
-      </Box>
-    </Box>
+        </Button>
+      </Center>
+    </Flex>
   );
 };
 

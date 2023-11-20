@@ -44,16 +44,16 @@ function Erfahrungspunkte() {
     (a, b) => b.points - a.points
   );
 
-  console.log(sortedUserList);
+  // Beschränken Sie die Liste auf die Top-10-Nutzer
+  const topTenUserList = sortedUserList.slice(0, 10);
 
   return (
     <div>
       {isLoading ? ( // Wenn isLoading true ist, zeige den Spinner
-        <Spinner size="xl" />
+        <Spinner />
       ) : (
         <TableContainer>
           <Table variant="striped" colorScheme="primary">
-            <TableCaption>Gesamtrangliste nach Erfahrungspunkten</TableCaption>
             <Thead>
               <Tr>
                 <Th>Name</Th>
@@ -62,7 +62,7 @@ function Erfahrungspunkte() {
               </Tr>
             </Thead>
             <Tbody>
-              {sortedUserList.map((user, index) => (
+              {topTenUserList.map((user, index) => (
                 <Tr key={user._id}>
                   <Td>{user.nickname}</Td>
                   <Td>{user.points}</Td>
@@ -70,13 +70,6 @@ function Erfahrungspunkte() {
                 </Tr>
               ))}
             </Tbody>
-            <Tfoot>
-              <Tr>
-                <Th>Name</Th>
-                <Th>Punkte</Th>
-                <Th>Rang</Th>
-              </Tr>
-            </Tfoot>
           </Table>
         </TableContainer>
       )}

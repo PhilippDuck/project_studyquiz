@@ -52,6 +52,7 @@ const Bestenliste = ({ topic }) => {
               <Tr>
                 <Th>Player</Th>
                 <Th>Quiz</Th>
+                <Th>Punkte</Th>
                 <Th>Zeit</Th>
                 <Th>Rang</Th>
               </Tr>
@@ -61,6 +62,7 @@ const Bestenliste = ({ topic }) => {
                 <Tr key={user._id}>
                   <Td>{user.playerNick}</Td>
                   <Td>{user.quizTitle}</Td>
+                  <Td>{user.points}</Td>
                   <Td>{(user.endTime - user.startTime) / 1000} s</Td>
                   <Td>{index + 1}</Td>
                 </Tr>

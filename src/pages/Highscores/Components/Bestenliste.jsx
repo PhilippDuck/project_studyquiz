@@ -27,10 +27,10 @@ const Bestenliste = ({ topic }) => {
   const fetchData = async () => {
     setIsLoading(true);
     try {
-      const result = await app.currentUser.functions.getPlayedQuizzesByTopic(
-        topic
-      );
-
+      const result = await app.currentUser.functions.getPlayedQuizzesByTopic({
+        topic: topic,
+      });
+      console.log(topic, result);
       setUserList(result);
     } catch (error) {
       console.error("Fehler beim Abrufen der Daten:", error);
@@ -61,7 +61,7 @@ const Bestenliste = ({ topic }) => {
                 <Tr key={user._id}>
                   <Td>{user.playerNick}</Td>
                   <Td>{user.quizTitle}</Td>
-                  <Td>{user.endTime - user.startTime} ms</Td>
+                  <Td>{(user.endTime - user.startTime) / 1000} s</Td>
                   <Td>{index + 1}</Td>
                 </Tr>
               ))}

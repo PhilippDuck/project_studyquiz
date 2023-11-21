@@ -19,6 +19,7 @@ import { useRealm } from "../../../provider/RealmProvider";
 import { useNavigate } from "react-router-dom";
 import formatUnixTimestamp from "../../../helperFunctions/formatUnixTimestamp";
 import { MdThumbUp } from "react-icons/md";
+import stringToColorPalette from "../../../helperFunctions/stringToColorPalette";
 
 function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
   const app = useRealm();
@@ -44,6 +45,11 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
       borderColor={useColorModeValue("gray.50", "gray.700")}
       bg={useColorModeValue("gray.50", "gray.700")}
     >
+      <Flex gap={1}>
+        <Badge fontSize={"xs"} colorScheme={stringToColorPalette(quiz.topic)}>
+          {quiz.topic}
+        </Badge>
+      </Flex>
       <Flex
         color={
           todayPlayed
@@ -61,13 +67,6 @@ function QuizCard({ quiz, handleDeleteQuiz, isDeleting, todayPlayed }) {
           </Flex>
 
           <Box>
-            <Flex gap={1}>
-              <Text fontWeight={"semibold"} fontSize={"xs"}>
-                Thema:
-              </Text>
-              <Text fontSize={"xs"}>{quiz.topic}</Text>
-            </Flex>
-
             <Flex gap={1}>
               <Text fontWeight={"semibold"} fontSize={"xs"}>
                 Ersteller:

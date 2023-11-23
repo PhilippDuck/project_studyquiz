@@ -32,15 +32,16 @@ import {
   MdLogin,
   MdLogout,
   MdOutlineAdminPanelSettings,
+  MdHelpOutline,
 } from "react-icons/md";
-import { IoGameControllerOutline } from "react-icons/io5";
+import { IoGameControllerOutline, IoHelpOutline } from "react-icons/io5";
 import { useRealm } from "../../provider/RealmProvider";
 import { LuUser, LuSmile, LuClock } from "react-icons/lu";
 import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Logo";
 import { useEffect, useState } from "react";
 import PointBubble from "./PointBubble";
-
+import UserGuideModal from "../userGuideModal";
 /**
  * Menüelemente
  */
@@ -149,7 +150,7 @@ const NavItem = ({ icon, children, ...rest }) => {
 
 const MobileNav = ({ onOpen, ...rest }) => {
   const { colorMode, toggleColorMode } = useColorMode();
-
+  const userGuide = useDisclosure();
   const app = useRealm();
   const navigate = useNavigate();
   const isEmailPasswordUser = app.currentUser?.customData?.registered;
@@ -256,6 +257,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   </Flex>
                 </MenuItem>
               </Link>
+              <MenuItem onClick={() => userGuide.onOpen()}>
+                <Flex gap={2} align={"center"}>
+                  <IoHelpOutline />
+                  <Text>Hilfe</Text>
+                </Flex>
+              </MenuItem>
               <MenuDivider />
 
               {isEmailPasswordUser ? (
@@ -297,6 +304,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
           </Menu>
         </Flex>
       </HStack>
+      <UserGuideModal userGuide={userGuide} />
     </Flex>
   );
 };

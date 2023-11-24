@@ -1,4 +1,8 @@
 # Projekt StudyQuiz
+![alt text](https://project-studyquiz.netlify.app/StudyQuiz_Banner_Weiss_Transparent.png)
+
+
+## Live Demo: https://project-studyquiz.netlify.app
 
 Studyquiz ist ein Studienprojekt von vier Studierenden der Hochschule IU. Es soll ein kollaboratives und kooperatives Online Quizsystem werden, welches Studierende bei ihrem Lernprozess begleitet.
 

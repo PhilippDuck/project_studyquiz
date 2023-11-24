@@ -41,7 +41,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Logo";
 import { useEffect, useState } from "react";
 import PointBubble from "./PointBubble";
-import UserGuideModal from "../userGuideModal";
+import UserGuideModal from "../UserGuideModal";
 /**
  * Menüelemente
  */

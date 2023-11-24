@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -9,8 +9,25 @@ import {
   ModalCloseButton,
   Button,
 } from "@chakra-ui/react";
+import { useLocation } from "react-router-dom";
+import userGuide from "../userGuide";
 
 function UserGuideModal(props) {
+  const [userGuideText, setUserGuideText] = useState("");
+  const location = useLocation();
+
+  useEffect(() => {
+    // Pfad extrahieren und prüfen, ob es ein Spiel-ID-Pfad ist
+    const path = location.pathname;
+    const isGamePath =
+      path.startsWith("/games/") && path.split("/").length === 3;
+    const userGuideKey = isGamePath ? "/games/id" : path;
+
+    setUserGuideText(
+      userGuide[userGuideKey] || "Keine Hilfe verfügbar für diesen Pfad."
+    );
+  }, [location.pathname, props.userGuide.isOpen]);
+
   return (
     <Modal
       isCentered
@@ -18,19 +35,13 @@ function UserGuideModal(props) {
       onClose={props.userGuide.onClose}
     >
       <ModalOverlay />
-      <ModalContent>
-        <ModalHeader>Hilfe</ModalHeader>
+      <ModalContent m={2}>
+        <ModalHeader>Hilfe {}</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>Hier könnte deine Hilfe stehen :)</ModalBody>
+        <ModalBody>{userGuideText}</ModalBody>
 
         <ModalFooter>
-          <Button
-            colorScheme="primary"
-            mr={3}
-            onClick={props.userGuide.onClose}
-          >
-            Schließen
-          </Button>
+          <Button onClick={props.userGuide.onClose}>Schließen</Button>
         </ModalFooter>
       </ModalContent>
     </Modal>

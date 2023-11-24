@@ -22,6 +22,7 @@ import {
   useDisclosure,
   Flex,
   Spinner,
+  IconButton,
 } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
@@ -30,6 +31,8 @@ import { MdArrowBack, MdLogin } from "react-icons/md";
 import Logo from "../components/Logo";
 import { Credentials } from "realm-web";
 import { useState } from "react";
+import { IoHelpOutline } from "react-icons/io5";
+import UserGuideModal from "../components/UserGuideModal";
 
 /**
  * Die `Login`-Komponente ermöglicht es Benutzern, sich in die Anwendung einzuloggen.
@@ -64,6 +67,7 @@ function Login() {
   const toast = useToast();
   const navigate = useNavigate();
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const userGuide = useDisclosure();
   const [loadingReset, setLoadingReset] = useState(false);
   const {
     register: registerLogin,
@@ -150,18 +154,108 @@ function Login() {
   };
 
   return (
-    <Center h={"100vh"} bg={useColorModeValue("white", "gray.900")}>
-      <VStack w={"600px"} p={4} gap={10}>
-        <Logo w={"300px"} />
-        <Card w={"100%"} variant={"outline"}>
-          <CardBody>
-            <Heading>Login</Heading>
-            <form onSubmit={handleSubmitLogin(onSubmit)}>
-              <VStack pt={4} align={"start"}>
-                <FormControl isInvalid={loginErrors.email}>
-                  <Text>Email:</Text>
+    <>
+      <IconButton
+        icon={<IoHelpOutline />}
+        position={"absolute"}
+        right={4}
+        top={4}
+        rounded={"full"}
+        variant={"outline"}
+        onClick={() => {
+          userGuide.onOpen();
+        }}
+      />
+      <UserGuideModal userGuide={userGuide} />
+      <Center h={"100vh"} bg={useColorModeValue("white", "gray.900")}>
+        <VStack w={"600px"} p={4} gap={10}>
+          <Logo w={"300px"} />
+          <Card w={"100%"} variant={"outline"}>
+            <CardBody>
+              <Heading>Login</Heading>
+              <form onSubmit={handleSubmitLogin(onSubmit)}>
+                <VStack pt={4} align={"start"}>
+                  <FormControl isInvalid={loginErrors.email}>
+                    <Text>Email:</Text>
+                    <Input
+                      {...registerLogin("email", {
+                        required: "E-Mail ist erforderlich",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: "Ungültige E-Mail-Adresse",
+                        },
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {loginErrors.email && loginErrors.email.message}
+                    </FormErrorMessage>
+                  </FormControl>
+
+                  <FormControl isInvalid={loginErrors.password}>
+                    <Text>Passwort:</Text>
+                    <Input
+                      type="password"
+                      {...registerLogin("password", {
+                        required: "Passwort ist erforderlich",
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {loginErrors.password && loginErrors.password.message}
+                    </FormErrorMessage>
+                  </FormControl>
+
+                  <Button
+                    leftIcon={<MdLogin />}
+                    size={"lg"}
+                    w={"100%"}
+                    mt={6}
+                    colorScheme="primary"
+                    type="submit"
+                  >
+                    Einloggen
+                  </Button>
+
+                  <Button
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                    size={"lg"}
+                    w={"100%"}
+                    leftIcon={<MdArrowBack />}
+                  >
+                    Zurück zur App
+                  </Button>
+                  <Flex mt={6} w={"100%"} justify={"space-between"}>
+                    <Button
+                      size={"sm"}
+                      variant={"link"}
+                      onClick={() => navigate("/register")}
+                    >
+                      Noch kein Account?
+                    </Button>
+
+                    <Button size={"sm"} onClick={onOpen} variant="link">
+                      Passwort vergessen?
+                    </Button>
+                  </Flex>
+                </VStack>
+              </form>
+            </CardBody>
+          </Card>
+        </VStack>
+
+        {/* Modal für Passwort-Reset */}
+        <Modal isCentered isOpen={isOpen} onClose={onClose}>
+          <ModalOverlay />
+          <ModalContent m={2}>
+            <ModalHeader>Passwort zurücksetzen</ModalHeader>
+            <ModalCloseButton />
+            <form onSubmit={handleSubmitReset(onResetPassword)}>
+              <ModalBody>
+                <FormControl isInvalid={resetErrors.resetEmail}>
                   <Input
-                    {...registerLogin("email", {
+                    placeholder="Geben Sie Ihre E-Mail-Adresse ein"
+                    {...registerReset("resetEmail", {
                       required: "E-Mail ist erforderlich",
                       pattern: {
                         value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
@@ -170,101 +264,25 @@ function Login() {
                     })}
                   />
                   <FormErrorMessage>
-                    {loginErrors.email && loginErrors.email.message}
+                    {resetErrors.resetEmail && resetErrors.resetEmail.message}
                   </FormErrorMessage>
                 </FormControl>
+              </ModalBody>
 
-                <FormControl isInvalid={loginErrors.password}>
-                  <Text>Passwort:</Text>
-                  <Input
-                    type="password"
-                    {...registerLogin("password", {
-                      required: "Passwort ist erforderlich",
-                    })}
-                  />
-                  <FormErrorMessage>
-                    {loginErrors.password && loginErrors.password.message}
-                  </FormErrorMessage>
-                </FormControl>
-
+              <ModalFooter>
                 <Button
-                  leftIcon={<MdLogin />}
-                  size={"lg"}
-                  w={"100%"}
-                  mt={6}
+                  leftIcon={loadingReset ? <Spinner size={"sm"} /> : <></>}
                   colorScheme="primary"
                   type="submit"
                 >
-                  Einloggen
+                  Zurücksetzen
                 </Button>
-
-                <Button
-                  onClick={() => {
-                    navigate("/");
-                  }}
-                  size={"lg"}
-                  w={"100%"}
-                  leftIcon={<MdArrowBack />}
-                >
-                  Zurück zur App
-                </Button>
-                <Flex mt={6} w={"100%"} justify={"space-between"}>
-                  <Button
-                    size={"sm"}
-                    variant={"link"}
-                    onClick={() => navigate("/register")}
-                  >
-                    Noch kein Account?
-                  </Button>
-
-                  <Button size={"sm"} onClick={onOpen} variant="link">
-                    Passwort vergessen?
-                  </Button>
-                </Flex>
-              </VStack>
+              </ModalFooter>
             </form>
-          </CardBody>
-        </Card>
-      </VStack>
-
-      {/* Modal für Passwort-Reset */}
-      <Modal isCentered isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay />
-        <ModalContent m={2}>
-          <ModalHeader>Passwort zurücksetzen</ModalHeader>
-          <ModalCloseButton />
-          <form onSubmit={handleSubmitReset(onResetPassword)}>
-            <ModalBody>
-              <FormControl isInvalid={resetErrors.resetEmail}>
-                <Input
-                  placeholder="Geben Sie Ihre E-Mail-Adresse ein"
-                  {...registerReset("resetEmail", {
-                    required: "E-Mail ist erforderlich",
-                    pattern: {
-                      value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                      message: "Ungültige E-Mail-Adresse",
-                    },
-                  })}
-                />
-                <FormErrorMessage>
-                  {resetErrors.resetEmail && resetErrors.resetEmail.message}
-                </FormErrorMessage>
-              </FormControl>
-            </ModalBody>
-
-            <ModalFooter>
-              <Button
-                leftIcon={loadingReset ? <Spinner size={"sm"} /> : <></>}
-                colorScheme="primary"
-                type="submit"
-              >
-                Zurücksetzen
-              </Button>
-            </ModalFooter>
-          </form>
-        </ModalContent>
-      </Modal>
-    </Center>
+          </ModalContent>
+        </Modal>
+      </Center>
+    </>
   );
 }
 

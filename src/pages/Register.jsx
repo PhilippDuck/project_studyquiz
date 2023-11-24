@@ -13,8 +13,11 @@ import {
   FormErrorMessage,
   useToast,
   Spinner,
+  useDisclosure,
+  IconButton,
   Box,
 } from "@chakra-ui/react";
+import { IoHelpOutline } from "react-icons/io5";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import { useRealm } from "../provider/RealmProvider";
@@ -23,6 +26,7 @@ import { LuSmile } from "react-icons/lu";
 import { BsArrowRepeat } from "react-icons/bs";
 import Logo from "../components/Logo";
 import { useState } from "react";
+import UserGuideModal from "../components/UserGuideModal";
 
 /**
  * Die `Register`-Komponente ermöglicht es neuen Benutzern, sich in der Anwendung zu registrieren.
@@ -55,6 +59,7 @@ import { useState } from "react";
 function Register() {
   const app = useRealm();
   const toast = useToast();
+  const userGuide = useDisclosure();
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [loadingRegister, setLoadingRegister] = useState(false);
@@ -123,111 +128,125 @@ function Register() {
   }
 
   return (
-    <Center h={"100vh"} bg={useColorModeValue("white", "gray.900")}>
-      <VStack w={"600px"} p={4} gap={10}>
-        <Logo w={"300px"} />
-        <Card w={"100%"} variant={"outline"}>
-          <CardBody>
-            <Heading>Registrieren</Heading>
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <VStack pt={4} align={"start"}>
-                <FormControl isInvalid={errors.email}>
-                  <Text>Email:</Text>
-                  <Input
-                    {...register("email", {
-                      required: "E-Mail ist erforderlich",
-                      pattern: {
-                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-                        message: "Ungültige E-Mail-Adresse",
-                      },
-                    })}
-                  />
-                  <FormErrorMessage>
-                    {errors.email && errors.email.message}
-                  </FormErrorMessage>
-                </FormControl>
+    <>
+      <IconButton
+        icon={<IoHelpOutline />}
+        position={"absolute"}
+        right={4}
+        top={4}
+        rounded={"full"}
+        variant={"outline"}
+        onClick={() => {
+          userGuide.onOpen();
+        }}
+      />
+      <UserGuideModal userGuide={userGuide} />
+      <Center h={"100vh"} bg={useColorModeValue("white", "gray.900")}>
+        <VStack w={"600px"} p={4} gap={10}>
+          <Logo w={"300px"} />
+          <Card w={"100%"} variant={"outline"}>
+            <CardBody>
+              <Heading>Registrieren</Heading>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <VStack pt={4} align={"start"}>
+                  <FormControl isInvalid={errors.email}>
+                    <Text>Email:</Text>
+                    <Input
+                      {...register("email", {
+                        required: "E-Mail ist erforderlich",
+                        pattern: {
+                          value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                          message: "Ungültige E-Mail-Adresse",
+                        },
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.email && errors.email.message}
+                    </FormErrorMessage>
+                  </FormControl>
 
-                <FormControl isInvalid={errors.password}>
-                  <Text>Passwort:</Text>
-                  <Input
-                    type="password"
-                    {...register("password", {
-                      required: "Passwort ist erforderlich",
-                      minLength: {
-                        value: 8,
-                        message:
-                          "Das Passwort muss mindestens 8 Zeichen lang sein",
-                      },
-                      pattern: {
-                        value:
-                          /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-\[\]{}()":;'/\\,.<>~_+=|#`^]).{8,}$/,
-                        message:
-                          "Das Passwort muss Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen (@$!%*?&-[]{}()\":;'/,.<>~_+=|#`^) enthalten",
-                      },
-                    })}
-                  />
-                  <FormErrorMessage>
-                    {errors.password && errors.password.message}
-                  </FormErrorMessage>
-                </FormControl>
-                {confirmationSend ? (
-                  <Center mt={2} w={"100%"}>
-                    <VStack>
-                      <Text>
-                        Schaue in deinem Email Postfach nach der
-                        Bestätigungsmail und bestätige Diese.
-                      </Text>
-                      <Button
-                        onClick={() => sendConfirmationAgain(email)}
-                        rightIcon={<BsArrowRepeat />}
-                        variant={"ghost"}
-                      >
-                        Bestätigungsmail erneut senden
-                      </Button>
-                    </VStack>
-                  </Center>
-                ) : (
-                  <></>
-                )}
+                  <FormControl isInvalid={errors.password}>
+                    <Text>Passwort:</Text>
+                    <Input
+                      type="password"
+                      {...register("password", {
+                        required: "Passwort ist erforderlich",
+                        minLength: {
+                          value: 8,
+                          message:
+                            "Das Passwort muss mindestens 8 Zeichen lang sein",
+                        },
+                        pattern: {
+                          value:
+                            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&\-\[\]{}()":;'/\\,.<>~_+=|#`^]).{8,}$/,
+                          message:
+                            "Das Passwort muss Groß- und Kleinbuchstaben, Zahlen und Sonderzeichen (@$!%*?&-[]{}()\":;'/,.<>~_+=|#`^) enthalten",
+                        },
+                      })}
+                    />
+                    <FormErrorMessage>
+                      {errors.password && errors.password.message}
+                    </FormErrorMessage>
+                  </FormControl>
+                  {confirmationSend ? (
+                    <Center mt={2} w={"100%"}>
+                      <VStack>
+                        <Text>
+                          Schaue in deinem Email Postfach nach der
+                          Bestätigungsmail und bestätige Diese.
+                        </Text>
+                        <Button
+                          onClick={() => sendConfirmationAgain(email)}
+                          rightIcon={<BsArrowRepeat />}
+                          variant={"ghost"}
+                        >
+                          Bestätigungsmail erneut senden
+                        </Button>
+                      </VStack>
+                    </Center>
+                  ) : (
+                    <></>
+                  )}
 
-                <Button
-                  leftIcon={
-                    loadingRegister ? <Spinner size={"sm"} /> : <LuSmile />
-                  }
-                  size={"lg"}
-                  w={"100%"}
-                  mt={6}
-                  colorScheme="primary"
-                  type="submit"
-                >
-                  Registrieren
-                </Button>
+                  <Button
+                    leftIcon={
+                      loadingRegister ? <Spinner size={"sm"} /> : <LuSmile />
+                    }
+                    size={"lg"}
+                    w={"100%"}
+                    mt={6}
+                    colorScheme="primary"
+                    type="submit"
+                  >
+                    Registrieren
+                  </Button>
 
-                <Button
-                  onClick={() => {
-                    navigate("/");
-                  }}
-                  size={"lg"}
-                  w={"100%"}
-                  leftIcon={<MdArrowBack />}
-                >
-                  Zurück zur App
-                </Button>
+                  <Button
+                    onClick={() => {
+                      navigate("/");
+                    }}
+                    size={"lg"}
+                    w={"100%"}
+                    leftIcon={<MdArrowBack />}
+                  >
+                    Zurück zur App
+                  </Button>
 
-                <Button
-                  size={"sm"}
-                  mt={6}
-                  variant={"link"}
-                  onClick={() => navigate("/login")}
-                >
-                  Zum Login
-                </Button>
-              </VStack>
-            </form>
-          </CardBody>
-        </Card>
-      </VStack>
-    </Center>
+                  <Button
+                    size={"sm"}
+                    mt={6}
+                    variant={"link"}
+                    onClick={() => navigate("/login")}
+                  >
+                    Zum Login
+                  </Button>
+                </VStack>
+              </form>
+            </CardBody>
+          </Card>
+        </VStack>
+      </Center>
+    </>
   );
 }
 

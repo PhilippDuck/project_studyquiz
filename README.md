@@ -14,6 +14,8 @@ Studyquiz ist ein Studienprojekt von vier Studierenden der Hochschule IU. Es sol
 
 ### Backend
 
+**Backend Repository:** https://github.com/PhilippDuck/project_studyquiz_backend
+
 - **Realm** (BaaS Service) https://www.mongodb.com/developer/products/realm/
 - **MongoDB** (NoSQL Datenbank) https://www.mongodb.com/atlas/database
 

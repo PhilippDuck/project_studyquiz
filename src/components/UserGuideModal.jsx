@@ -41,7 +41,14 @@ function UserGuideModal(props) {
         <ModalBody>{userGuideText}</ModalBody>
 
         <ModalFooter>
-          <Button onClick={props.userGuide.onClose}>Schließen</Button>
+          <Button
+            onClick={() => {
+              window.open("/Benutzerhandbuch.pdf", "_blank");
+            }}
+            variant={"link"}
+          >
+            Vollständiges Benutzerhandbuch
+          </Button>
         </ModalFooter>
       </ModalContent>
     </Modal>
